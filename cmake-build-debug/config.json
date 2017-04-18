@@ -1,0 +1,7 @@
+{
+  "units_path":	"./conf/units",
+  "plan_path":  "./conf/test.plan",
+  "arr_test": [
+    "rt", "te", "ter", "ter"
+  ]
+}
