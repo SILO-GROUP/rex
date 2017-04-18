@@ -23,7 +23,7 @@ JLoader::JLoader( std::string filename )
 
     if (! exists( filename ) )
     {
-        std::cout << "File '" << filename << "' does not exist.";
+        std::cerr << "File '" << filename << "' does not exist.";
         exit(1);
     }
 
@@ -32,7 +32,7 @@ JLoader::JLoader( std::string filename )
     bool parsingSuccessful = reader.parse( jfile, this->json_root );
     if (! parsingSuccessful )
     {
-        std::cout << "Failed to parse " << filename << ":\n\t" << reader.getFormattedErrorMessages();
+        std::cerr << "Failed to parse " << filename << ":\n\t" << reader.getFormattedErrorMessages();
         exit(1);
     } else {
         std::cout << "Parsed " << filename << " with " << this->json_root.size() << " elements." << std::endl;
@@ -57,5 +57,17 @@ Plan::Plan( std::string filename ): JLoader( filename )
 
 Conf::Conf( std::string filename ): JLoader( filename )
 {
-
+    this->plan_path = this->get_root()["plan_path"].asString();
+    this->units_path = this->get_root()["units_path"].asString();
 };
+
+std::string Conf::get_plan_path()
+{
+    return this->plan_path;
+}
+
+std::string Conf::get_units_path()
+{
+    return this->units_path;
+}
+

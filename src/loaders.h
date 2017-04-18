@@ -45,9 +45,14 @@ class Conf: public JLoader
 {
     private:
         Json::Value json_root;
+        std::string plan_path;
+        std::string units_path;
+
     public:
         using JLoader::JLoader;
         Conf( std::string filename );
+        std::string get_plan_path();
+        std::string get_units_path();
 };
 
 
