@@ -8,16 +8,11 @@
 
 void json_file_to_json_obj(std::string filename)
 {
-    Unit jsonLoader = Unit(filename);
+    Conf jsonLoader = Conf(filename);
     Json::Value root = jsonLoader.get_root();
 
     const std::string planpath = root.get("plan_path", NULL).asString();
-/*
-    for ( int index = 0; index < arrtest.size(); index++ )
-    {
-        std::cout << arrtest[index] << "\n";
-    }
-*/
+
     std::cout << planpath;
 }
 

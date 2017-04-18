@@ -22,32 +22,33 @@ class JLoader
         Json::Value get_root();
 };
 
-class Unit: public Jloader
+class Unit: public JLoader
 {
     private:
         Json::Value json_root;
     public:
         using JLoader::JLoader;
-        Unit( std::string filename ): JLoader( filename );
-        Json::Value get_root(): JLoader::get_root();
+        Unit( std::string filename );
+};
+
+class Plan: public JLoader
+{
+    private:
+        Json::Value json_root;
+    public:
+        using JLoader::JLoader;
+        Plan( std::string filename );
 };
 
 
-/*class Plan: Jloader
+class Conf: public JLoader
 {
-    Plan()
-    {
-
-    };
+    private:
+        Json::Value json_root;
+    public:
+        using JLoader::JLoader;
+        Conf( std::string filename );
 };
 
-
-class Conf: Jloader
-{
-    Conf()
-    {
-
-    };
-};*/
 
 #endif //FTESTS_LOADERS_H

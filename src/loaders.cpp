@@ -39,18 +39,23 @@ JLoader::JLoader( std::string filename )
     }
 }
 
-
-
-
 Json::Value JLoader::get_root()
 {
     return this->json_root;
 }
 
 
-
-
 Unit::Unit( std::string filename ): JLoader( filename )
+{
+
+};
+
+Plan::Plan( std::string filename ): JLoader( filename )
+{
+
+};
+
+Conf::Conf( std::string filename ): JLoader( filename )
 {
 
 };
