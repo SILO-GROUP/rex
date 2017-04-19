@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/phanes/Development/internal/ftests/main.cpp
+/home/phanes/Development/internal/ftests/examplar.cpp
 iostream
 -
 src/json/json.h

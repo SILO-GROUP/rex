@@ -11,7 +11,7 @@ int main()
     for ( int i = 0; i < plan.tasks.size(); ++i )
     {
         std::cout << plan.tasks[i].get_name() << std::endl;
-    }
+    }d
 
 
 

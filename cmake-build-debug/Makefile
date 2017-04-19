@@ -123,32 +123,32 @@ ftests/fast:
 	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/build
 .PHONY : ftests/fast
 
-main.o: main.cpp.o
+examplar.o: examplar.cpp.o
 
-.PHONY : main.o
+.PHONY : examplar.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/main.cpp.o
-.PHONY : main.cpp.o
+examplar.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/examplar.cpp.o
+.PHONY : examplar.cpp.o
 
-main.i: main.cpp.i
+examplar.i: examplar.cpp.i
 
-.PHONY : main.i
+.PHONY : examplar.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/main.cpp.i
-.PHONY : main.cpp.i
+examplar.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/examplar.cpp.i
+.PHONY : examplar.cpp.i
 
-main.s: main.cpp.s
+examplar.s: examplar.cpp.s
 
-.PHONY : main.s
+.PHONY : examplar.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/main.cpp.s
-.PHONY : main.cpp.s
+examplar.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/examplar.cpp.s
+.PHONY : examplar.cpp.s
 
 src/jsoncpp.o: src/jsoncpp.cpp.o
 
@@ -213,9 +213,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ftests"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... examplar.o"
+	@echo "... examplar.i"
+	@echo "... examplar.s"
 	@echo "... src/jsoncpp.o"
 	@echo "... src/jsoncpp.i"
 	@echo "... src/jsoncpp.s"
