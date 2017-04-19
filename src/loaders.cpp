@@ -68,6 +68,23 @@ UnitHolder::UnitHolder( std::string filename ): JLoader( filename )
     }
 };
 
+Unit UnitHolder::select_unit(std::string name)
+{
+    /*
+     *  TODO: Implement fetch unit by name method.
+     */
+    for ( int i = 0; i < this->units.size(); ++i )
+    {
+        if ( this->units[i].get_name() == name )
+        {
+            return this->units[i];
+        } else {
+            std::cerr << "Logic error in UnitHolder::select_unit.  This is a bug.  Please report it." << std::endl;
+            exit(1);
+        }
+    }
+}
+
 
 Task::Task( Json::Value loader_root )
 {
@@ -79,6 +96,10 @@ Json::Value Task::get_dependencies()    { return this->dependencies;}
 
 Plan::Plan( std::string filename ): JLoader( filename )
 {
+/*  Plan loads a file and deserializes the Unit JSON object to Task types as a vector member
+ *  Plan { vector<Task> }
+ *  TODO: Ensure FIFO order.
+ */
     Json::Value raw_tasks = this->get_root()["plan"];
 
     for ( int index = 0; index < raw_tasks.size(); index++ )

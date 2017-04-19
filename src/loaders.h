@@ -50,6 +50,7 @@ class UnitHolder: public JLoader
         using JLoader::JLoader;
         std::vector<Unit> units;
         UnitHolder( std::string filename );
+        Unit select_unit( std::string name );
 };
 
 class Task

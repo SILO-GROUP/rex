@@ -8,9 +8,10 @@ int main()
     UnitHolder unitHolder = UnitHolder( configuration.get_units_path() );
     Plan plan = Plan( configuration.get_plan_path() );
 
+
     for ( int i = 0; i < plan.tasks.size(); ++i )
     {
-        std::cout << plan.tasks[i].get_name() << std::endl;
+        std::cout <<  unitHolder.select_unit( plan.tasks[i].get_name() ).get_target() << std::endl;
     }
 
 
