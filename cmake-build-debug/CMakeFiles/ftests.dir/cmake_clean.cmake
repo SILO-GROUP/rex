@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ftests.dir/examplar.cpp.o"
   "CMakeFiles/ftests.dir/src/loaders.cpp.o"
-  "CMakeFiles/ftests.dir/src/jsoncpp.cpp.o"
+  "CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o"
   "ftests.pdb"
   "ftests"
 )

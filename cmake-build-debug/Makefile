@@ -150,32 +150,32 @@ examplar.cpp.s:
 	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/examplar.cpp.s
 .PHONY : examplar.cpp.s
 
-src/jsoncpp.o: src/jsoncpp.cpp.o
+src/json/jsoncpp.o: src/json/jsoncpp.cpp.o
 
-.PHONY : src/jsoncpp.o
+.PHONY : src/json/jsoncpp.o
 
 # target to build an object file
-src/jsoncpp.cpp.o:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/jsoncpp.cpp.o
-.PHONY : src/jsoncpp.cpp.o
+src/json/jsoncpp.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o
+.PHONY : src/json/jsoncpp.cpp.o
 
-src/jsoncpp.i: src/jsoncpp.cpp.i
+src/json/jsoncpp.i: src/json/jsoncpp.cpp.i
 
-.PHONY : src/jsoncpp.i
+.PHONY : src/json/jsoncpp.i
 
 # target to preprocess a source file
-src/jsoncpp.cpp.i:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/jsoncpp.cpp.i
-.PHONY : src/jsoncpp.cpp.i
+src/json/jsoncpp.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.i
+.PHONY : src/json/jsoncpp.cpp.i
 
-src/jsoncpp.s: src/jsoncpp.cpp.s
+src/json/jsoncpp.s: src/json/jsoncpp.cpp.s
 
-.PHONY : src/jsoncpp.s
+.PHONY : src/json/jsoncpp.s
 
 # target to generate assembly for a file
-src/jsoncpp.cpp.s:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/jsoncpp.cpp.s
-.PHONY : src/jsoncpp.cpp.s
+src/json/jsoncpp.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.s
+.PHONY : src/json/jsoncpp.cpp.s
 
 src/loaders.o: src/loaders.cpp.o
 
@@ -216,9 +216,9 @@ help:
 	@echo "... examplar.o"
 	@echo "... examplar.i"
 	@echo "... examplar.s"
-	@echo "... src/jsoncpp.o"
-	@echo "... src/jsoncpp.i"
-	@echo "... src/jsoncpp.s"
+	@echo "... src/json/jsoncpp.o"
+	@echo "... src/json/jsoncpp.i"
+	@echo "... src/json/jsoncpp.s"
 	@echo "... src/loaders.o"
 	@echo "... src/loaders.i"
 	@echo "... src/loaders.s"

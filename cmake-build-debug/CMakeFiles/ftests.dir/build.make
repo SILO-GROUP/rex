@@ -105,42 +105,42 @@ CMakeFiles/ftests.dir/src/loaders.cpp.o.provides: CMakeFiles/ftests.dir/src/load
 CMakeFiles/ftests.dir/src/loaders.cpp.o.provides.build: CMakeFiles/ftests.dir/src/loaders.cpp.o
 
 
-CMakeFiles/ftests.dir/src/jsoncpp.cpp.o: CMakeFiles/ftests.dir/flags.make
-CMakeFiles/ftests.dir/src/jsoncpp.cpp.o: ../src/jsoncpp.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/phanes/Development/internal/ftests/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ftests.dir/src/jsoncpp.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ftests.dir/src/jsoncpp.cpp.o -c /home/phanes/Development/internal/ftests/src/jsoncpp.cpp
+CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o: CMakeFiles/ftests.dir/flags.make
+CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o: ../src/json/jsoncpp.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/phanes/Development/internal/ftests/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o -c /home/phanes/Development/internal/ftests/src/json/jsoncpp.cpp
 
-CMakeFiles/ftests.dir/src/jsoncpp.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ftests.dir/src/jsoncpp.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/phanes/Development/internal/ftests/src/jsoncpp.cpp > CMakeFiles/ftests.dir/src/jsoncpp.cpp.i
+CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/phanes/Development/internal/ftests/src/json/jsoncpp.cpp > CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.i
 
-CMakeFiles/ftests.dir/src/jsoncpp.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ftests.dir/src/jsoncpp.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/phanes/Development/internal/ftests/src/jsoncpp.cpp -o CMakeFiles/ftests.dir/src/jsoncpp.cpp.s
+CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/phanes/Development/internal/ftests/src/json/jsoncpp.cpp -o CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.s
 
-CMakeFiles/ftests.dir/src/jsoncpp.cpp.o.requires:
+CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o.requires:
 
-.PHONY : CMakeFiles/ftests.dir/src/jsoncpp.cpp.o.requires
+.PHONY : CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o.requires
 
-CMakeFiles/ftests.dir/src/jsoncpp.cpp.o.provides: CMakeFiles/ftests.dir/src/jsoncpp.cpp.o.requires
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/jsoncpp.cpp.o.provides.build
-.PHONY : CMakeFiles/ftests.dir/src/jsoncpp.cpp.o.provides
+CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o.provides: CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o.requires
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o.provides.build
+.PHONY : CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o.provides
 
-CMakeFiles/ftests.dir/src/jsoncpp.cpp.o.provides.build: CMakeFiles/ftests.dir/src/jsoncpp.cpp.o
+CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o.provides.build: CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o
 
 
 # Object files for target ftests
 ftests_OBJECTS = \
 "CMakeFiles/ftests.dir/examplar.cpp.o" \
 "CMakeFiles/ftests.dir/src/loaders.cpp.o" \
-"CMakeFiles/ftests.dir/src/jsoncpp.cpp.o"
+"CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o"
 
 # External object files for target ftests
 ftests_EXTERNAL_OBJECTS =
 
 ftests: CMakeFiles/ftests.dir/examplar.cpp.o
 ftests: CMakeFiles/ftests.dir/src/loaders.cpp.o
-ftests: CMakeFiles/ftests.dir/src/jsoncpp.cpp.o
+ftests: CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o
 ftests: CMakeFiles/ftests.dir/build.make
 ftests: CMakeFiles/ftests.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/phanes/Development/internal/ftests/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ftests"
@@ -153,7 +153,7 @@ CMakeFiles/ftests.dir/build: ftests
 
 CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/examplar.cpp.o.requires
 CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/loaders.cpp.o.requires
-CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/jsoncpp.cpp.o.requires
+CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o.requires
 
 .PHONY : CMakeFiles/ftests.dir/requires
 

@@ -87,7 +87,7 @@
       <Unit filename="/home/phanes/Development/internal/ftests/examplar.cpp">
          <Option target="ftests"/>
       </Unit>
-      <Unit filename="/home/phanes/Development/internal/ftests/src/jsoncpp.cpp">
+      <Unit filename="/home/phanes/Development/internal/ftests/src/json/jsoncpp.cpp">
          <Option target="ftests"/>
       </Unit>
       <Unit filename="/home/phanes/Development/internal/ftests/src/loaders.cpp">

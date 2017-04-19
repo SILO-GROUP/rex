@@ -1,1 +1,1 @@
-/usr/bin/c++   -g   CMakeFiles/ftests.dir/examplar.cpp.o CMakeFiles/ftests.dir/src/loaders.cpp.o CMakeFiles/ftests.dir/src/jsoncpp.cpp.o  -o ftests 
+/usr/bin/c++   -g   CMakeFiles/ftests.dir/examplar.cpp.o CMakeFiles/ftests.dir/src/loaders.cpp.o CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o  -o ftests 

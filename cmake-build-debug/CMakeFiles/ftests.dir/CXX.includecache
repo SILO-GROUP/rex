@@ -90,8 +90,8 @@ sstream
 config.h
 /home/phanes/Development/internal/ftests/src/json/config.h
 
-/home/phanes/Development/internal/ftests/src/jsoncpp.cpp
-json/json.h
+/home/phanes/Development/internal/ftests/src/json/jsoncpp.cpp
+json.h
 /home/phanes/Development/internal/ftests/src/json/json.h
 clocale
 -
@@ -102,7 +102,7 @@ json/reader.h
 json/value.h
 -
 json_tool.h
-/home/phanes/Development/internal/ftests/src/json_tool.h
+/home/phanes/Development/internal/ftests/src/json/json_tool.h
 utility
 -
 cstdio
@@ -144,11 +144,11 @@ cstddef
 algorithm
 -
 json_valueiterator.inl
-/home/phanes/Development/internal/ftests/src/json_valueiterator.inl
+/home/phanes/Development/internal/ftests/src/json/json_valueiterator.inl
 json/writer.h
 -
 json_tool.h
-/home/phanes/Development/internal/ftests/src/json_tool.h
+/home/phanes/Development/internal/ftests/src/json/json_tool.h
 iomanip
 -
 memory

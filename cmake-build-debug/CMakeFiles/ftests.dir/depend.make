@@ -6,8 +6,8 @@ CMakeFiles/ftests.dir/examplar.cpp.o: ../src/json/json-forwards.h
 CMakeFiles/ftests.dir/examplar.cpp.o: ../src/json/json.h
 CMakeFiles/ftests.dir/examplar.cpp.o: ../src/loaders.h
 
-CMakeFiles/ftests.dir/src/jsoncpp.cpp.o: ../src/json/json.h
-CMakeFiles/ftests.dir/src/jsoncpp.cpp.o: ../src/jsoncpp.cpp
+CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o: ../src/json/json.h
+CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o: ../src/json/jsoncpp.cpp
 
 CMakeFiles/ftests.dir/src/loaders.cpp.o: ../src/json/json-forwards.h
 CMakeFiles/ftests.dir/src/loaders.cpp.o: ../src/json/json.h
