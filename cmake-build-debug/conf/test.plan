@@ -1,6 +1,6 @@
 {
     "plan": [
         { "name": "gcc is present", "depends on":  [ null ] },
-        { "name": "gcYou are not c can compile", "depends on":  [ "gcc is present" ] }
+        { "name": "gcc can compile", "depends on":  [ "gcc is present" ] }
     ]
 }

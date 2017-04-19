@@ -46,18 +46,29 @@ class Unit
 
 class UnitHolder: public JLoader
 {
-    private:
-        std::vector<Unit> Units;
-
     public:
         using JLoader::JLoader;
+        std::vector<Unit> units;
         UnitHolder( std::string filename );
+};
+
+class Task
+{
+    private:
+        std::string name;
+        Json::Value dependencies;
+
+    public:
+        Task( Json::Value loader_root );
+        std::string get_name();
+        Json::Value get_dependencies();
 };
 
 class Plan: public JLoader
 {
     public:
         using JLoader::JLoader;
+        std::vector<Task> tasks;
         Plan( std::string filename );
 };
 

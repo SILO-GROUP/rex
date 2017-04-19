@@ -35,6 +35,7 @@ Json::Value JLoader::get_root()
     return this->json_root;
 }
 
+
 Unit::Unit( Json::Value loader_root )
 {
     this->name      = loader_root.get("name", "?").asString();
@@ -45,6 +46,7 @@ Unit::Unit( Json::Value loader_root )
     this->required  = loader_root.get("required", "?").asString();
     this->rectify   = loader_root.get("rectify", "?").asString();
 }
+
 std::string Unit::get_name()        { return this->name;        }
 std::string Unit::get_target()      { return this->target;      }
 std::string Unit::get_output()      { return this->output;      }
@@ -62,14 +64,29 @@ UnitHolder::UnitHolder( std::string filename ): JLoader( filename )
 
     for ( int index = 0; index < raw_units.size(); index++ )
     {
-        this->Units.push_back(Unit( raw_units[index] ));
+        this->units.push_back(Unit( raw_units[index] ));
     }
 };
 
+
+Task::Task( Json::Value loader_root )
+{
+    this->name = loader_root.get("name", "?").asString();
+    this->dependencies = loader_root.get("depends on", "");
+}
+std::string Task::get_name()            { return this->name;        }
+Json::Value Task::get_dependencies()    { return this->dependencies;}
+
 Plan::Plan( std::string filename ): JLoader( filename )
 {
-    // TODO: Implement
+    Json::Value raw_tasks = this->get_root()["plan"];
+
+    for ( int index = 0; index < raw_tasks.size(); index++ )
+    {
+        this->tasks.push_back( Task( raw_tasks[index] ) );
+    }
 };
+
 
 Conf::Conf( std::string filename ): JLoader( filename )
 {
