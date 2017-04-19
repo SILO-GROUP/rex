@@ -1,19 +1,22 @@
 {
-      "name":             "gcc is present",
-      "target":           "./ubuntu/xenial/check_gcc_present.run",
-      "output":           "present",
-      "rectifier":	      "./ubuntu/xenial/install_gcc",
-      "active":	          true,
-      "required":         true,
-      "rectify":          true
-},
-{
-      "name":             "gcc can compile",
-      "target":           "./ubuntu/xenial/check_gcc_compiles.run",
-      "output":           "can compile",
-      "rectifier":	      "",
-      "active":	          true,
-      "required":         true,
-      "rectify":          false
+    "units": [
+        {
+            "name":             "gcc is present",
+            "target":           "./ubuntu/xenial/check_gcc_present.run",
+            "output":           "present",
+            "rectifier":	      "./ubuntu/xenial/install_gcc",
+            "active":	          true,
+            "required":         true,
+            "rectify":          true
+        },
+        {
+            "name":             "gcc can compile",
+            "target":           "./ubuntu/xenial/check_gcc_compiles.run",
+            "output":           "can compile",
+            "rectifier":	      "",
+            "active":	          true,
+            "required":         true,
+            "rectify":          false
+        }
+    ]
 }
-

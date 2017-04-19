@@ -1,7 +1,4 @@
 {
-  "units_path":	"./conf/units",
-  "plan_path":  "./conf/test.plan",
-  "arr_test": [
-    "rt", "te", "ter", "ter"
-  ]
+  "units_path":	"./conf/units/all_test.units",
+  "plan_path":  "./conf/test.plan"
 }

@@ -22,29 +22,48 @@ class JLoader
         Json::Value get_root();
 };
 
-class Unit: public JLoader
+class Unit
 {
     private:
-        Json::Value json_root;
+        std::string name;
+        std::string target;
+        std::string output;
+        std::string rectifier;
+        std::string active;
+        std::string required;
+        std::string rectify;
+
+    public:
+        Unit( Json::Value loader_root );
+        std::string get_name();
+        std::string get_target();
+        std::string get_output();
+        std::string get_rectifier();
+        std::string get_active();
+        std::string get_required();
+        std::string get_rectify();
+};
+
+class UnitHolder: public JLoader
+{
+    private:
+        std::vector<Unit> Units;
+
     public:
         using JLoader::JLoader;
-        Unit( std::string filename );
+        UnitHolder( std::string filename );
 };
 
 class Plan: public JLoader
 {
-    private:
-        Json::Value json_root;
     public:
         using JLoader::JLoader;
         Plan( std::string filename );
 };
 
-
 class Conf: public JLoader
 {
     private:
-        Json::Value json_root;
         std::string plan_path;
         std::string units_path;
 
@@ -54,6 +73,5 @@ class Conf: public JLoader
         std::string get_plan_path();
         std::string get_units_path();
 };
-
 
 #endif //FTESTS_LOADERS_H

@@ -84,20 +84,20 @@
          </MakeCommands>
       </Target>
       </Build>
-      <Unit filename="/home/phanes/Development/internal/ftests/main.cpp">
+      <UnitHolder filename="/home/phanes/Development/internal/ftests/main.cpp">
          <Option target="ftests"/>
-      </Unit>
-      <Unit filename="/home/phanes/Development/internal/ftests/src/jsoncpp.cpp">
+      </UnitHolder>
+      <UnitHolder filename="/home/phanes/Development/internal/ftests/src/jsoncpp.cpp">
          <Option target="ftests"/>
-      </Unit>
-      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders.cpp">
+      </UnitHolder>
+      <UnitHolder filename="/home/phanes/Development/internal/ftests/src/loaders.cpp">
          <Option target="ftests"/>
-      </Unit>
-      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders.h">
+      </UnitHolder>
+      <UnitHolder filename="/home/phanes/Development/internal/ftests/src/loaders.h">
          <Option target="ftests"/>
-      </Unit>
-      <Unit filename="/home/phanes/Development/internal/ftests/CMakeLists.txt">
+      </UnitHolder>
+      <UnitHolder filename="/home/phanes/Development/internal/ftests/CMakeLists.txt">
           <Option virtualFolder="CMake Files\" />
-      </Unit>
+      </UnitHolder>
    </Project>
 </CodeBlocks_project_file>
