@@ -47,6 +47,7 @@ Unit::Unit( Json::Value loader_root )
     this->rectify   = loader_root.get("rectify", "?").asString();
 }
 
+
 std::string Unit::get_name()        { return this->name;        }
 std::string Unit::get_target()      { return this->target;      }
 std::string Unit::get_output()      { return this->output;      }
@@ -68,21 +69,22 @@ UnitHolder::UnitHolder( std::string filename ): JLoader( filename )
     }
 };
 
-Unit UnitHolder::select_unit(std::string name)
+Unit UnitHolder::select_unit(std::string provided_name)
 {
     /*
      *  TODO: Implement fetch unit by name method.
      */
-    for ( int i = 0; i < this->units.size(); ++i )
+
+    Unit * returnable;
+    for ( int i = 0; i < this->units.size(); i++ )
     {
-        if ( this->units[i].get_name() == name )
-        {
-            return this->units[i];
-        } else {
-            std::cerr << "Logic error in UnitHolder::select_unit.  This is a bug.  Please report it." << std::endl;
-            exit(1);
+        std::string unit_name = this->units[i].get_name();
+        if ( unit_name == provided_name ) {
+            returnable = & this->units[i];
         }
     }
+
+    return * returnable;
 }
 
 

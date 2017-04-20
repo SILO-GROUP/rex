@@ -11,7 +11,14 @@ int main()
 
     for ( int i = 0; i < plan.tasks.size(); ++i )
     {
-        std::cout <<  unitHolder.select_unit( plan.tasks[i].get_name() ).get_target() << std::endl;
+        std::string current_task_name = plan.tasks[i].get_name();
+        std::cout << "Found task name:\t" << current_task_name << std::endl << std::endl;
+
+        Unit current_unit = unitHolder.select_unit( current_task_name );
+
+        std::cout << "Associated Unit name:\t" << current_unit.get_name() << std::endl;
+        std::cout << "Associated Unit target:\t" << current_unit.get_target() << std::endl;
+        std::cout << "Associated Unit healer:\t" << current_unit.get_rectifier() << std::endl << std::endl;
     }
 
 
