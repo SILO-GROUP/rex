@@ -42,21 +42,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="all_test.units" pinned="false" current-in-tab="true">
+          <file leaf-file-name="all_test.units" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cmake-build-debug/conf/units/all_test.units">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="378">
-                  <caret line="21" column="1" lean-forward="true" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+                  <caret line="21" column="1" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="21" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="test.plan" pinned="false" current-in-tab="false">
+          <file leaf-file-name="test.plan" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cmake-build-debug/conf/test.plan">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="54">
-                  <caret line="3" column="23" lean-forward="false" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+                <state relative-caret-position="90">
+                  <caret line="5" column="1" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
@@ -123,11 +123,21 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="config.json" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cmake-build-debug/config.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="72">
+                  <caret line="4" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="examplar.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/examplar.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="360">
-                  <caret line="20" column="80" lean-forward="false" selection-start-line="20" selection-start-column="80" selection-end-line="20" selection-end-column="80" />
+                <state relative-caret-position="432">
+                  <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -145,13 +155,13 @@
         <option value="$PROJECT_DIR$/plan.conf" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/cmake-build-debug/config.json" />
-        <option value="$PROJECT_DIR$/cmake-build-debug/conf/units/all_test.units" />
         <option value="$PROJECT_DIR$/cmake-build-debug/conf/test.plan" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/src/jsoncpp.cpp.cpp" />
         <option value="$PROJECT_DIR$/src/loaders.h" />
         <option value="$PROJECT_DIR$/src/loaders.cpp" />
         <option value="$PROJECT_DIR$/examplar.cpp" />
+        <option value="$PROJECT_DIR$/cmake-build-debug/conf/units/all_test.units" />
       </list>
     </option>
   </component>
@@ -477,12 +487,12 @@
       <updated>1491540343823</updated>
       <workItem from="1491540345736" duration="17928000" />
       <workItem from="1491759279673" duration="614000" />
-      <workItem from="1492298506932" duration="43757000" />
+      <workItem from="1492298506932" duration="45000000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62299000" />
+    <option name="totallyTimeSpent" value="63542000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -583,14 +593,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="44" lean-forward="false" selection-start-line="1" selection-start-column="44" selection-end-line="1" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/json/json.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="640">
@@ -657,11 +659,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/conf/test.plan">
+    <entry file="file://$PROJECT_DIR$/src/loaders.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="23" lean-forward="false" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
-          <folding />
+        <state relative-caret-position="1111">
+          <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+          <folding>
+            <element signature="e#1910#2044#0" expanded="true" />
+            <element signature="e#2297#2358#0" expanded="true" />
+            <element signature="e#2991#3142#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -675,30 +681,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/loaders.cpp">
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/config.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1111">
-          <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-          <folding>
-            <element signature="e#1910#2044#0" expanded="true" />
-            <element signature="e#2297#2358#0" expanded="true" />
-            <element signature="e#2991#3142#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="72">
+          <caret line="4" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/conf/units/all_test.units">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
-          <caret line="21" column="1" lean-forward="true" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+          <caret line="21" column="1" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="21" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/conf/test.plan">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="1" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/examplar.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="80" lean-forward="false" selection-start-line="20" selection-start-column="80" selection-end-line="20" selection-end-column="80" />
+        <state relative-caret-position="432">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding />
         </state>
       </provider>

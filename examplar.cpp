@@ -12,13 +12,14 @@ int main()
     for ( int i = 0; i < plan.tasks.size(); ++i )
     {
         std::string current_task_name = plan.tasks[i].get_name();
-        std::cout << "Found task name:\t" << current_task_name << std::endl << std::endl;
+        std::cout << "Found task name in \"" << configuration.get_plan_path() << "\":\t" << current_task_name << std::endl << std::endl;
 
         Unit current_unit = unitHolder.select_unit( current_task_name );
 
-        std::cout << "Associated Unit name:\t" << current_unit.get_name() << std::endl;
-        std::cout << "Associated Unit target:\t" << current_unit.get_target() << std::endl;
-        std::cout << "Associated Unit healer:\t" << current_unit.get_rectifier() << std::endl << std::endl;
+        std::cout << "Associated Unit name:\t\t" << current_unit.get_name() << std::endl;
+        std::cout << "Associated Unit target:\t\t" << current_unit.get_target() << std::endl;
+        std::cout << "Associated Unit healer:\t\t" << current_unit.get_rectifier() << std::endl;
+        std::cout << "Associated Unit heals:\t\t" << current_unit.get_rectify() << std::endl << std::endl;
     }
 
 
