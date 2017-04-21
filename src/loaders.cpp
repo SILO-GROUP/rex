@@ -24,7 +24,7 @@ JLoader::JLoader( std::string filename )
     if (! parsingSuccessful )
     {
         std::cerr << "Failed to parse " << filename << ":\n\t" << reader.getFormattedErrorMessages();
-        exit( 1 );
+        std::exit( 1 );
     } else {
         std::cout << "Parsed " << filename << " with " << this->json_root.size() << " elements." << std::endl;
     }
@@ -71,17 +71,23 @@ UnitHolder::UnitHolder( std::string filename ): JLoader( filename )
 
 Unit UnitHolder::select_unit(std::string provided_name)
 {
-    /*
-     *  TODO: Implement fetch unit by name method.
-     */
-
     Unit * returnable;
+    bool foundMatch = false;
+
     for ( int i = 0; i < this->units.size(); i++ )
     {
         std::string unit_name = this->units[i].get_name();
-        if ( unit_name == provided_name ) {
+        if ( unit_name == provided_name )
+        {
             returnable = & this->units[i];
+            foundMatch = true;
+            break;
         }
+    }
+    if (! foundMatch )
+    {
+        std::cerr << "Unit name \"" << provided_name << "\" was referenced in a plan task but not defined!" << std::endl;
+        std::exit(1);
     }
 
     return * returnable;
@@ -100,7 +106,6 @@ Plan::Plan( std::string filename ): JLoader( filename )
 {
 /*  Plan loads a file and deserializes the Unit JSON object to Task types as a vector member
  *  Plan { vector<Task> }
- *  TODO: Ensure FIFO order.
  */
     Json::Value raw_tasks = this->get_root()["plan"];
 

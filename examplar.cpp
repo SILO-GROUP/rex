@@ -22,7 +22,5 @@ int main()
         std::cout << "Associated Unit heals:\t\t" << current_unit.get_rectify() << std::endl << std::endl;
     }
 
-
-
     return 0;
 }

@@ -10,6 +10,7 @@
 #include "json/json-forwards.h"
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 
 inline bool exists (const std::string& name);
 
