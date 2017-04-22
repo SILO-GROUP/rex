@@ -177,32 +177,167 @@ src/json/jsoncpp.cpp.s:
 	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.s
 .PHONY : src/json/jsoncpp.cpp.s
 
-src/loaders.o: src/loaders.cpp.o
+src/loaders/Conf.o: src/loaders/Conf.cpp.o
 
-.PHONY : src/loaders.o
+.PHONY : src/loaders/Conf.o
 
 # target to build an object file
-src/loaders.cpp.o:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders.cpp.o
-.PHONY : src/loaders.cpp.o
+src/loaders/Conf.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Conf.cpp.o
+.PHONY : src/loaders/Conf.cpp.o
 
-src/loaders.i: src/loaders.cpp.i
+src/loaders/Conf.i: src/loaders/Conf.cpp.i
 
-.PHONY : src/loaders.i
+.PHONY : src/loaders/Conf.i
 
 # target to preprocess a source file
-src/loaders.cpp.i:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders.cpp.i
-.PHONY : src/loaders.cpp.i
+src/loaders/Conf.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Conf.cpp.i
+.PHONY : src/loaders/Conf.cpp.i
 
-src/loaders.s: src/loaders.cpp.s
+src/loaders/Conf.s: src/loaders/Conf.cpp.s
 
-.PHONY : src/loaders.s
+.PHONY : src/loaders/Conf.s
 
 # target to generate assembly for a file
-src/loaders.cpp.s:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders.cpp.s
-.PHONY : src/loaders.cpp.s
+src/loaders/Conf.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Conf.cpp.s
+.PHONY : src/loaders/Conf.cpp.s
+
+src/loaders/JLoader.o: src/loaders/JLoader.cpp.o
+
+.PHONY : src/loaders/JLoader.o
+
+# target to build an object file
+src/loaders/JLoader.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.o
+.PHONY : src/loaders/JLoader.cpp.o
+
+src/loaders/JLoader.i: src/loaders/JLoader.cpp.i
+
+.PHONY : src/loaders/JLoader.i
+
+# target to preprocess a source file
+src/loaders/JLoader.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.i
+.PHONY : src/loaders/JLoader.cpp.i
+
+src/loaders/JLoader.s: src/loaders/JLoader.cpp.s
+
+.PHONY : src/loaders/JLoader.s
+
+# target to generate assembly for a file
+src/loaders/JLoader.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.s
+.PHONY : src/loaders/JLoader.cpp.s
+
+src/loaders/Plan.o: src/loaders/Plan.cpp.o
+
+.PHONY : src/loaders/Plan.o
+
+# target to build an object file
+src/loaders/Plan.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o
+.PHONY : src/loaders/Plan.cpp.o
+
+src/loaders/Plan.i: src/loaders/Plan.cpp.i
+
+.PHONY : src/loaders/Plan.i
+
+# target to preprocess a source file
+src/loaders/Plan.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Plan.cpp.i
+.PHONY : src/loaders/Plan.cpp.i
+
+src/loaders/Plan.s: src/loaders/Plan.cpp.s
+
+.PHONY : src/loaders/Plan.s
+
+# target to generate assembly for a file
+src/loaders/Plan.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Plan.cpp.s
+.PHONY : src/loaders/Plan.cpp.s
+
+src/loaders/Units.o: src/loaders/Units.cpp.o
+
+.PHONY : src/loaders/Units.o
+
+# target to build an object file
+src/loaders/Units.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Units.cpp.o
+.PHONY : src/loaders/Units.cpp.o
+
+src/loaders/Units.i: src/loaders/Units.cpp.i
+
+.PHONY : src/loaders/Units.i
+
+# target to preprocess a source file
+src/loaders/Units.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Units.cpp.i
+.PHONY : src/loaders/Units.cpp.i
+
+src/loaders/Units.s: src/loaders/Units.cpp.s
+
+.PHONY : src/loaders/Units.s
+
+# target to generate assembly for a file
+src/loaders/Units.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Units.cpp.s
+.PHONY : src/loaders/Units.cpp.s
+
+src/loaders/helpers.o: src/loaders/helpers.cpp.o
+
+.PHONY : src/loaders/helpers.o
+
+# target to build an object file
+src/loaders/helpers.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o
+.PHONY : src/loaders/helpers.cpp.o
+
+src/loaders/helpers.i: src/loaders/helpers.cpp.i
+
+.PHONY : src/loaders/helpers.i
+
+# target to preprocess a source file
+src/loaders/helpers.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/helpers.cpp.i
+.PHONY : src/loaders/helpers.cpp.i
+
+src/loaders/helpers.s: src/loaders/helpers.cpp.s
+
+.PHONY : src/loaders/helpers.s
+
+# target to generate assembly for a file
+src/loaders/helpers.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/helpers.cpp.s
+.PHONY : src/loaders/helpers.cpp.s
+
+src/loaders/loaders.o: src/loaders/loaders.cpp.o
+
+.PHONY : src/loaders/loaders.o
+
+# target to build an object file
+src/loaders/loaders.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o
+.PHONY : src/loaders/loaders.cpp.o
+
+src/loaders/loaders.i: src/loaders/loaders.cpp.i
+
+.PHONY : src/loaders/loaders.i
+
+# target to preprocess a source file
+src/loaders/loaders.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/loaders.cpp.i
+.PHONY : src/loaders/loaders.cpp.i
+
+src/loaders/loaders.s: src/loaders/loaders.cpp.s
+
+.PHONY : src/loaders/loaders.s
+
+# target to generate assembly for a file
+src/loaders/loaders.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/loaders.cpp.s
+.PHONY : src/loaders/loaders.cpp.s
 
 # Help Target
 help:
@@ -219,9 +354,24 @@ help:
 	@echo "... src/json/jsoncpp.o"
 	@echo "... src/json/jsoncpp.i"
 	@echo "... src/json/jsoncpp.s"
-	@echo "... src/loaders.o"
-	@echo "... src/loaders.i"
-	@echo "... src/loaders.s"
+	@echo "... src/loaders/Conf.o"
+	@echo "... src/loaders/Conf.i"
+	@echo "... src/loaders/Conf.s"
+	@echo "... src/loaders/JLoader.o"
+	@echo "... src/loaders/JLoader.i"
+	@echo "... src/loaders/JLoader.s"
+	@echo "... src/loaders/Plan.o"
+	@echo "... src/loaders/Plan.i"
+	@echo "... src/loaders/Plan.s"
+	@echo "... src/loaders/Units.o"
+	@echo "... src/loaders/Units.i"
+	@echo "... src/loaders/Units.s"
+	@echo "... src/loaders/helpers.o"
+	@echo "... src/loaders/helpers.i"
+	@echo "... src/loaders/helpers.s"
+	@echo "... src/loaders/loaders.o"
+	@echo "... src/loaders/loaders.i"
+	@echo "... src/loaders/loaders.s"
 .PHONY : help
 
 

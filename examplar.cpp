@@ -1,6 +1,6 @@
 #include <iostream>
 #include "src/json/json.h"
-#include "src/loaders.h"
+#include "src/loaders/loaders.h"
 
 int main()
 {

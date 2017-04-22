@@ -3,5 +3,5 @@ project(ftests)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES examplar.cpp src/loaders.cpp src/loaders.h src/json/jsoncpp.cpp)
+set(SOURCE_FILES examplar.cpp src/loaders/loaders.cpp src/loaders/loaders.h src/json/jsoncpp.cpp src/loaders/JLoader.cpp src/loaders/JLoader.h src/loaders/helpers.cpp src/loaders/helpers.h src/loaders/Units.cpp src/loaders/Units.h src/loaders/Plan.cpp src/loaders/Plan.h src/loaders/Conf.cpp src/loaders/Conf.h)
 add_executable(ftests ${SOURCE_FILES})
