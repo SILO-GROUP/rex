@@ -10,24 +10,30 @@
 
 class Task
 {
-private:
-    std::string name;
-    Json::Value dependencies;
+    private:
+        std::string name;
+        Json::Value dependencies;
+        bool has_succeeded;
 
-public:
-    Task( Json::Value loader_root );
-    std::string get_name();
-    Json::Value get_dependencies();
+    public:
+        Task( Json::Value loader_root );
+        std::string get_name();
+        Json::Value get_dependencies();
+        Json::Value set_dependencies();
+        bool isDone();
+        void finish();
 };
 
 class Plan: public JLoader
 {
-public:
-    using JLoader::JLoader;
-    std::vector<Task> tasks;
-    Plan( std::string filename );
+    private:
+        std::vector<Task> tasks;
+
+    public:
+        Plan( std::string filename );
+        Task select_task( std::string provided_name );
+        Task select_task_index( int index );
+        int num_tasks();
 };
-
-
 
 #endif //FTESTS_PLAN_H

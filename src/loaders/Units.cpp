@@ -3,7 +3,11 @@
 //
 
 #include "Units.h"
+
 Unit::Unit( Json::Value loader_root )
+/*
+ * Constructor for Unit type.  Receives a UnitHolder loader_root.
+ */
 {
     this->name      = loader_root.get("name", "?").asString();
     this->target    = loader_root.get("target", "?").asString();
@@ -14,7 +18,9 @@ Unit::Unit( Json::Value loader_root )
     this->rectify   = loader_root.get("rectify", "?").asString();
 }
 
-
+/*
+ * getters for Unit type.
+ */
 std::string Unit::get_name()        { return this->name;        }
 std::string Unit::get_target()      { return this->target;      }
 std::string Unit::get_output()      { return this->output;      }
@@ -23,20 +29,25 @@ std::string Unit::get_active()      { return this->active;      }
 std::string Unit::get_required()    { return this->required;    }
 std::string Unit::get_rectify()     { return this->rectify;     }
 
-UnitHolder::UnitHolder( std::string filename ): JLoader( filename )
-{
-/*  UnitHolder loads a file and deserializes the Unit JSON object to Unit types as a vector member
- *  UnitHolder { vector<Unit> }
+Suite::Suite( std::string filename ): JLoader( filename )
+/*  Suite loads a file and deserializes the Unit JSON object to Unit types as a vector member
+ *  Suite { vector<Unit> }
  */
+{
     Json::Value raw_units = this->get_root()["units"];
 
     for ( int index = 0; index < raw_units.size(); index++ )
     {
-        this->units.push_back(Unit( raw_units[index] ));
+        this->units.push_back( Unit( raw_units[ index ] ) );
     }
 };
 
-Unit UnitHolder::select_unit(std::string provided_name)
+Unit Suite::select_unit( std::string provided_name )
+/*
+ * returns a unit from a unitholder object by name
+ * this will need reworked.  maybe should return int, populate a pointer.
+ * error handling is the concern here.
+ */
 {
     Unit * returnable;
     bool foundMatch = false;
@@ -53,7 +64,7 @@ Unit UnitHolder::select_unit(std::string provided_name)
     }
     if (! foundMatch )
     {
-        std::cerr << "Unit name \"" << provided_name << "\" was referenced in a plan task but not defined!" << std::endl;
+        std::cerr << "Unit name \"" << provided_name << "\" was referenced but not defined!" << std::endl;
         std::exit(1);
     }
 

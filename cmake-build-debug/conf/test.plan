@@ -1,8 +1,6 @@
 {
     "plan": [
-        { "name": "gcc is present", "depends on":  [ null ] },
-        { "name": "gcc can compile", "depends on":  [ "gcc is present" ] },
-        { "name": "gcc can compile2", "depends on":  [ "gcc is present" ] },
-        { "name": "gcc can compile", "depends on":  [ "gcc is present" ] }
+        { "name": "independent test", "depends on":  null  },
+        { "name": "dependent test", "depends on":  [ "independent test", null, null ] }
     ]
 }

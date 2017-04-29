@@ -11,33 +11,37 @@
 
 class Unit
 {
-private:
-    std::string name;
-    std::string target;
-    std::string output;
-    std::string rectifier;
-    std::string active;
-    std::string required;
-    std::string rectify;
+    private:
+        std::string name;
+        std::string target;
+        std::string output;
+        std::string rectifier;
+        std::string active;
+        std::string required;
+        std::string rectify;
 
-public:
-    Unit( Json::Value loader_root );
-    std::string get_name();
-    std::string get_target();
-    std::string get_output();
-    std::string get_rectifier();
-    std::string get_active();
-    std::string get_required();
-    std::string get_rectify();
+    public:
+        Unit( Json::Value loader_root );
+        std::string get_name();
+        std::string get_target();
+        std::string get_output();
+        std::string get_rectifier();
+        std::string get_active();
+        std::string get_required();
+        std::string get_rectify();
 };
 
-class UnitHolder: public JLoader
+class Suite: public JLoader
 {
-public:
-    using JLoader::JLoader;
-    std::vector<Unit> units;
-    UnitHolder( std::string filename );
-    Unit select_unit( std::string provided_name );
+    private:
+        std::vector<Unit> units;
+
+    public:
+        // constructor
+        Suite( std::string filename );
+
+        // returns the unit type identified by name or null
+        Unit select_unit( std::string provided_name );
 };
 
 

@@ -1,19 +1,19 @@
 {
     "units": [
         {
-            "name":             "gcc is present",
-            "target":           "./ubuntu/xenial/check_gcc_present.run",
-            "output":           "present",
-            "rectifier":	    "./ubuntu/xenial/install_gcc",
+            "name":             "independent test",
+            "target":           "/home/phanes/tests/test-script-pass.sh",
+            "output":           "pass",
+            "rectifier":	    "/home/phanes/tests/test-script-rectifier.sh",
             "active":	        true,
             "required":         true,
             "rectify":          true
         },
         {
-            "name":             "gcc can compile",
-            "target":           "./ubuntu/xenial/check_gcc_compiles.run",
-            "output":           "can compile",
-            "rectifier":	    "echo pass",
+            "name":             "dependent test",
+            "target":           "/home/phanes/tests/test-script-pass.sh",
+            "output":           "pass",
+            "rectifier":	    "/home/phanes/tests/test-script-rectifier.sh",
             "active":	        true,
             "required":         true,
             "rectify":          false
