@@ -1,28 +1,11 @@
-//
-// Created by phanes on 4/22/17.
-//
-
 #ifndef FTESTS_PLAN_H
 #define FTESTS_PLAN_H
+
 #include <string>
 #include "../json/json.h"
 #include "JLoader.h"
+#include "Task.h"
 
-class Task
-{
-    private:
-        std::string name;
-        Json::Value dependencies;
-        bool has_succeeded;
-
-    public:
-        Task( Json::Value loader_root );
-        std::string get_name();
-        Json::Value get_dependencies();
-        Json::Value set_dependencies();
-        bool isDone();
-        void finish();
-};
 
 class Plan: public JLoader
 {
@@ -31,8 +14,8 @@ class Plan: public JLoader
 
     public:
         Plan( std::string filename );
-        Task select_task( std::string provided_name );
-        Task select_task_index( int index );
+        Task get_task(std::string provided_name);
+        Task get_task(int index);
         int num_tasks();
 };
 

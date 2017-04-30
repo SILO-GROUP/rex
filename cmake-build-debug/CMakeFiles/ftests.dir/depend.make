@@ -6,7 +6,9 @@ CMakeFiles/ftests.dir/examplar.cpp.o: ../src/json/json.h
 CMakeFiles/ftests.dir/examplar.cpp.o: ../src/loaders/Conf.h
 CMakeFiles/ftests.dir/examplar.cpp.o: ../src/loaders/JLoader.h
 CMakeFiles/ftests.dir/examplar.cpp.o: ../src/loaders/Plan.h
-CMakeFiles/ftests.dir/examplar.cpp.o: ../src/loaders/Units.h
+CMakeFiles/ftests.dir/examplar.cpp.o: ../src/loaders/Suite.h
+CMakeFiles/ftests.dir/examplar.cpp.o: ../src/loaders/Task.h
+CMakeFiles/ftests.dir/examplar.cpp.o: ../src/loaders/Unit.h
 CMakeFiles/ftests.dir/examplar.cpp.o: ../src/loaders/loaders.h
 
 CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o: ../src/json/json.h
@@ -26,11 +28,21 @@ CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o: ../src/json/json.h
 CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o: ../src/loaders/JLoader.h
 CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o: ../src/loaders/Plan.cpp
 CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o: ../src/loaders/Plan.h
+CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o: ../src/loaders/Task.h
 
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.o: ../src/json/json.h
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.o: ../src/loaders/JLoader.h
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.o: ../src/loaders/Units.cpp
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.o: ../src/loaders/Units.h
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o: ../src/json/json.h
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o: ../src/loaders/JLoader.h
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o: ../src/loaders/Suite.cpp
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o: ../src/loaders/Suite.h
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o: ../src/loaders/Unit.h
+
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.o: ../src/json/json.h
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.o: ../src/loaders/Task.cpp
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.o: ../src/loaders/Task.h
+
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o: ../src/json/json.h
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o: ../src/loaders/Unit.cpp
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o: ../src/loaders/Unit.h
 
 CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o: ../src/loaders/helpers.cpp
 CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o: ../src/loaders/helpers.h
@@ -39,7 +51,9 @@ CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o: ../src/json/json.h
 CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o: ../src/loaders/Conf.h
 CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o: ../src/loaders/JLoader.h
 CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o: ../src/loaders/Plan.h
-CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o: ../src/loaders/Units.h
+CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o: ../src/loaders/Suite.h
+CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o: ../src/loaders/Task.h
+CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o: ../src/loaders/Unit.h
 CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o: ../src/loaders/loaders.cpp
 CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o: ../src/loaders/loaders.h
 

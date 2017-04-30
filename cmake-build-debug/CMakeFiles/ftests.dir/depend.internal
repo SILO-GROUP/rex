@@ -7,7 +7,9 @@ CMakeFiles/ftests.dir/examplar.cpp.o
  /home/phanes/Development/internal/ftests/src/loaders/Conf.h
  /home/phanes/Development/internal/ftests/src/loaders/JLoader.h
  /home/phanes/Development/internal/ftests/src/loaders/Plan.h
- /home/phanes/Development/internal/ftests/src/loaders/Units.h
+ /home/phanes/Development/internal/ftests/src/loaders/Suite.h
+ /home/phanes/Development/internal/ftests/src/loaders/Task.h
+ /home/phanes/Development/internal/ftests/src/loaders/Unit.h
  /home/phanes/Development/internal/ftests/src/loaders/loaders.h
 CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o
  /home/phanes/Development/internal/ftests/src/json/json.h
@@ -27,11 +29,21 @@ CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o
  /home/phanes/Development/internal/ftests/src/loaders/JLoader.h
  /home/phanes/Development/internal/ftests/src/loaders/Plan.cpp
  /home/phanes/Development/internal/ftests/src/loaders/Plan.h
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.o
+ /home/phanes/Development/internal/ftests/src/loaders/Task.h
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o
  /home/phanes/Development/internal/ftests/src/json/json.h
  /home/phanes/Development/internal/ftests/src/loaders/JLoader.h
- /home/phanes/Development/internal/ftests/src/loaders/Units.cpp
- /home/phanes/Development/internal/ftests/src/loaders/Units.h
+ /home/phanes/Development/internal/ftests/src/loaders/Suite.cpp
+ /home/phanes/Development/internal/ftests/src/loaders/Suite.h
+ /home/phanes/Development/internal/ftests/src/loaders/Unit.h
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.o
+ /home/phanes/Development/internal/ftests/src/json/json.h
+ /home/phanes/Development/internal/ftests/src/loaders/Task.cpp
+ /home/phanes/Development/internal/ftests/src/loaders/Task.h
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o
+ /home/phanes/Development/internal/ftests/src/json/json.h
+ /home/phanes/Development/internal/ftests/src/loaders/Unit.cpp
+ /home/phanes/Development/internal/ftests/src/loaders/Unit.h
 CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o
  /home/phanes/Development/internal/ftests/src/loaders/helpers.cpp
  /home/phanes/Development/internal/ftests/src/loaders/helpers.h
@@ -40,6 +52,8 @@ CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o
  /home/phanes/Development/internal/ftests/src/loaders/Conf.h
  /home/phanes/Development/internal/ftests/src/loaders/JLoader.h
  /home/phanes/Development/internal/ftests/src/loaders/Plan.h
- /home/phanes/Development/internal/ftests/src/loaders/Units.h
+ /home/phanes/Development/internal/ftests/src/loaders/Suite.h
+ /home/phanes/Development/internal/ftests/src/loaders/Task.h
+ /home/phanes/Development/internal/ftests/src/loaders/Unit.h
  /home/phanes/Development/internal/ftests/src/loaders/loaders.cpp
  /home/phanes/Development/internal/ftests/src/loaders/loaders.h

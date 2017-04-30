@@ -201,18 +201,42 @@ string
 /home/phanes/Development/internal/ftests/src/json/json.h
 JLoader.h
 /home/phanes/Development/internal/ftests/src/loaders/JLoader.h
+Task.h
+/home/phanes/Development/internal/ftests/src/loaders/Task.h
 
-/home/phanes/Development/internal/ftests/src/loaders/Units.cpp
-Units.h
-/home/phanes/Development/internal/ftests/src/loaders/Units.h
+/home/phanes/Development/internal/ftests/src/loaders/Suite.cpp
+Suite.h
+/home/phanes/Development/internal/ftests/src/loaders/Suite.h
 
-/home/phanes/Development/internal/ftests/src/loaders/Units.h
+/home/phanes/Development/internal/ftests/src/loaders/Suite.h
 vector
 -
 ../json/json.h
 /home/phanes/Development/internal/ftests/src/json/json.h
 JLoader.h
 /home/phanes/Development/internal/ftests/src/loaders/JLoader.h
+Unit.h
+/home/phanes/Development/internal/ftests/src/loaders/Unit.h
+
+/home/phanes/Development/internal/ftests/src/loaders/Task.cpp
+Task.h
+/home/phanes/Development/internal/ftests/src/loaders/Task.h
+
+/home/phanes/Development/internal/ftests/src/loaders/Task.h
+string
+-
+../json/json.h
+/home/phanes/Development/internal/ftests/src/json/json.h
+
+/home/phanes/Development/internal/ftests/src/loaders/Unit.cpp
+Unit.h
+/home/phanes/Development/internal/ftests/src/loaders/Unit.h
+
+/home/phanes/Development/internal/ftests/src/loaders/Unit.h
+string
+-
+../json/json.h
+/home/phanes/Development/internal/ftests/src/json/json.h
 
 /home/phanes/Development/internal/ftests/src/loaders/helpers.cpp
 helpers.h
@@ -231,8 +255,8 @@ loaders.h
 /home/phanes/Development/internal/ftests/src/loaders/loaders.h
 JLoader.h
 /home/phanes/Development/internal/ftests/src/loaders/JLoader.h
-Units.h
-/home/phanes/Development/internal/ftests/src/loaders/Units.h
+Suite.h
+/home/phanes/Development/internal/ftests/src/loaders/Suite.h
 Plan.h
 /home/phanes/Development/internal/ftests/src/loaders/Plan.h
 Conf.h

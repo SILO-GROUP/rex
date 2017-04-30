@@ -4,9 +4,11 @@ file(REMOVE_RECURSE
   "CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o"
   "CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.o"
   "CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o"
-  "CMakeFiles/ftests.dir/src/loaders/Units.cpp.o"
+  "CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o"
   "CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o"
   "CMakeFiles/ftests.dir/src/loaders/Conf.cpp.o"
+  "CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o"
+  "CMakeFiles/ftests.dir/src/loaders/Task.cpp.o"
   "ftests.pdb"
   "ftests"
 )

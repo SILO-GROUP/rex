@@ -177,28 +177,28 @@ CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o.provides: CMakeFiles/ftests.dir/
 CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o.provides.build: CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o
 
 
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.o: CMakeFiles/ftests.dir/flags.make
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.o: ../src/loaders/Units.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/phanes/Development/internal/ftests/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ftests.dir/src/loaders/Units.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ftests.dir/src/loaders/Units.cpp.o -c /home/phanes/Development/internal/ftests/src/loaders/Units.cpp
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o: CMakeFiles/ftests.dir/flags.make
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o: ../src/loaders/Suite.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/phanes/Development/internal/ftests/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o -c /home/phanes/Development/internal/ftests/src/loaders/Suite.cpp
 
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ftests.dir/src/loaders/Units.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/phanes/Development/internal/ftests/src/loaders/Units.cpp > CMakeFiles/ftests.dir/src/loaders/Units.cpp.i
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ftests.dir/src/loaders/Suite.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/phanes/Development/internal/ftests/src/loaders/Suite.cpp > CMakeFiles/ftests.dir/src/loaders/Suite.cpp.i
 
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ftests.dir/src/loaders/Units.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/phanes/Development/internal/ftests/src/loaders/Units.cpp -o CMakeFiles/ftests.dir/src/loaders/Units.cpp.s
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ftests.dir/src/loaders/Suite.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/phanes/Development/internal/ftests/src/loaders/Suite.cpp -o CMakeFiles/ftests.dir/src/loaders/Suite.cpp.s
 
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.o.requires:
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o.requires:
 
-.PHONY : CMakeFiles/ftests.dir/src/loaders/Units.cpp.o.requires
+.PHONY : CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o.requires
 
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.o.provides: CMakeFiles/ftests.dir/src/loaders/Units.cpp.o.requires
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Units.cpp.o.provides.build
-.PHONY : CMakeFiles/ftests.dir/src/loaders/Units.cpp.o.provides
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o.provides: CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o.requires
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o.provides.build
+.PHONY : CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o.provides
 
-CMakeFiles/ftests.dir/src/loaders/Units.cpp.o.provides.build: CMakeFiles/ftests.dir/src/loaders/Units.cpp.o
+CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o.provides.build: CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o
 
 
 CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o: CMakeFiles/ftests.dir/flags.make
@@ -249,6 +249,54 @@ CMakeFiles/ftests.dir/src/loaders/Conf.cpp.o.provides: CMakeFiles/ftests.dir/src
 CMakeFiles/ftests.dir/src/loaders/Conf.cpp.o.provides.build: CMakeFiles/ftests.dir/src/loaders/Conf.cpp.o
 
 
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o: CMakeFiles/ftests.dir/flags.make
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o: ../src/loaders/Unit.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/phanes/Development/internal/ftests/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o -c /home/phanes/Development/internal/ftests/src/loaders/Unit.cpp
+
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ftests.dir/src/loaders/Unit.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/phanes/Development/internal/ftests/src/loaders/Unit.cpp > CMakeFiles/ftests.dir/src/loaders/Unit.cpp.i
+
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ftests.dir/src/loaders/Unit.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/phanes/Development/internal/ftests/src/loaders/Unit.cpp -o CMakeFiles/ftests.dir/src/loaders/Unit.cpp.s
+
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o.requires:
+
+.PHONY : CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o.requires
+
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o.provides: CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o.requires
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o.provides.build
+.PHONY : CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o.provides
+
+CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o.provides.build: CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o
+
+
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.o: CMakeFiles/ftests.dir/flags.make
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.o: ../src/loaders/Task.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/phanes/Development/internal/ftests/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/ftests.dir/src/loaders/Task.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ftests.dir/src/loaders/Task.cpp.o -c /home/phanes/Development/internal/ftests/src/loaders/Task.cpp
+
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ftests.dir/src/loaders/Task.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/phanes/Development/internal/ftests/src/loaders/Task.cpp > CMakeFiles/ftests.dir/src/loaders/Task.cpp.i
+
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ftests.dir/src/loaders/Task.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/phanes/Development/internal/ftests/src/loaders/Task.cpp -o CMakeFiles/ftests.dir/src/loaders/Task.cpp.s
+
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.o.requires:
+
+.PHONY : CMakeFiles/ftests.dir/src/loaders/Task.cpp.o.requires
+
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.o.provides: CMakeFiles/ftests.dir/src/loaders/Task.cpp.o.requires
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Task.cpp.o.provides.build
+.PHONY : CMakeFiles/ftests.dir/src/loaders/Task.cpp.o.provides
+
+CMakeFiles/ftests.dir/src/loaders/Task.cpp.o.provides.build: CMakeFiles/ftests.dir/src/loaders/Task.cpp.o
+
+
 # Object files for target ftests
 ftests_OBJECTS = \
 "CMakeFiles/ftests.dir/examplar.cpp.o" \
@@ -256,9 +304,11 @@ ftests_OBJECTS = \
 "CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o" \
 "CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.o" \
 "CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o" \
-"CMakeFiles/ftests.dir/src/loaders/Units.cpp.o" \
+"CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o" \
 "CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o" \
-"CMakeFiles/ftests.dir/src/loaders/Conf.cpp.o"
+"CMakeFiles/ftests.dir/src/loaders/Conf.cpp.o" \
+"CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o" \
+"CMakeFiles/ftests.dir/src/loaders/Task.cpp.o"
 
 # External object files for target ftests
 ftests_EXTERNAL_OBJECTS =
@@ -268,12 +318,14 @@ ftests: CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o
 ftests: CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o
 ftests: CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.o
 ftests: CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o
-ftests: CMakeFiles/ftests.dir/src/loaders/Units.cpp.o
+ftests: CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o
 ftests: CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o
 ftests: CMakeFiles/ftests.dir/src/loaders/Conf.cpp.o
+ftests: CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o
+ftests: CMakeFiles/ftests.dir/src/loaders/Task.cpp.o
 ftests: CMakeFiles/ftests.dir/build.make
 ftests: CMakeFiles/ftests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/phanes/Development/internal/ftests/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable ftests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/phanes/Development/internal/ftests/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable ftests"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ftests.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -286,9 +338,11 @@ CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o.
 CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o.requires
 CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.o.requires
 CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o.requires
-CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/loaders/Units.cpp.o.requires
+CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o.requires
 CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o.requires
 CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/loaders/Conf.cpp.o.requires
+CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o.requires
+CMakeFiles/ftests.dir/requires: CMakeFiles/ftests.dir/src/loaders/Task.cpp.o.requires
 
 .PHONY : CMakeFiles/ftests.dir/requires
 

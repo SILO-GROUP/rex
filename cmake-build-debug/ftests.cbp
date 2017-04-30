@@ -108,10 +108,22 @@
       <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Plan.h">
          <Option target="ftests"/>
       </Unit>
-      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Units.cpp">
+      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Suite.cpp">
          <Option target="ftests"/>
       </Unit>
-      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Units.h">
+      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Suite.h">
+         <Option target="ftests"/>
+      </Unit>
+      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Task.cpp">
+         <Option target="ftests"/>
+      </Unit>
+      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Task.h">
+         <Option target="ftests"/>
+      </Unit>
+      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Unit.cpp">
+         <Option target="ftests"/>
+      </Unit>
+      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Unit.h">
          <Option target="ftests"/>
       </Unit>
       <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/helpers.cpp">

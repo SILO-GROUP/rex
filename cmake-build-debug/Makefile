@@ -258,32 +258,86 @@ src/loaders/Plan.cpp.s:
 	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Plan.cpp.s
 .PHONY : src/loaders/Plan.cpp.s
 
-src/loaders/Units.o: src/loaders/Units.cpp.o
+src/loaders/Suite.o: src/loaders/Suite.cpp.o
 
-.PHONY : src/loaders/Units.o
+.PHONY : src/loaders/Suite.o
 
 # target to build an object file
-src/loaders/Units.cpp.o:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Units.cpp.o
-.PHONY : src/loaders/Units.cpp.o
+src/loaders/Suite.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o
+.PHONY : src/loaders/Suite.cpp.o
 
-src/loaders/Units.i: src/loaders/Units.cpp.i
+src/loaders/Suite.i: src/loaders/Suite.cpp.i
 
-.PHONY : src/loaders/Units.i
+.PHONY : src/loaders/Suite.i
 
 # target to preprocess a source file
-src/loaders/Units.cpp.i:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Units.cpp.i
-.PHONY : src/loaders/Units.cpp.i
+src/loaders/Suite.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Suite.cpp.i
+.PHONY : src/loaders/Suite.cpp.i
 
-src/loaders/Units.s: src/loaders/Units.cpp.s
+src/loaders/Suite.s: src/loaders/Suite.cpp.s
 
-.PHONY : src/loaders/Units.s
+.PHONY : src/loaders/Suite.s
 
 # target to generate assembly for a file
-src/loaders/Units.cpp.s:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Units.cpp.s
-.PHONY : src/loaders/Units.cpp.s
+src/loaders/Suite.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Suite.cpp.s
+.PHONY : src/loaders/Suite.cpp.s
+
+src/loaders/Task.o: src/loaders/Task.cpp.o
+
+.PHONY : src/loaders/Task.o
+
+# target to build an object file
+src/loaders/Task.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Task.cpp.o
+.PHONY : src/loaders/Task.cpp.o
+
+src/loaders/Task.i: src/loaders/Task.cpp.i
+
+.PHONY : src/loaders/Task.i
+
+# target to preprocess a source file
+src/loaders/Task.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Task.cpp.i
+.PHONY : src/loaders/Task.cpp.i
+
+src/loaders/Task.s: src/loaders/Task.cpp.s
+
+.PHONY : src/loaders/Task.s
+
+# target to generate assembly for a file
+src/loaders/Task.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Task.cpp.s
+.PHONY : src/loaders/Task.cpp.s
+
+src/loaders/Unit.o: src/loaders/Unit.cpp.o
+
+.PHONY : src/loaders/Unit.o
+
+# target to build an object file
+src/loaders/Unit.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o
+.PHONY : src/loaders/Unit.cpp.o
+
+src/loaders/Unit.i: src/loaders/Unit.cpp.i
+
+.PHONY : src/loaders/Unit.i
+
+# target to preprocess a source file
+src/loaders/Unit.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Unit.cpp.i
+.PHONY : src/loaders/Unit.cpp.i
+
+src/loaders/Unit.s: src/loaders/Unit.cpp.s
+
+.PHONY : src/loaders/Unit.s
+
+# target to generate assembly for a file
+src/loaders/Unit.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Unit.cpp.s
+.PHONY : src/loaders/Unit.cpp.s
 
 src/loaders/helpers.o: src/loaders/helpers.cpp.o
 
@@ -363,9 +417,15 @@ help:
 	@echo "... src/loaders/Plan.o"
 	@echo "... src/loaders/Plan.i"
 	@echo "... src/loaders/Plan.s"
-	@echo "... src/loaders/Units.o"
-	@echo "... src/loaders/Units.i"
-	@echo "... src/loaders/Units.s"
+	@echo "... src/loaders/Suite.o"
+	@echo "... src/loaders/Suite.i"
+	@echo "... src/loaders/Suite.s"
+	@echo "... src/loaders/Task.o"
+	@echo "... src/loaders/Task.i"
+	@echo "... src/loaders/Task.s"
+	@echo "... src/loaders/Unit.o"
+	@echo "... src/loaders/Unit.i"
+	@echo "... src/loaders/Unit.s"
 	@echo "... src/loaders/helpers.o"
 	@echo "... src/loaders/helpers.i"
 	@echo "... src/loaders/helpers.s"

@@ -5,7 +5,7 @@
 #define FTESTS_LOADERS_H
 
 #include "JLoader.h"
-#include "Units.h"
+#include "Suite.h"
 #include "Plan.h"
 #include "Conf.h"
 

@@ -18,9 +18,9 @@ int main()
 
     for ( int i = 0; i < plan.num_tasks(); ++i )
     {
-        Task current_task = plan.select_task_index( i );
+        Task current_task = plan.get_task(i);
 
-        Unit current_unit = unit_definitions.select_unit( current_task.get_name() );
+        Unit current_unit = unit_definitions.get_unit(current_task.get_name());
 
         std::cout << "Found task name in \"" << configuration.get_plan_path() << "\":\t" << current_task.get_name() << std::endl << std::endl;
 
