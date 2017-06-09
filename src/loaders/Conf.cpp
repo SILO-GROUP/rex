@@ -1,16 +1,9 @@
-//
-// Created by phanes on 4/22/17.
-//
-
 #include "Conf.h"
-#include "JLoader.h"
-#include <string>
 
-
-Conf::Conf( std::string filename ): JLoader( filename )
+Conf::Conf( std::string filename ): JSON_Loader( filename )
 {
-    this->plan_path = this->get_root()["plan_path"].asString();
-    this->units_path = this->get_root()["units_path"].asString();
+    this->plan_path = this->as_serialized()["plan_path"].asString();
+    this->units_path = this->as_serialized()["units_path"].asString();
 };
 
 std::string Conf::get_plan_path()

@@ -2,25 +2,28 @@
 #include "src/json/json.h"
 #include "src/loaders/loaders.h"
 
-int main()
+int main( )
 {
     // A Plan is made up of Tasks, and a Suite is made up of Units.
     // A Plan declares what units are executed and a Suite declares the definitions of those units.
-    Conf configuration = Conf("config.json");
+    Conf configuration = Conf( "config.json" );
 
     // load the configuration file which contains filepaths to definitions of a plan and definitions of units.
     std::string definitions_file = configuration.get_units_path();
+
     std::string plan_file = configuration.get_plan_path();
 
-    Suite unit_definitions = Suite( definitions_file );
+    Suite * unit_definitions = new Suite();
+
+    unit_definitions->load_file( definitions_file );
 
     Plan plan = Plan( plan_file );
 
     for ( int i = 0; i < plan.num_tasks(); ++i )
     {
-        Task current_task = plan.get_task(i);
+        Task current_task = plan.get_task( i );
 
-        Unit current_unit = unit_definitions.get_unit(current_task.get_name());
+        Unit current_unit = unit_definitions->get_unit( current_task.get_name() );
 
         std::cout << "Found task name in \"" << configuration.get_plan_path() << "\":\t" << current_task.get_name() << std::endl << std::endl;
 

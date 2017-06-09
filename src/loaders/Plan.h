@@ -3,11 +3,11 @@
 
 #include <string>
 #include "../json/json.h"
-#include "JLoader.h"
+#include "JSON_Loader.h"
 #include "Task.h"
 
 
-class Plan: public JLoader
+class Plan: public JSON_Loader
 {
     private:
         std::vector<Task> tasks;

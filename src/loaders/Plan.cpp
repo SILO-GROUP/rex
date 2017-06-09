@@ -41,12 +41,12 @@ Task Plan::get_task(std::string provided_name)
         return * returnable;
 }
 
-Plan::Plan( std::string filename ): JLoader( filename )
+Plan::Plan( std::string filename ): JSON_Loader( filename )
 /*  Plan loads a file and deserializes the Unit JSON object to Task types as a vector member
  *  Plan { vector<Task> }
  */
 {
-    Json::Value raw_tasks = this->get_root()["plan"];
+    Json::Value raw_tasks = this->as_serialized()["plan"];
 
     for ( int index = 0; index < raw_tasks.size(); index++ )
     {

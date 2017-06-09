@@ -4,16 +4,15 @@
 
 #ifndef FTESTS_CONF_H
 #define FTESTS_CONF_H
-#include "JLoader.h"
+#include "JSON_Loader.h"
 
-class Conf: public JLoader
+class Conf: public JSON_Loader
 {
 private:
     std::string plan_path;
     std::string units_path;
 
 public:
-    using JLoader::JLoader;
     Conf( std::string filename );
     std::string get_plan_path();
     std::string get_units_path();

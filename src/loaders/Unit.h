@@ -19,7 +19,11 @@ private:
     std::string rectify;
 
 public:
+    Unit();
     Unit( Json::Value loader_root );
+
+    int load_root( Json::Value loader_root );
+
     std::string get_name();
     std::string get_target();
     std::string get_output();
