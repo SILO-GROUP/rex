@@ -9,8 +9,8 @@
 class Conf: public JSON_Loader
 {
 private:
-    std::string plan_path;
-    std::string units_path;
+    Json::Value plan_path;
+    Json::Value units_path;
 
 public:
     Conf( std::string filename );
