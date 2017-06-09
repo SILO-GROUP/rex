@@ -15,6 +15,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50b7ab1f-b700-44ff-b78d-e32f34492ff2" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Conf.cpp" afterPath="$PROJECT_DIR$/src/loaders/Conf.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/JSON_Loader.cpp" afterPath="$PROJECT_DIR$/src/loaders/JSON_Loader.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/JSON_Loader.h" afterPath="$PROJECT_DIR$/src/loaders/JSON_Loader.h" />
     </list>
@@ -34,7 +36,7 @@
     <favorites_list name="ftests" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.3815951">
+    <splitter split-orientation="horizontal" split-proportion="0.4956027">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="Suite.h" pinned="false" current-in-tab="false">
@@ -50,8 +52,8 @@
           <file leaf-file-name="JSON_Loader.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/loaders/JSON_Loader.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="252">
-                  <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+                <state relative-caret-position="558">
+                  <caret line="33" column="94" lean-forward="false" selection-start-line="33" selection-start-column="94" selection-end-line="33" selection-end-column="94" />
                   <folding />
                 </state>
               </provider>
@@ -71,6 +73,28 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="Conf.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/loaders/Conf.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="108">
+                  <caret line="6" column="30" lean-forward="false" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="JSON_Loader.cpp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/loaders/JSON_Loader.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="831">
+                  <caret line="97" column="37" lean-forward="false" selection-start-line="97" selection-start-column="37" selection-end-line="97" selection-end-column="37" />
+                  <folding>
+                    <element signature="e#0#2#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="Suite.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/loaders/Suite.cpp">
               <provider selected="true" editor-type-id="text-editor">
@@ -79,86 +103,6 @@
                   <folding>
                     <element signature="e#115#239#0" expanded="true" />
                     <element signature="e#657#827#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="JSON_Loader.cpp" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/loaders/JSON_Loader.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="612">
-                  <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#0#2#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="jsoncpp.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/json/jsoncpp.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="663">
-                  <caret line="4219" column="19" lean-forward="false" selection-start-line="4219" selection-start-column="19" selection-end-line="4219" selection-end-column="19" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="json.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/json/json.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#0#64#0" expanded="true" />
-                    <element signature="e#7757#8005#0" expanded="false" />
-                    <element signature="e#8108#8144#0" expanded="false" />
-                    <element signature="e#8186#8286#0" expanded="false" />
-                    <element signature="e#8619#8655#0" expanded="false" />
-                    <element signature="e#8967#9039#0" expanded="false" />
-                    <element signature="e#9132#9167#0" expanded="false" />
-                    <element signature="e#9229#9273#0" expanded="false" />
-                    <element signature="e#9318#9426#0" expanded="false" />
-                    <element signature="e#11703#11722#0" expanded="false" />
-                    <element signature="e#15036#15057#0" expanded="false" />
-                    <element signature="e#15102#15119#0" expanded="false" />
-                    <element signature="e#15213#15240#0" expanded="false" />
-                    <element signature="e#15270#15297#0" expanded="false" />
-                    <element signature="e#15533#15582#0" expanded="false" />
-                    <element signature="e#15677#15705#0" expanded="false" />
-                    <element signature="e#15870#15923#0" expanded="false" />
-                    <element signature="e#23048#23102#0" expanded="false" />
-                    <element signature="e#24764#24803#0" expanded="false" />
-                    <element signature="e#25775#25862#0" expanded="false" />
-                    <element signature="e#26144#26185#0" expanded="false" />
-                    <element signature="e#30259#30548#0" expanded="false" />
-                    <element signature="e#31166#31333#0" expanded="false" />
-                    <element signature="e#33483#33590#0" expanded="false" />
-                    <element signature="e#43349#43402#0" expanded="false" />
-                    <element signature="e#56086#56106#0" expanded="false" />
-                    <element signature="e#56939#56957#0" expanded="false" />
-                    <element signature="e#57002#57019#0" expanded="false" />
-                    <element signature="e#57205#57258#0" expanded="false" />
-                    <element signature="e#64621#65699#0" expanded="true" />
-                    <element signature="e#65839#66125#0" expanded="true" />
-                    <element signature="e#67649#67669#0" expanded="false" />
-                    <element signature="e#68485#68504#0" expanded="false" />
-                    <element signature="e#68560#68579#0" expanded="false" />
-                    <element signature="e#69490#70083#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="json-forwards.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/json/json-forwards.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#0#72#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -193,7 +137,6 @@
         <option value="$PROJECT_DIR$/src/loaders/Units.cpp" />
         <option value="$PROJECT_DIR$/src/loaders/Plan.cpp" />
         <option value="$PROJECT_DIR$/src/loaders/Plan.h" />
-        <option value="$PROJECT_DIR$/src/loaders/Conf.cpp" />
         <option value="$PROJECT_DIR$/src/loaders/Conf.h" />
         <option value="$PROJECT_DIR$/src/loaders/Unit.cpp" />
         <option value="$PROJECT_DIR$/src/loaders/Unit.h" />
@@ -204,6 +147,7 @@
         <option value="$PROJECT_DIR$/examplar.cpp" />
         <option value="$PROJECT_DIR$/src/loaders/JLoader.h" />
         <option value="$PROJECT_DIR$/src/loaders/JLoader.cpp" />
+        <option value="$PROJECT_DIR$/src/loaders/Conf.cpp" />
         <option value="$PROJECT_DIR$/src/loaders/JSON_Loader.cpp" />
         <option value="$PROJECT_DIR$/src/loaders/JSON_Loader.h" />
       </list>
@@ -604,12 +548,12 @@
       <workItem from="1493165364496" duration="28418000" />
       <workItem from="1493849367458" duration="10819000" />
       <workItem from="1496894298085" duration="4924000" />
-      <workItem from="1496974639358" duration="6645000" />
+      <workItem from="1496974639358" duration="8522000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="136917000" />
+    <option name="totallyTimeSpent" value="138794000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -943,14 +887,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/loaders/Conf.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/loaders/Conf.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -1036,14 +972,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examplar.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="30" column="33" lean-forward="false" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/loaders/Suite.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
@@ -1057,17 +985,6 @@
         <state relative-caret-position="663">
           <caret line="510" column="6" lean-forward="false" selection-start-line="510" selection-start-column="6" selection-end-line="510" selection-end-column="6" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/loaders/Suite.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="24" lean-forward="true" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-          <folding>
-            <element signature="e#115#239#0" expanded="true" />
-            <element signature="e#657#827#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1133,10 +1050,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/loaders/Suite.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="24" lean-forward="true" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+          <folding>
+            <element signature="e#115#239#0" expanded="true" />
+            <element signature="e#657#827#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examplar.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="30" column="33" lean-forward="false" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/loaders/Conf.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="30" lean-forward="false" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/loaders/JSON_Loader.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        <state relative-caret-position="831">
+          <caret line="97" column="37" lean-forward="false" selection-start-line="97" selection-start-column="37" selection-end-line="97" selection-end-column="37" />
           <folding>
             <element signature="e#0#2#0" expanded="true" />
           </folding>
@@ -1145,8 +1089,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/loaders/JSON_Loader.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+        <state relative-caret-position="558">
+          <caret line="33" column="94" lean-forward="false" selection-start-line="33" selection-start-column="94" selection-end-line="33" selection-end-column="94" />
           <folding />
         </state>
       </provider>

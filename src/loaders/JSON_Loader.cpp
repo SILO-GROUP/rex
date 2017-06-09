@@ -71,7 +71,7 @@ int JSON_Loader::load_json_string( std::string input, bool verbose )
         return 1;
     } else {
         // if in verbose mode, give the user an "it worked" message
-        if (verbose)
+        if ( verbose )
         {
             std::cout << "Successfully parsed JSON string with " << this->json_root.size() << " elements.  Value:" << std::endl;
             std::cout << input << std::endl;
@@ -92,4 +92,35 @@ Json::Value JSON_Loader::as_serialized()
 std::string JSON_Loader::as_string()
 {
     return this->json_root.asString();
+}
+
+// returns the string representation of the value of a key
+// the Jason::Value object to assign the fetched value to
+// verbosity flag
+// exit or not on failure
+int JSON_Loader::get_key( Json::Value &input, std::string key, bool verbose, bool safety)
+{
+    if ( this->json_root.isMember( key ) )
+    {
+        // key was found so return it
+        input = this->json_root[ key ];
+        return 0;
+    } else {
+        // key was not found
+        if ( verbose )
+        {
+            // verbose mode tells the user what key we were looking for.
+            std::cerr << "Failed to find key '" << key << "'." << std::endl;
+            return 1;
+        }
+
+        if ( ! safety )
+        {
+            // if we're not ignoring fatal errors
+            std::cout << "Exiting." << std::endl;
+            // exit code for failure
+            // this should probably be a 'throw'....
+            exit(1);
+        }
+    }
 }

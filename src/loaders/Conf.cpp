@@ -1,9 +1,11 @@
 #include "Conf.h"
 
-Conf::Conf( std::string filename ): JSON_Loader( filename )
+Conf::Conf( std::string filename ): JSON_Loader()
 {
-    this->plan_path = this->as_serialized()["plan_path"].asString();
-    this->units_path = this->as_serialized()["units_path"].asString();
+    this->load_json_file( filename, true );
+
+    this->plan_path = this->get_key("plan_path", true, false).asString();
+    this->units_path = this->get_key("units_path", true, false).asString();
 };
 
 std::string Conf::get_plan_path()
