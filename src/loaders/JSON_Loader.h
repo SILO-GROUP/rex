@@ -31,6 +31,6 @@ public:
 
     // safely handle key retrieval (if we want it to be safe)
     // next iter should be:
-    int JSON_Loader::get_key( Json::Value &input, std::string key, bool verbose, bool safety);
+    int get_key( Json::Value &input, std::string key, bool verbose, bool safety);
 };
 #endif //FTESTS_JLOADER_H

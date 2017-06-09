@@ -14,7 +14,6 @@ class Suite: public JSON_Loader
     public:
         // constructor
         Suite( std::string filename );
-        Suite();
 
         int load_file( std::string filename );
         // returns the unit type identified by name or null

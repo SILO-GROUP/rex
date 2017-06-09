@@ -96,10 +96,10 @@
       <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Conf.h">
          <Option target="ftests"/>
       </Unit>
-      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/JLoader.cpp">
+      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/JSON_Loader.cpp">
          <Option target="ftests"/>
       </Unit>
-      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/JLoader.h">
+      <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/JSON_Loader.h">
          <Option target="ftests"/>
       </Unit>
       <Unit filename="/home/phanes/Development/internal/ftests/src/loaders/Plan.cpp">

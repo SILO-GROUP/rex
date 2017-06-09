@@ -204,32 +204,32 @@ src/loaders/Conf.cpp.s:
 	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/Conf.cpp.s
 .PHONY : src/loaders/Conf.cpp.s
 
-src/loaders/JLoader.o: src/loaders/JLoader.cpp.o
+src/loaders/JSON_Loader.o: src/loaders/JSON_Loader.cpp.o
 
-.PHONY : src/loaders/JLoader.o
+.PHONY : src/loaders/JSON_Loader.o
 
 # target to build an object file
-src/loaders/JLoader.cpp.o:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.o
-.PHONY : src/loaders/JLoader.cpp.o
+src/loaders/JSON_Loader.cpp.o:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/JSON_Loader.cpp.o
+.PHONY : src/loaders/JSON_Loader.cpp.o
 
-src/loaders/JLoader.i: src/loaders/JLoader.cpp.i
+src/loaders/JSON_Loader.i: src/loaders/JSON_Loader.cpp.i
 
-.PHONY : src/loaders/JLoader.i
+.PHONY : src/loaders/JSON_Loader.i
 
 # target to preprocess a source file
-src/loaders/JLoader.cpp.i:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.i
-.PHONY : src/loaders/JLoader.cpp.i
+src/loaders/JSON_Loader.cpp.i:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/JSON_Loader.cpp.i
+.PHONY : src/loaders/JSON_Loader.cpp.i
 
-src/loaders/JLoader.s: src/loaders/JLoader.cpp.s
+src/loaders/JSON_Loader.s: src/loaders/JSON_Loader.cpp.s
 
-.PHONY : src/loaders/JLoader.s
+.PHONY : src/loaders/JSON_Loader.s
 
 # target to generate assembly for a file
-src/loaders/JLoader.cpp.s:
-	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.s
-.PHONY : src/loaders/JLoader.cpp.s
+src/loaders/JSON_Loader.cpp.s:
+	$(MAKE) -f CMakeFiles/ftests.dir/build.make CMakeFiles/ftests.dir/src/loaders/JSON_Loader.cpp.s
+.PHONY : src/loaders/JSON_Loader.cpp.s
 
 src/loaders/Plan.o: src/loaders/Plan.cpp.o
 
@@ -411,9 +411,9 @@ help:
 	@echo "... src/loaders/Conf.o"
 	@echo "... src/loaders/Conf.i"
 	@echo "... src/loaders/Conf.s"
-	@echo "... src/loaders/JLoader.o"
-	@echo "... src/loaders/JLoader.i"
-	@echo "... src/loaders/JLoader.s"
+	@echo "... src/loaders/JSON_Loader.o"
+	@echo "... src/loaders/JSON_Loader.i"
+	@echo "... src/loaders/JSON_Loader.s"
 	@echo "... src/loaders/Plan.o"
 	@echo "... src/loaders/Plan.i"
 	@echo "... src/loaders/Plan.s"

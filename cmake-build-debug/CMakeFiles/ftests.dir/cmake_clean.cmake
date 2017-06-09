@@ -2,7 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/ftests.dir/examplar.cpp.o"
   "CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o"
   "CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o"
-  "CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.o"
+  "CMakeFiles/ftests.dir/src/loaders/JSON_Loader.cpp.o"
   "CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o"
   "CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o"
   "CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o"

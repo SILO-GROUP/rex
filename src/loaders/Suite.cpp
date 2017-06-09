@@ -1,7 +1,7 @@
 #include "Suite.h"
 
 Suite::Suite(): JSON_Loader() {}
-Suite::Suite( std::string filename ): JSON_Loader( filename )
+Suite::Suite( std::string filename ): JSON_Loader()
 /*  Suite loads a file and deserializes the Unit JSON object to Unit types as a vector member
  *  Suite { vector<Unit> }
  */
