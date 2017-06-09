@@ -15,42 +15,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50b7ab1f-b700-44ff-b78d-e32f34492ff2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/loaders/JSON_Loader.cpp" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/CXX.includecache" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/depend.internal" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/examplar.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/src/json/jsoncpp.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/src/loaders/Conf.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/src/loaders/JLoader.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/src/loaders/Plan.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/src/loaders/Suite.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/src/loaders/Task.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/src/loaders/Unit.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/src/loaders/helpers.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/src/loaders/loaders.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/loaders/JLoader.cpp" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/loaders/JLoader.h" afterPath="$PROJECT_DIR$/src/loaders/JSON_Loader.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/ftests" afterPath="$PROJECT_DIR$/cmake-build-debug/ftests" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.5.1/CMakeSystem.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.5.1/CMakeSystem.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/depend.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ftests.dir/depend.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examplar.cpp" afterPath="$PROJECT_DIR$/examplar.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Conf.cpp" afterPath="$PROJECT_DIR$/src/loaders/Conf.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Conf.h" afterPath="$PROJECT_DIR$/src/loaders/Conf.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Plan.cpp" afterPath="$PROJECT_DIR$/src/loaders/Plan.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Plan.h" afterPath="$PROJECT_DIR$/src/loaders/Plan.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Suite.cpp" afterPath="$PROJECT_DIR$/src/loaders/Suite.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Suite.h" afterPath="$PROJECT_DIR$/src/loaders/Suite.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Task.cpp" afterPath="$PROJECT_DIR$/src/loaders/Task.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Task.h" afterPath="$PROJECT_DIR$/src/loaders/Task.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Unit.cpp" afterPath="$PROJECT_DIR$/src/loaders/Unit.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/Unit.h" afterPath="$PROJECT_DIR$/src/loaders/Unit.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/loaders.h" afterPath="$PROJECT_DIR$/src/loaders/loaders.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/JSON_Loader.cpp" afterPath="$PROJECT_DIR$/src/loaders/JSON_Loader.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/loaders/JSON_Loader.h" afterPath="$PROJECT_DIR$/src/loaders/JSON_Loader.h" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -84,8 +50,8 @@
           <file leaf-file-name="JSON_Loader.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/loaders/JSON_Loader.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="432">
-                  <caret line="26" column="37" lean-forward="false" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="37" />
+                <state relative-caret-position="252">
+                  <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
                   <folding />
                 </state>
               </provider>
@@ -121,8 +87,8 @@
           <file leaf-file-name="JSON_Loader.cpp" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/loaders/JSON_Loader.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1278">
-                  <caret line="71" column="12" lean-forward="true" selection-start-line="71" selection-start-column="12" selection-end-line="71" selection-end-column="12" />
+                <state relative-caret-position="612">
+                  <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#2#0" expanded="true" />
                   </folding>
@@ -238,8 +204,8 @@
         <option value="$PROJECT_DIR$/examplar.cpp" />
         <option value="$PROJECT_DIR$/src/loaders/JLoader.h" />
         <option value="$PROJECT_DIR$/src/loaders/JLoader.cpp" />
-        <option value="$PROJECT_DIR$/src/loaders/JSON_Loader.h" />
         <option value="$PROJECT_DIR$/src/loaders/JSON_Loader.cpp" />
+        <option value="$PROJECT_DIR$/src/loaders/JSON_Loader.h" />
       </list>
     </option>
   </component>
@@ -638,12 +604,12 @@
       <workItem from="1493165364496" duration="28418000" />
       <workItem from="1493849367458" duration="10819000" />
       <workItem from="1496894298085" duration="4924000" />
-      <workItem from="1496974639358" duration="5463000" />
+      <workItem from="1496974639358" duration="6645000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="135735000" />
+    <option name="totallyTimeSpent" value="136917000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -656,6 +622,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="3074" y="-8" width="2674" height="2134" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08821293" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295342" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -664,7 +631,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24571708" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17680608" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29152206" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29152206" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39941263" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1166,21 +1133,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/loaders/JSON_Loader.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="26" column="37" lean-forward="false" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/loaders/JSON_Loader.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1278">
-          <caret line="71" column="12" lean-forward="true" selection-start-line="71" selection-start-column="12" selection-end-line="71" selection-end-column="12" />
+        <state relative-caret-position="612">
+          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
             <element signature="e#0#2#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/loaders/JSON_Loader.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>

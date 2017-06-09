@@ -35,14 +35,14 @@ int JSON_Loader::load_json_file( std::string filename, bool verbose )
 
     if (! parsingSuccessful )
     {
-        std::cerr << "Failed to parse " << filename << ":\n\t" << json_reader.getFormattedErrorMessages();
+        std::cerr << "Failed to parse '" << filename << "':\n\t" << json_reader.getFormattedErrorMessages();
         // exit with failure signal
         return 1;
     } else {
         // if in verbose mode, give the user an "it worked" message
         if (verbose)
         {
-            std::cout << "Parsed " << filename << " with " << this->json_root.size() << " elements." << std::endl;
+            std::cout << "Parsed '" << filename << "' with " << this->json_root.size() << " element(s)." << std::endl;
         }
     }
     // exit successfully

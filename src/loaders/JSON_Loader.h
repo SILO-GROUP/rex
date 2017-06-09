@@ -14,6 +14,7 @@ class JSON_Loader
 {
 private:
     Json::Value json_root;
+
 public:
     // constructor
     JSON_Loader();
