@@ -12,25 +12,25 @@
 
 class JSON_Loader
 {
-private:
-    Json::Value json_root;
+    private:
+        Json::Value json_root;
+        bool populated;
 
-public:
-    // constructor
-    JSON_Loader();
+    public:
+        // constructor
+        JSON_Loader();
 
-    // load from json file
-    int load_json_file( std::string filename, bool verbose );
+        // load from json file
+        void load_json_file( std::string filename, bool verbose );
 
-    // load from std::string json
-    int load_json_string( std::string input, bool verbose );
+        // load from std::string json
+        void load_json_string( std::string input, bool verbose );
 
-    // return as a JSONCPP serialized object
-    Json::Value as_serialized();
-    std::string as_string();
+        // return as a JSONCPP serialized object
+        Json::Value as_serialized();
+        std::string as_string();
 
-    // safely handle key retrieval (if we want it to be safe)
-    // next iter should be:
-    int get_key( Json::Value &input, std::string key, bool verbose, bool safety);
+        // safely handle key retrieval (if we want it to be safe)
+        int get_key( Json::Value &input, std::string key, bool verbose);
 };
 #endif //FTESTS_JLOADER_H

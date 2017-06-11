@@ -6,20 +6,24 @@ int main( )
 {
     // A Plan is made up of Tasks, and a Suite is made up of Units.
     // A Plan declares what units are executed and a Suite declares the definitions of those units.
-    Conf configuration = Conf( "config.json" );
+    Conf configuration = Conf("/home/phanes/Development/internal/ftests/conf/config.json");
 
     // load the configuration file which contains filepaths to definitions of a plan and definitions of units.
     std::string definitions_file = configuration.get_units_path();
 
     std::string plan_file = configuration.get_plan_path();
 
-    Suite * unit_definitions = new Suite();
 
-    unit_definitions->load_file( definitions_file );
+    std::cout << definitions_file << std::endl << plan_file << std::endl;
 
-    Plan plan = Plan( plan_file );
 
-    for ( int i = 0; i < plan.num_tasks(); ++i )
+//    Suite * unit_definitions = new Suite();
+
+//    unit_definitions->load_file( definitions_file );
+
+//    Plan plan = Plan( plan_file );
+
+/*    for ( int i = 0; i < plan.num_tasks(); ++i )
     {
         Task current_task = plan.get_task( i );
 
@@ -40,6 +44,7 @@ int main( )
         }
         std::cout << std::endl;
     }
+*/
 
     return 0;
 }

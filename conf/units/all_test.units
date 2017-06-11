@@ -1,0 +1,22 @@
+{
+  "units": [
+    {
+      "name":       "independent test",
+      "target":     "/home/phanes/tests/test-script-pass.sh",
+      "output":     "pass",
+      "rectifier":  "/home/phanes/tests/test-script-rectifier.sh",
+      "active":     true,
+      "required":   true,
+      "rectify":    true
+    },
+    {
+      "name":       "dependent test",
+      "target":     "/home/phanes/tests/test-script-pass.sh",
+      "output":     "pass",
+      "rectifier":  "/home/phanes/tests/test-script-rectifier.sh",
+      "active":     true,
+      "required":   true,
+      "rectify":    false
+    }
+  ]
+}
