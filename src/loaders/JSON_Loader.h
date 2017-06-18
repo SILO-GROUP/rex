@@ -27,10 +27,11 @@ class JSON_Loader
         void load_json_string( std::string input, bool verbose );
 
         // return as a JSONCPP serialized object
-        Json::Value as_serialized();
-        std::string as_string();
+        // deprecated -- these aren't really used.
+        // Json::Value as_serialized();
+        // std::string as_string();
 
-        // safely handle key retrieval (if we want it to be safe)
-        int get_key( Json::Value &input, std::string key, bool verbose);
+        // safely handle deserialized type retrieval (if we want it to be safe)
+        int get_serialized(Json::Value &input, std::string key, bool verbose);
 };
 #endif //FTESTS_JLOADER_H

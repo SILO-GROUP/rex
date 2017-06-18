@@ -1,16 +1,28 @@
 #include "Suite.h"
-/*
-Suite::Suite( std::string filename ): JSON_Loader()
-/*  Suite loads a file and deserializes the Unit JSON object to Unit types as a vector member
- *  Suite { vector<Unit> }
 
+Suite::Suite(): JSON_Loader()
 {
-    load_file( filename );
+    // empty
 };
+
+void Suite::load_units_file( std::string filename, bool verbose )
+{
+    // will use json_root staging buffer on each run to append to this->units vector as valid units are found.
+    this->load_json_file( filename, verbose );
+
+
+    // refill the json_root buffer with a json object in the
+    if ( this->get_serialized( Json::Value jbuf, "units", verbose ) != 0)
+    {
+        this->json_root = jbuf;
+    }
+
+
+}
 
 int Suite::load_file(std::string filename): JSON_Loader( filename )
 {
-    Json::Value raw_units = this->get_root()["units"];
+    Json::Value raw_units = this->get_serialized("")
     for ( int index = 0; index < raw_units.size(); index++ )
     {
         this->units.push_back( Unit( raw_units[ index ] ) );
@@ -20,7 +32,7 @@ int Suite::load_file(std::string filename): JSON_Loader( filename )
     return EXIT_SUCCESS;
 }
 
-Unit Suite::get_unit(std::string provided_name)
+/* Unit Suite::get_unit(std::string provided_name)
 
  * returns a unit from a unitholder object by name
  * this will need reworked.  maybe should return int, populate a pointer.
@@ -48,3 +60,7 @@ Unit Suite::get_unit(std::string provided_name)
     return * returnable;
 }
 */
+
+
+
+ca

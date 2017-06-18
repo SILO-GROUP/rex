@@ -70,7 +70,7 @@ void JSON_Loader::load_json_string( std::string input, bool verbose )
     Json::Reader json_reader;
 
     // the deserialized json type to contain what's read by the reader
-    Json::Value json_root;
+    // Json::Value json_root;
 
     // create the ifstream file handle
     std::ifstream json_file_ifstream( input.c_str(), std::ifstream::binary );
@@ -112,11 +112,11 @@ std::string JSON_Loader::as_string()
     return this->json_root.asString();
 }
 
-// returns the string representation of the value of a key
+// returns the serialized representation of the value of a key
 // the Jason::Value object to assign the fetched value to
 // verbosity flag
 // exit or not on failure
-int JSON_Loader::get_key( Json::Value &input, std::string key, bool verbose)
+int JSON_Loader::get_serialized(Json::Value &input, std::string key, bool verbose)
 {
     // throw if the class is not ready to be used.
     if ( ! this->populated ) { throw JSON_Loader_NotReady(); }
@@ -129,7 +129,6 @@ int JSON_Loader::get_key( Json::Value &input, std::string key, bool verbose)
     }
 
     // key was not found
-    // shouldn't the be handled further up?
     if ( verbose )
     {
         // verbose mode tells the user what key we were looking for.

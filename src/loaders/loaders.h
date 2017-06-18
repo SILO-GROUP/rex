@@ -5,7 +5,7 @@
 #define FTESTS_LOADERS_H
 
 #include "JSON_Loader.h"
-//#include "Suite.h"
+#include "Suite.h"
 //#include "Plan.h"
 #include "Conf.h"
 

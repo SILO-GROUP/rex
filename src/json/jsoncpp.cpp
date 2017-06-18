@@ -318,8 +318,7 @@ namespace Json {
               lastValue_(), commentsBefore_(), features_(features), collectComments_() {
     }
 
-    bool
-    Reader::parse(const std::string& document, Value& root, bool collectComments) {
+    bool Reader::parse(const std::string& document, Value& root, bool collectComments) {
         JSONCPP_STRING documentCopy(document.data(), document.data() + document.capacity());
         std::swap(documentCopy, document_);
         const char* begin = document_.c_str();

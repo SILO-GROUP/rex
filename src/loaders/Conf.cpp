@@ -19,10 +19,10 @@ Conf::Conf( std::string filename ): JSON_Loader()
     this->load_json_file( filename, true );
 
     // find the path to the plan file
-    if ( this->get_key( this->plan_path, "plan_path", true) != 0 ) { throw CONF_PLANPATH_INVALID(); }
+    if (this->get_serialized(this->plan_path, "plan_path", true) != 0 ) { throw CONF_PLANPATH_INVALID(); }
 
     // find the path to the unit definitions file
-    if ( this->get_key( this->units_path, "units_path", true) != 0 ) { throw CONF_UNITSPATH_INVALID(); }
+    if (this->get_serialized(this->units_path, "units_path", true) != 0 ) { throw CONF_UNITSPATH_INVALID(); }
 };
 
 std::string Conf::get_plan_path()

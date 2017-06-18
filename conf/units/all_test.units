@@ -2,9 +2,9 @@
   "units": [
     {
       "name":       "independent test",
-      "target":     "/home/phanes/tests/test-script-pass.sh",
+      "target":     "/bin/pwd",
       "output":     "pass",
-      "rectifier":  "/home/phanes/tests/test-script-rectifier.sh",
+      "rectifier":  "/bin/pwd",
       "active":     true,
       "required":   true,
       "rectify":    true
