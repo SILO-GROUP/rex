@@ -17,10 +17,10 @@ class Suite: public JSON_Loader
         Suite();
 
         // load a unit definitions file and add valid unit definitions to this->units
-        void load_units_file( std::string filename );
+        void load_units_file( std::string filename, bool verbose );
 
         // returns the unit identified by name
-        void get_unit(Unit & result, std::string provided_name);
+        // void get_unit(Unit & result, std::string provided_name);
 };
 
 #endif //FTESTS_UNITS_H

@@ -10,13 +10,15 @@ void Suite::load_units_file( std::string filename, bool verbose )
     // will use json_root staging buffer on each run to append to this->units vector as valid units are found.
     this->load_json_file( filename, verbose );
 
+    Json::Value jbuff;
 
     // refill the json_root buffer with a json object in the
-    if ( this->get_serialized( Json::Value jbuf, "units", verbose ) != 0)
+    if ( this->get_serialized( jbuff, "units", verbose ) != 0)
     {
-        this->json_root = jbuf;
+        this->json_root = jbuff;
     }
 
+    // assemble the units
 
 }
 
