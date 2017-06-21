@@ -22,7 +22,7 @@ void Suite::load_units_file( std::string filename, bool verbose )
 
 }
 
-int Suite::load_file(std::string filename): JSON_Loader( filename )
+int Suite::load_file(std::string filename, true): JSON_Loader( filename )
 {
     Json::Value raw_units = this->get_serialized("")
     for ( int index = 0; index < raw_units.size(); index++ )

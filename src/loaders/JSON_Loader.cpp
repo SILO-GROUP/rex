@@ -97,12 +97,12 @@ void JSON_Loader::load_json_string( std::string input, bool verbose )
 
 
 // returns the serialized representation of json_root
-Json::Value JSON_Loader::as_serialized()
-{
-    if ( ! this->populated ) { throw JSON_Loader_NotReady(); }
-
-    return this->json_root;
-}
+//Json::Value JSON_Loader::as_serialized()
+//{
+//    if ( ! this->populated ) { throw JSON_Loader_NotReady(); }
+//
+//    return this->json_root;
+//}
 
 // returns the string representation of json_root
 std::string JSON_Loader::as_string()
