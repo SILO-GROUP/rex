@@ -12,7 +12,7 @@
 
 class JSON_Loader
 {
-    private:
+    protected:
         Json::Value json_root;
         bool populated;
 

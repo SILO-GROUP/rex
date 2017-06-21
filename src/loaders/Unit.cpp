@@ -5,51 +5,43 @@
 
 Unit::Unit() {}
 
+// where the serialized json is broken down into object members
 int Unit::load_root(Json::Value loader_root)
 {
+
     this->name      = loader_root.get("name", "?").asString();
+
     this->target    = loader_root.get("target", "?").asString();
+
     this->output    = loader_root.get("output", "?").asString();
+
     this->rectifier = loader_root.get("rectifier", "?").asString();
+
     this->active    = loader_root.get("active", "?").asString();
+
     this->required  = loader_root.get("required", "?").asString();
+
     this->rectify   = loader_root.get("rectify", "?").asString();
 
-    return EXIT_SUCCESS;
+    this->populated = true;
+
+    return 0;
 }
 
-// TODO CHANGE HOW THIS WORKS
+// populates from a string json object
 int Unit::load_string(std::string json_val)
 {
-    // reads from a string into a Json::Value type.
-    Json::Reader json_reader;
+    // serialize
+    this->load_json_string( json_val, true );
 
-    // the deserialized json type to contain what's read by the reader
-    Json::Value serialized;
+    // deserialize
+    this->load_root( this->json_root );
 
-    // create the ifstream file handle for the parser method to consume
-    std::ifstream json_file_ifstream( json_val.c_str(), std::ifstream::binary );
-
-    // use the reader to parse the ifstream to the local property
-    bool parsingSuccessful = json_reader.parse( json_file_ifstream, serialized );
-
-    if (! parsingSuccessful )
-    {
-        std::cerr << "Failed to parse adhoc JSON value." << std::endl << json_val << std::endl << std::endl << json_reader.getFormattedErrorMessages();
-        throw JSON_Loader_InvalidJSON();
-
-    } else {
-        // if in verbose mode, give the user an "it worked" message
-        if ( verbose )
-        {
-            std::cout << "Successfully parsed JSON string with " << this->json_root.size() << " elements.  Value:" << std::endl;
-            std::cout << json_val << std::endl << std::endl;
-        }
-    }
     // exit successfully
     this->populated = true;
-}
 
+    return 0;
+}
 
 // getters for Unit type.
 std::string Unit::get_name()
