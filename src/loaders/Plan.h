@@ -21,8 +21,6 @@ class Plan: public JSON_Loader
         void get_task(Task & result, std::string provided_name, bool verbose);
 
         void  get_task(Task & result, int index. bool verbose);
-
-        int num_tasks();
 };
 
 #endif //FTESTS_PLAN_H

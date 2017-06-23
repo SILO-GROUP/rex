@@ -1,9 +1,19 @@
 #include "Plan.h"
 
-int Plan::num_tasks()
-// returns the number of tasks in a Plan
+Plan::Plan(): JSON_Loader() {};
+
+void Plan::load_plan_file(std::string filename, bool verbose)
 {
-    return (int)this->tasks.size();
+    // plan always loads from file
+    this->load_json_file( filename );
+
+    Json::Value raw_tasks = this->as_serialized()["plan"];
+
+    for ( int index = 0; index < raw_tasks.size(); index++ )
+    {
+        this->tasks.push_back( Task( raw_tasks[index] ) );
+    }
+
 }
 
 Task Plan::get_task(int index)
@@ -39,19 +49,3 @@ Task Plan::get_task(std::string provided_name)
 
         return * returnable;
 }
-
-Plan::Plan( std::string filename ): JSON_Loader()
-// Plan loads a file and deserializes the Unit JSON object to Task types as a vector member
-// Plan { vector<Task> }
-{
-    // plan always loads from file
-    this->load_json_file( filename );
-
-    Json::Value raw_tasks = this->as_serialized()["plan"];
-
-    for ( int index = 0; index < raw_tasks.size(); index++ )
-    {
-        this->tasks.push_back( Task( raw_tasks[index] ) );
-    }
-};
-*/
