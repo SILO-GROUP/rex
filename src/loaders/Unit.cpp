@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <stdexcept>
 
+/// Unit_NotPopulated - Meant to be thrown when a Unit type is not populated before being used.
+/// Signaled by use of the 'populated' boolean member of the Unit class.
 class Unit_NotPopulated: public std::runtime_error
 {
 public:
@@ -15,7 +17,7 @@ Unit::Unit() {}
 // where the serialized json is broken down into object members
 int Unit::load_root(Json::Value loader_root)
 {
-
+// this needs reworked to throw an Exception if any of the values aren't loadable.
     this->name      = loader_root.get("name", "").asString();
 
     this->target    = loader_root.get("target", "").asString();

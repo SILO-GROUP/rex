@@ -2,30 +2,32 @@
 #include "helpers.h"
 #include <stdexcept>
 
-class JSON_Loader_NotReady: public std::runtime_error
-{
-public:
+/// JSON_Loader_NotReady - Exception thrown when a member function is called before data is populated.
+class JSON_Loader_NotReady: public std::runtime_error { public:
     JSON_Loader_NotReady(): std::runtime_error("JSON_Loader: Tried to access JSON without actually populating JSON.") {}
 };
 
-class JSON_Loader_FileNotFound: public std::runtime_error
-{
-public:
+/// JSON_Loader_FileNotfound - Exception thrown when JSON_Loader can not find the file it is told to parse.
+class JSON_Loader_FileNotFound: public std::runtime_error { public:
     JSON_Loader_FileNotFound(): std::runtime_error("JSON_Loader: The requested file could not be found.") {}
 };
 
-class JSON_Loader_InvalidJSON: public std::runtime_error
-{
-public:
+/// JSON_Loader_InvalidJSON - Exception thrown when JSON_Loader fails to parse the JSON provided.
+class JSON_Loader_InvalidJSON: public std::runtime_error { public:
     JSON_Loader_InvalidJSON(): std::runtime_error("JSON_Loader: The JSON provided could not be parsed.") {}
 };
 
+/// JSON_Loader::JSON_Loader - Constructor for JSON_Loader base class.  Simply inits to an unpopulated state.
 JSON_Loader::JSON_Loader()
 {
     this->populated = false;
 }
 
-// loads json from a file into a deserializable type and sets to private member json_root
+/// JSON_Loader::load_json_file - Loads JSON from a filepath into a serialized representation assigned as a local member
+/// intended to be used as a buffer for further operations by base methods and derived class methods.
+///
+/// \param filename -
+/// \param verbose
 void JSON_Loader::load_json_file( std::string filename, bool verbose )
 {
     // reads from a file into a Json::Value type.
@@ -59,11 +61,15 @@ void JSON_Loader::load_json_file( std::string filename, bool verbose )
             std::cout << "Parsed '" << filename << "' with " << this->json_root.size() << " element(s)." << std::endl;
         }
     }
-    // exit successfully and set flag that this can be used now.
+    // Flag as ready for consumption.
     this->populated = true;
 }
 
-// loads json from std::string into a serialized type and sets to private member json_root
+/// JSON_Loader::load_json_string - loads json from std::string into a json::value type and sets to protected member
+/// 'json_root'.
+///
+/// \param input - The JSON-formatted string to serialize
+/// \param verbose - Whether or not to print verbose information to STDOUT.
 void JSON_Loader::load_json_string( std::string input, bool verbose )
 {
     // reads from a string into a Json::Value type.
@@ -91,20 +97,12 @@ void JSON_Loader::load_json_string( std::string input, bool verbose )
             std::cout << input << std::endl << std::endl;
         }
     }
-    // exit successfully
+    // flag as ready for consumption
     this->populated = true;
 }
 
 
-// returns the serialized representation of json_root
-//Json::Value JSON_Loader::as_serialized()
-//{
-//    if ( ! this->populated ) { throw JSON_Loader_NotReady(); }
-//
-//    return this->json_root;
-//}
-
-// returns the string representation of json_root
+/// JSON_Loader::as_string -  returns the string representation of json_root
 std::string JSON_Loader::as_string()
 {
     if ( ! this->populated ) { throw JSON_Loader_NotReady(); }
@@ -112,10 +110,12 @@ std::string JSON_Loader::as_string()
     return this->json_root.asString();
 }
 
-// returns the serialized representation of the value of a key
-// the Jason::Value object to assign the fetched value to
-// verbosity flag
-// exit or not on failure
+/// JSON_Loader::get_serialized - assigns the serialized representation of the value of a key (json::value)
+///
+/// \param input - A reference to the json::value object to receive the new value.
+/// \param key - The JSON key name to assign the value to (the root of the json::value object by name)
+/// \param verbose - Whether or not to print verbose output to STDOUT.
+/// \return - Boolean indicator of success or failure (0|1)
 int JSON_Loader::get_serialized(Json::Value &input, std::string key, bool verbose)
 {
     // throw if the class is not ready to be used.

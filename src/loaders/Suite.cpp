@@ -1,39 +1,51 @@
+#include <string.h>
 #include "Suite.h"
 
-Suite::Suite(): JSON_Loader()
-{
-    // empty
-};
+/// Suite::Suite() - Constructor for Suite class.  The Suite class is simply a managed container for a Unit vector.
+/// Once instantiated, all methods will require either a JSON file or string to be loaded as deserialized Unit types
+/// before being called or will simply throw an exception.
+///
+/// From the high level, a Suite contains the full definitions of all potential Units to execute defined in the Unit
+/// definition files that it is loading.  It is meant to be used in such a way that as the application iterates through
+/// the Task objects contained by the application Plan, it will iterate through the appplication's Suite, which contains
+/// the definition of all available Tasks.  In this manner, defining units and executing units are split into separate
+/// human processes to allow modularly developed profiles of test suites.  As inferred, Unit is expected to be one of
+/// the two types that are only instantiated once per application run, though it is designed to be used more than once
+/// if the implementor so desires.
+Suite::Suite(): JSON_Loader() {};
 
+/// Suite::load_units_file - Uses the json_root buffer on each run to append intact Units as they're
+/// deserialized from the provided file.
+///
+/// \param filename - The file to pull the JSON-formatted units from.
+/// \param verbose - Whether to print verbose output to STDOUT.
 void Suite::load_units_file( std::string filename, bool verbose )
 {
-    // will use json_root staging buffer on each run to append to this->units vector as valid units are found.
+    // will use json_root buffer on each run to append to this->units vector as valid units are found.
     this->load_json_file( filename, verbose );
 
+    // staging buffer
     Json::Value jbuff;
 
-    // refill the json_root buffer with a json object in the
-    if ( this->get_serialized( jbuff, "units", verbose ) != 0)
+    // fill the jbuff staging buffer with a json::value object in the supplied filename
+    if ( this->get_serialized( jbuff, "units", verbose ) == 0)
     {
         this->json_root = jbuff;
     }
 
-    // assemble the units
-
-}
-
-int Suite::load_file(std::string filename, true): JSON_Loader( filename )
-{
-    Json::Value raw_units = this->get_serialized("")
-    for ( int index = 0; index < raw_units.size(); index++ )
+    // iterate through the json::value members that have been loaded.  append to this->units vector
+    // buffer for units to append:
+    Unit tmp_U;
+    for ( int index = 0; index < this->json_root.size(); index++ )
     {
-        this->units.push_back( Unit( raw_units[ index ] ) );
+        // assemble the unit from json_root using the built-in value operator
+        tmp_U.load_root( this->json_root[ index ] );
+        // append to this->units
+        this->units.push_back( tmp_U );
     }
-    std::cout << raw_units.size() << std::endl;
-
-    return EXIT_SUCCESS;
 }
 
+// TODO Implement
 /* Unit Suite::get_unit(std::string provided_name)
 
  * returns a unit from a unitholder object by name
@@ -62,7 +74,3 @@ int Suite::load_file(std::string filename, true): JSON_Loader( filename )
     return * returnable;
 }
 */
-
-
-
-ca
