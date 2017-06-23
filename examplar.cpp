@@ -4,6 +4,7 @@
 
 int main( )
 {
+    bool verbose = true;
     // A Plan is made up of Tasks, and a Suite is made up of Units.
     // A Plan declares what units are executed and a Suite declares the definitions of those units.
     Conf configuration = Conf("/home/phanes/Development/internal/Examplar/conf/config.json");
@@ -14,10 +15,7 @@ int main( )
     // std::cout << definitions_file << std::endl << plan_file << std::endl;
 
     Suite available_definitions;
-
-//    Suite * unit_definitions = new Suite();
-
-//    unit_definitions->load_file( definitions_file );
+    available_definitions.load_units_file( definitions_file, verbose );
 
 //    Plan plan = Plan( plan_file );
 

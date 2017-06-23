@@ -1,6 +1,5 @@
 #include "Task.h"
 
-
 Task::Task() {}
 
 Task::Task( Json::Value loader_root )
@@ -14,7 +13,6 @@ int Task::load_root(Json::Value loader_root)
     this->dependencies = loader_root.get("depends on", "");
     this->has_succeeded = false;
 }
-
 
 std::string Task::get_name()
 {

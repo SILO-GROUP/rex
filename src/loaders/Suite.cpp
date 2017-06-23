@@ -50,6 +50,9 @@ void Suite::load_units_file( std::string filename, bool verbose )
         tmp_U.load_root( this->json_root[ index ] );
         // append to this->units
         this->units.push_back( tmp_U );
+        if ( verbose ) {
+            std::cout << "Added unit " << tmp_U.get_name() << " to Suite." << std::endl;
+        }
     }
 }
 
