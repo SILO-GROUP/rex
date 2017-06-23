@@ -54,7 +54,7 @@ int Unit::load_root(Json::Value loader_root)
     if ( loader_root.isMember("rectifier") )
     { this->rectifier = loader_root.get("rectifier", errmsg).asString(); } else throw Unit_DataStructureException();
 
-    if ( loader_root.isMember("recitifier") )
+    if ( loader_root.isMember("active") )
     { this->active = loader_root.get("active", errmsg).asString(); } else throw Unit_DataStructureException();
 
     if ( loader_root.isMember("required") )
