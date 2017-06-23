@@ -1,6 +1,14 @@
 #include <string.h>
 #include "Suite.h"
 
+/// Suite_InvalidUnitMember - Exception thrown when a Suite tries to access a contained Unit's value that is not
+/// present in the Unit.
+class Suite_InvalidUnitMember: public std::runtime_error { public:
+    // TODO rework this to accept the name of the member not able to be fetched.
+    Suite_InvalidUnitMember(): std::runtime_error("Suite: Attempted to access a member of a Unit that is not set.") {}
+};
+
+
 /// Suite::Suite() - Constructor for Suite class.  The Suite class is simply a managed container for a Unit vector.
 /// Once instantiated, all methods will require either a JSON file or string to be loaded as deserialized Unit types
 /// before being called or will simply throw an exception.
@@ -45,13 +53,11 @@ void Suite::load_units_file( std::string filename, bool verbose )
     }
 }
 
-// TODO Implement
-/* Unit Suite::get_unit(std::string provided_name)
-
- * returns a unit from a unitholder object by name
- * this will need reworked.  maybe should return int, populate a pointer.
- * error handling is the concern here.
-
+/// Suite::get_unit - returns a contained Unit identified by name attribute.
+///
+/// \param provided_name - The name of the unit being fetched.
+/// \return - The unit being fetched.
+Unit Suite::get_unit(std::string provided_name)
 {
     Unit * returnable;
     bool foundMatch = false;
@@ -69,8 +75,8 @@ void Suite::load_units_file( std::string filename, bool verbose )
     if (! foundMatch )
     {
         std::cerr << "Unit name \"" << provided_name << "\" was referenced but not defined!" << std::endl;
-        std::exit(1);
+        throw Suite_InvalidUnitMember();
     }
     return * returnable;
 }
-*/
+
