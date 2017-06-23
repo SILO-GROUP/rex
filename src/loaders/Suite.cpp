@@ -55,11 +55,10 @@ void Suite::load_units_file( std::string filename, bool verbose )
 
 /// Suite::get_unit - returns a contained Unit identified by name attribute.
 ///
+/// \param result - the unit type receiving the unit's value
 /// \param provided_name - The name of the unit being fetched.
-/// \return - The unit being fetched.
-Unit Suite::get_unit(std::string provided_name)
+void Suite::get_unit(Unit & result, std::string provided_name)
 {
-    Unit * returnable;
     bool foundMatch = false;
 
     for ( int i = 0; i < this->units.size(); i++ )
@@ -67,16 +66,16 @@ Unit Suite::get_unit(std::string provided_name)
         std::string unit_name = this->units[i].get_name();
         if ( unit_name == provided_name )
         {
-            returnable = & this->units[i];
+            result = this->units[i];
             foundMatch = true;
             break;
         }
     }
+
     if (! foundMatch )
     {
         std::cerr << "Unit name \"" << provided_name << "\" was referenced but not defined!" << std::endl;
         throw Suite_InvalidUnitMember();
     }
-    return * returnable;
 }
 

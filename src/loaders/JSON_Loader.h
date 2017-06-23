@@ -29,7 +29,7 @@ class JSON_Loader
         // return as a JSONCPP serialized object
         // deprecated -- these aren't really used.
         // Json::Value as_serialized();
-        // std::string as_string();
+        std::string as_string();
 
         // safely handle deserialized type retrieval (if we want it to be safe)
         int get_serialized(Json::Value &input, std::string key, bool verbose);
