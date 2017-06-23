@@ -6,7 +6,7 @@
 
 #include "JSON_Loader.h"
 #include "Suite.h"
-//#include "Plan.h"
+#include "Plan.h"
 #include "Conf.h"
 
 #endif //FTESTS_LOADERS_H

@@ -17,7 +17,7 @@ int main( )
     Suite available_definitions;
     available_definitions.load_units_file( definitions_file, verbose );
 
-//    Plan plan = Plan( plan_file );
+    Plan plan;
 
 /*    for ( int i = 0; i < plan.num_tasks(); ++i )
     {

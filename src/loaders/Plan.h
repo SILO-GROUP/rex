@@ -10,12 +10,18 @@
 class Plan: public JSON_Loader
 {
     private:
+        // storage for the tasks that make up the plan
         std::vector<Task> tasks;
 
     public:
-        Plan( std::string filename );
-        Task get_task(std::string provided_name);
-        Task get_task(int index);
+        Plan();
+
+        void load_plan_file( std::string filename, bool verbose );
+
+        void get_task(Task & result, std::string provided_name, bool verbose);
+
+        void  get_task(Task & result, int index. bool verbose);
+
         int num_tasks();
 };
 

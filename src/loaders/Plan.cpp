@@ -1,5 +1,5 @@
 #include "Plan.h"
-/*
+
 int Plan::num_tasks()
 // returns the number of tasks in a Plan
 {
@@ -13,10 +13,10 @@ Task Plan::get_task(int index)
 }
 
 Task Plan::get_task(std::string provided_name)
- * returns a task from a Plan object by name
+/* returns a task from a Plan object by name
  * this will need reworked.  maybe should return int, populate a pointer.
  * error handling is the concern here.
-
+*/
 {
         Task * returnable;
         bool foundMatch = false;
@@ -41,9 +41,8 @@ Task Plan::get_task(std::string provided_name)
 }
 
 Plan::Plan( std::string filename ): JSON_Loader()
- Plan loads a file and deserializes the Unit JSON object to Task types as a vector member
- *  Plan { vector<Task> }
-
+// Plan loads a file and deserializes the Unit JSON object to Task types as a vector member
+// Plan { vector<Task> }
 {
     // plan always loads from file
     this->load_json_file( filename );
