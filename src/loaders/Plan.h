@@ -18,9 +18,11 @@ class Plan: public JSON_Loader
 
         void load_plan_file( std::string filename, bool verbose );
 
-        void get_task(Task & result, std::string provided_name, bool verbose);
+        void get_task( Task & result, std::string provided_name, bool verbose );
 
-        void  get_task(Task & result, int index. bool verbose);
+        void get_task( Task & result, int index. bool verbose );
+
+        void get_unit_from_task(Unit & result, Task input, bool verbose );
 };
 
 #endif //FTESTS_PLAN_H
