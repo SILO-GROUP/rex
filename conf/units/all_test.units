@@ -1,7 +1,16 @@
 {
   "units": [
     {
-      "name":       "independent test",
+      "name":       "independent test 1",
+      "target":     "/bin/pwd",
+      "output":     "pass",
+      "rectifier":  "/bin/pwd",
+      "active":     true,
+      "required":   true,
+      "rectify":    true
+    },
+    {
+      "name":       "independent test 2",
       "target":     "/bin/pwd",
       "output":     "pass",
       "rectifier":  "/bin/pwd",

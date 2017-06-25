@@ -39,9 +39,21 @@ void Task::load_root(Json::Value loader_root, bool verbose )
     }
 }
 
+/// Task::get_name - Retrieves the name of the current Task.
 std::string Task::get_name()
 {
     return this->name;
 }
 
-
+/// Task::load_definition - Loads a unit to a local member.  Used to tie Units to Tasks.
+///
+/// \param selected_unit - The unit to attach.
+/// \param verbose - Whether to print to STDOUT.
+void Task::load_definition( Unit selected_unit, bool verbose )
+{
+    this->definition = selected_unit;
+    if ( verbose )
+    {
+        std::cout << "Loaded definition \"" << selected_unit.get_name() << "\" for task \"" << this->get_name() << "\"." << std::endl;
+    }
+}
