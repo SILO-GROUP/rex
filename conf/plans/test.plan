@@ -1,6 +1,6 @@
 {
   "plan": [
-    { "name": "independent test", "depends on":  null  },
-    { "name": "dependent test", "depends on":  [ "independent test", null, null ] }
+    { "name": "independent test", "dependencies":  [ null ] },
+    { "name": "dependent test", "dependencies":  [ "independent test", null, null ] }
   ]
 }

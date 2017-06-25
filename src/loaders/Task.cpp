@@ -13,7 +13,7 @@ Task::Task() {}
 ///
 /// \param loader_root
 /// \return
-void Task::load_root(Json::Value loader_root)
+void Task::load_root(Json::Value loader_root, bool verbose )
 {
     if ( loader_root.isMember("name") )
     {
@@ -22,7 +22,22 @@ void Task::load_root(Json::Value loader_root)
         throw Task_InvalidDataStructure();
     }
 
-    this->dependencies = loader_root.get("depends on", "");
+    // fetch as Json::Value array obj
+    Json::Value des_dep_root = loader_root.get("dependencies", 0);
+
+    // iterate through each member of that obj
+    for ( int i = 0; i < des_dep_root.size(); i++ )
+    {
+        // add each string to dependencies
+        if ( des_dep_root[i].asString() != "" )
+        {
+            this->dependencies.push_back( des_dep_root[i].asString() );
+            if ( verbose ) {
+                std::cout << "Added dependency \"" << des_dep_root[i].asString() << "\" to Task \"" << this->get_name() << "\"." << std::endl;
+            }
+        }
+    }
+
     //this->has_succeeded = false;
 }
 

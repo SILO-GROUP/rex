@@ -40,7 +40,7 @@ void Plan::load_plan_file(std::string filename, bool verbose)
     Task tmp_T;
     for ( int index = 0; index < this->json_root.size(); index++ )
     {
-        tmp_T.load_root( this->json_root[ index ] );
+        tmp_T.load_root( this->json_root[ index ], verbose );
         this->tasks.push_back( tmp_T );
         if ( verbose ) {
             std::cout << "Added task \"" << tmp_T.get_name() << "\" to Plan." << std::endl;

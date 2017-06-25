@@ -26,7 +26,7 @@ class Task
         Task();
 
         // load a json::value into task members (second stage deserialization)
-        void load_root( Json::Value loader_root );
+        void load_root( Json::Value loader_root, bool verbose );
 
         // register a dependency
         void add_dependency( std::string dependency_name );
