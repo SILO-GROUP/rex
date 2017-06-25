@@ -11,8 +11,8 @@ Task::Task() {}
 
 /// Task::load_root() - loads json values to private members
 ///
-/// \param loader_root
-/// \return
+/// \param loader_root - the Json::Value to populate from.
+/// \param verbose - Whether to print verbose information to STDOUT.
 void Task::load_root(Json::Value loader_root, bool verbose )
 {
     if ( loader_root.isMember("name") )
@@ -33,12 +33,10 @@ void Task::load_root(Json::Value loader_root, bool verbose )
         {
             this->dependencies.push_back( des_dep_root[i].asString() );
             if ( verbose ) {
-                std::cout << "Added dependency \"" << des_dep_root[i].asString() << "\" to Task \"" << this->get_name() << "\"." << std::endl;
+                std::cout << "Added dependency \"" << des_dep_root[i].asString() << "\" to task \"" << this->get_name() << "\"." << std::endl;
             }
         }
     }
-
-    //this->has_succeeded = false;
 }
 
 std::string Task::get_name()
