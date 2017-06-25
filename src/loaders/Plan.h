@@ -6,7 +6,6 @@
 #include "JSON_Loader.h"
 #include "Task.h"
 
-
 class Plan: public JSON_Loader
 {
     private:
@@ -26,10 +25,10 @@ class Plan: public JSON_Loader
         void get_task( Task & result, int index, bool verbose );
 
         // load unit definitions from a provided suite and import them into individual tasks
-        // void load_definitions( Suite unit_definitions );
+        void load_definitions( Suite unit_definitions );
 
         // fetch a corresponding Unit to a Task
-        // void get_definition_from_task(Unit & result, Task input, bool verbose );
+        void get_definition_from_task(Unit & result, Task input, bool verbose );
 };
 
 #endif //FTESTS_PLAN_H

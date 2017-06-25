@@ -9,7 +9,11 @@ class Task_InvalidDataStructure: public std::runtime_error { public:
 /// execute, and its dependencies on other units to have already been completed successfully.
 Task::Task() {}
 
-int Task::load_root(Json::Value loader_root)
+/// Task::load_root() - loads json values to private members
+///
+/// \param loader_root
+/// \return
+void Task::load_root(Json::Value loader_root)
 {
     if ( loader_root.isMember("name") )
     {
@@ -18,10 +22,8 @@ int Task::load_root(Json::Value loader_root)
         throw Task_InvalidDataStructure();
     }
 
-
-    // this->dependencies = loader_root.get("depends on", "");
+    this->dependencies = loader_root.get("depends on", "");
     //this->has_succeeded = false;
-
 }
 
 std::string Task::get_name()
