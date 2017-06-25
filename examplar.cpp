@@ -19,28 +19,7 @@ int main( )
     Plan plan;
     plan.load_plan_file( plan_file, verbose );
 
-/*    for ( int i = 0; i < plan.num_tasks(); ++i )
-    {
-        Task current_task = plan.get_task( i );
-
-        Unit current_unit = unit_definitions->get_unit( current_task.get_name() );
-
-        std::cout << "Found task name in \"" << configuration.get_plan_path() << "\":\t" << current_task.get_name() << std::endl << std::endl;
-
-        std::cout << "Associated Unit name:\t\t"    << current_unit.get_name()      << std::endl;
-        std::cout << "Associated Unit target:\t\t"  << current_unit.get_target()    << std::endl;
-        std::cout << "Associated Unit healer:\t\t"  << current_unit.get_rectifier() << std::endl;
-        std::cout << "Associated Unit heals:\t\t"   << current_unit.get_rectify()   << std::endl;
-
-        Json::Value deps = current_task.get_dependencies();
-
-        for ( int j = 0; j < deps.size(); ++j )
-        {
-            std::cout << "Associated Dependency:\t\t" << deps[j] << std::endl;
-        }
-        std::cout << std::endl;
-    }
-*/
+    plan.load_definitions( available_definitions, verbose );
 
     return 0;
 }

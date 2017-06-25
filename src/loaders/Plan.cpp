@@ -87,3 +87,20 @@ void Plan::get_task(Task & result, std::string provided_name, bool verbose)
             throw Plan_InvalidTaskName();
         }
 }
+
+/// Plan::load_definitions - Load the units corresponding to each task in plan from the given Suite.
+void Plan::load_definitions( Suite unit_definitions, bool verbose )
+{
+    // placeholder Unit
+    Unit tmp_U;
+
+    // for every task in the plan:
+    for (int i = 0; i < this->tasks.size(); i++ )
+    {
+        // load the tmp_U corresponding to that task name
+        unit_definitions.get_unit( tmp_U, this->tasks[i].get_name() );
+
+        // then have that task attach a copy of tmp_U
+        this->tasks[i].load_definition( tmp_U, verbose );
+    }
+}
