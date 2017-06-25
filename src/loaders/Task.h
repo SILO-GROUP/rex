@@ -21,6 +21,9 @@ class Task
         // the status of this task
         bool complete;
 
+        // the readiness of this task to execute
+        bool defined;
+
     public:
         // constructor
         Task();
@@ -32,6 +35,7 @@ class Task
         void load_definition( Unit definition, bool verbose );
 
         bool is_complete();
+        bool has_definition();
 
         // fetch the name of a task
         std::string get_name();

@@ -7,7 +7,13 @@ class Task_InvalidDataStructure: public std::runtime_error { public:
 
 /// Task::Task() - Constructor for the Task class.  The Task is the building block of a Plan indicating of which Unit to
 /// execute, and its dependencies on other units to have already been completed successfully.
-Task::Task() {}
+Task::Task() {
+    // it hasn't executed yet.
+    this->complete = false;
+
+    // it hasn't been matched with a definition yet.
+    this->defined = false;
+}
 
 /// Task::load_root() - loads json values to private members
 ///
@@ -56,4 +62,15 @@ void Task::load_definition( Unit selected_unit, bool verbose )
     {
         std::cout << "Loaded definition \"" << selected_unit.get_name() << "\" for task \"" << this->get_name() << "\"." << std::endl;
     }
+    this->defined = true;
+}
+
+/// Task::is_complete - Indicator if the task executed successfully.
+bool Task::is_complete() {
+    return this->complete;
+}
+
+/// Task::has_definition - Indicator if the task has attached its definition from a Suite.
+bool Task::has_definition() {
+    return this->defined;
 }

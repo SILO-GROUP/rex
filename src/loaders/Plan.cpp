@@ -89,6 +89,9 @@ void Plan::get_task(Task & result, std::string provided_name, bool verbose)
 }
 
 /// Plan::load_definitions - Load the units corresponding to each task in plan from the given Suite.
+///
+/// \param unit_definitions - The Suite to load definitions from.
+/// \param verbose - Whether to print verbose information to STDOUT.
 void Plan::load_definitions( Suite unit_definitions, bool verbose )
 {
     // placeholder Unit
