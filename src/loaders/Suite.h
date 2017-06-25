@@ -11,7 +11,7 @@
 
 class Suite: public JSON_Loader
 {
-    private:
+    protected:
         // storage for the definitions we are amassing from the unit definition files
         std::vector<Unit> units;
 

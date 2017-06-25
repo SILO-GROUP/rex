@@ -7,24 +7,38 @@
 
 class Task
 {
-    private:
+    protected:
+        // the name of this task
         std::string name;
-        Json::Value dependencies;
-        bool has_succeeded;
+
+        // names of tasks that must have successfully executed before this task can execute its own unit.
+        std::vector<std::string> dependencies;
+
+        // private member to store the definition of this task once found in a Suite by Plan.
+        // populated by load_definition
+        Unit definition;
+
+        // the status of this task
+        bool complete;
 
     public:
-        Task( Json::Value loader_root );
+        // constructor
         Task();
 
+        // load a json::value into task members (second stage deserialization)
         int load_root( Json::Value loader_root );
 
-        std::string get_name();
-        Json::Value get_dependencies();
-        Json::Value set_dependencies();
+        // register a dependency
+        void add_dependency( std::string dependency_name );
 
-        // appends associated_unit as child member
-        bool isDone();
-        void finish();
+        // appends definition unit as child member
+        void load_definition( Unit definition );
+
+
+        bool is_complete();
+
+        // fetch the name of a task
+        std::string get_name();
 };
 
 #endif //FTESTS_TASK_H

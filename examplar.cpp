@@ -12,12 +12,12 @@ int main( )
     // load the configuration file which contains filepaths to definitions of a plan and definitions of units.
     std::string definitions_file = configuration.get_units_path();
     std::string plan_file = configuration.get_plan_path();
-    // std::cout << definitions_file << std::endl << plan_file << std::endl;
 
     Suite available_definitions;
     available_definitions.load_units_file( definitions_file, verbose );
 
     Plan plan;
+    plan.load_plan_file( plan_file, verbose );
 
 /*    for ( int i = 0; i < plan.num_tasks(); ++i )
     {

@@ -1,5 +1,4 @@
 #include "Plan.h"
-
 /// Plan_InvalidTaskIndex - Exception thrown when a Plan tries to access a contained Task's value by index not present
 /// in the Unit.
 class Plan_InvalidTaskIndex: public std::runtime_error { public:
@@ -11,7 +10,6 @@ class Plan_InvalidTaskIndex: public std::runtime_error { public:
 class Plan_InvalidTaskName: public std::runtime_error { public:
     Plan_InvalidTaskName(): std::runtime_error("Plan: Attempted to access a Task using an invalid name.") {}
 };
-
 
 /// Plan::Plan() - Constructor for Plan class.  A Plan is a managed container for a Task vector.  These tasks reference
 /// Units that are defined in the Units files (Suite).  If Units are definitions, Tasks are selections of those
