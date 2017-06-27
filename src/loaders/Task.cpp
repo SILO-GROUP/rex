@@ -44,7 +44,8 @@ void Task::load_root(Json::Value loader_root, bool verbose )
         if ( des_dep_root[i].asString() != "" )
         {
             this->dependencies.push_back( des_dep_root[i].asString() );
-            if ( verbose ) {
+            if ( verbose )
+            {
                 std::cout << "Added dependency \"" << des_dep_root[i].asString() << "\" to task \"" << this->get_name() << "\"." << std::endl;
             }
         }
@@ -93,6 +94,8 @@ void Task::execute( bool verbose )
         std::cout << "\t Executing target \"" << this->definition.get_target() << "\"." << std::endl;
     }
 
+    FILE * STDOUT;
+    FILE * STDERR;
 
 
 }
