@@ -13,7 +13,7 @@ private:
     Json::Value units_path;
 
 public:
-    Conf( std::string filename );
+    Conf( std::string filename, bool verbose );
     std::string get_plan_path();
     std::string get_units_path();
 };

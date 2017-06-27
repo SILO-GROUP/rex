@@ -107,3 +107,19 @@ void Plan::load_definitions( Suite unit_definitions, bool verbose )
         this->tasks[i].load_definition( tmp_U, verbose );
     }
 }
+
+/// Plan::execute() - Iterates through all tasks in a plan and executes them.
+///
+/// \param verbose
+void Plan::execute( bool verbose )
+{
+    // for each task in this plan
+    for ( int i = 0; i < this->tasks.size(); i++ )
+    {
+        if ( verbose ) {
+            std::cout << "Executing task \"" << this->tasks[i].get_name() << "\"." << std::endl;
+        }
+        this->tasks[i].execute( verbose );
+    }
+}
+

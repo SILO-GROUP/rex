@@ -16,10 +16,10 @@ class CONF_UNITSPATH_INVALID: public std::runtime_error { public:
 /// TODO Expand to detect when a directory path is supplied for units_path or plan_path and import all Tasks and Units.
 ///
 /// \param filename - The filename to load the configuration from.
-Conf::Conf( std::string filename ): JSON_Loader()
+Conf::Conf( std::string filename, bool verbose ): JSON_Loader()
 {
     // load the conf file.
-    this->load_json_file( filename, true );
+    this->load_json_file( filename, verbose );
 
     // find the path to the plan file
     if (this->get_serialized(this->plan_path, "plan_path", true) != 0 ) { throw CONF_PLANPATH_INVALID(); }

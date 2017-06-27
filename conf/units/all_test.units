@@ -19,6 +19,15 @@
       "rectify":    true
     },
     {
+      "name":       "A DEFINITION THAT IS NOT USED",
+      "target":     "/bin/pwd",
+      "output":     "pass",
+      "rectifier":  "/bin/pwd",
+      "active":     true,
+      "required":   true,
+      "rectify":    true
+    },
+    {
       "name":       "dependent test",
       "target":     "/home/phanes/tests/test-script-pass.sh",
       "output":     "pass",

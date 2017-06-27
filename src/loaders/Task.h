@@ -39,6 +39,9 @@ class Task
 
         // fetch the name of a task
         std::string get_name();
+
+        // execute this task's definition
+        void execute( bool verbose );
 };
 
 #endif //FTESTS_TASK_H

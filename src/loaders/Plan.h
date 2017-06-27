@@ -28,7 +28,10 @@ class Plan: public JSON_Loader
         void load_definitions( Suite unit_definitions, bool verbose );
 
         // fetch a corresponding Unit to a Task
-        void get_definition_from_task(Unit & result, Task input, bool verbose );
+        // void get_definition_from_task(Unit & result, Task input, bool verbose );
+
+        // execute all tasks in this plan
+        void execute( bool verbose );
 };
 
 #endif //FTESTS_PLAN_H

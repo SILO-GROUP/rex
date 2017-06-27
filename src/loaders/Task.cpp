@@ -5,6 +5,12 @@ class Task_InvalidDataStructure: public std::runtime_error { public:
     Task_InvalidDataStructure(): std::runtime_error("Task: Attempted to access a member of a Task that is not set.") {}
 };
 
+/// Task_InvalidDataStructure - Exception thrown when a Task is defined with invalid JSON.
+class Task_NotReady: public std::runtime_error { public:
+    Task_NotReady(): std::runtime_error("Task: Attempted to access a unit of a Task that is not defined.") {}
+};
+
+
 /// Task::Task() - Constructor for the Task class.  The Task is the building block of a Plan indicating of which Unit to
 /// execute, and its dependencies on other units to have already been completed successfully.
 Task::Task() {
@@ -73,4 +79,20 @@ bool Task::is_complete() {
 /// Task::has_definition - Indicator if the task has attached its definition from a Suite.
 bool Task::has_definition() {
     return this->defined;
+}
+
+/// Task::execute - execute a task's unit definition.
+void Task::execute( bool verbose )
+{
+    // throw if unit not coupled
+    if (! this->has_definition() ) { throw Task_NotReady(); }
+
+    if ( verbose )
+    {
+        std::cout << "\t Using unit \"" << this->definition.get_name() << "\"." << std::endl;
+        std::cout << "\t Executing target \"" << this->definition.get_target() << "\"." << std::endl;
+    }
+
+
+
 }
