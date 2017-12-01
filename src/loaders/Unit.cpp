@@ -48,9 +48,6 @@ int Unit::load_root(Json::Value loader_root)
     if ( loader_root.isMember("target") )
     { this->target = loader_root.get("target", errmsg).asString(); } else throw Unit_DataStructureException();
 
-    if ( loader_root.isMember("output") )
-    { this->output = loader_root.get("output", errmsg).asString(); } else throw Unit_DataStructureException();
-
     if ( loader_root.isMember("rectifier") )
     { this->rectifier = loader_root.get("rectifier", errmsg).asString(); } else throw Unit_DataStructureException();
 

@@ -1,7 +1,10 @@
 #include "Sproc.h"
 
-int Sproc::execute(ExecutionInput input, Execution &output)
+
+
+int Sproc::execute( std::string input )
 {
-    output.STDOUT = "it worked";
+    std::cout << std::endl << "made it to subprocess execution but not implemented yet" << std::endl << std::endl;
+    return EXIT_SUCCESS;
 
 }

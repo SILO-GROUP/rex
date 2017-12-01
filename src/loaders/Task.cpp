@@ -97,15 +97,22 @@ void Task::execute( bool verbose )
         std::cout << "\t Executing target \"" << this->definition.get_target() << "\"." << std::endl;
     }
 
-    ExecutionInput execIn;
-    Execution Result;
+    std::string executionString = this->definition.get_target();
+    std::string rectifierString = this->definition.get_rectifier();
 
-    execIn.executionString = this->definition.get_target();
+    int return_code = Sproc::execute( executionString );
 
-    int execution_status = Sproc::execute( execIn, Result );
-
-    if ( execution_status )
+    if ( return_code )
     {
-        std::cout << std::endl << "STDOUT:" << std::endl<< Result.STDOUT << std::endl;
+        std::cout << "Process failed with exit code " << return_code << "." << std::endl;
+
+        std::cout << "Performing rectification: " << rectifierString << "." << std::endl;
+        int rectifier_error = Sproc::execute( rectifierString );
+
+        if ( rectifier_error )
+        {
+            std::cout << "Designated rectification script failed with error " << rectifier_error << "." << std::endl;
+        }
+
     }
 }
