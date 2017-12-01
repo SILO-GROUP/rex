@@ -2,7 +2,7 @@
   "units": [
     {
       "name":       "independent test 1",
-      "target":     "/usr/bin/true",
+      "target":     "(>&2 echo 'error is a doodle day')",
       "rectifier":  "/usr/bin/true",
       "active":     true,
       "required":   true,
