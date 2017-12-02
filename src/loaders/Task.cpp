@@ -201,19 +201,7 @@ void Task::execute( bool verbose )
                 std::cout << "\tThis task is required to continue the plan." << std::endl;
                 // but these are NOT executing?????
                 throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
-                throw Task_RequiredButFailedTask();
+                return;
             } else {
                 // d[2] no
                 std::cout << "\tThis task is not required to continue the plan." << std::endl;
