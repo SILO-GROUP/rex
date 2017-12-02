@@ -6,7 +6,7 @@
       "rectifier":  "/usr/bin/true",
       "active":     true,
       "required":   true,
-      "rectify":    false
+      "rectify":    true
     },
     {
       "name":       "independent test 2",

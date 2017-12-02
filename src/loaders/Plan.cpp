@@ -114,12 +114,17 @@ void Plan::load_definitions( Suite unit_definitions, bool verbose )
 void Plan::execute( bool verbose )
 {
     // for each task in this plan
-    for ( int i = 0; i < this->tasks.size(); i++ )
-    {
-        if ( verbose ) {
-            std::cout << "Executing task \"" << this->tasks[i].get_name() << "\"." << std::endl;
-        }
-        this->tasks[i].execute( verbose );
-    }
+//    for ( int i = 0; i < this->tasks.size(); i++ )
+//    {
+//        if ( verbose ) {
+//            std::cout << "Executing task \"" << this->tasks[i].get_name() << "\"." << std::endl;
+            std::cout << "Executing task \"" << this->tasks[0].get_name() << "\"." << std::endl;
+//        }
+//        this->tasks[i].execute( verbose );
+        this->tasks[0].execute( verbose );
+
+        // for testing a logic issue in Task.execute(), remove when done
+//        throw Plan_InvalidTaskIndex();
+//    }
 }
 

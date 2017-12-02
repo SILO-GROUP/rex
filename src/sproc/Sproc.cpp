@@ -1,6 +1,7 @@
 #include "Sproc.h"
 #include <unistd.h>
 #include <cstring>
+#include <wait.h>
 
 /// Sproc::execute
 ///
@@ -13,14 +14,17 @@ int Sproc::execute(std::string input) {
     int stdin_pipe[2];
     int stderr_pipe[2];
     int stdout_pipe[2];
-    int child_pid;
+    pid_t child_pid, w;
     char nChar;
-    int child_exit_code;
+    int child_exit_code = -666;
+
+    // experimental
+    int status;
 
     if ( pipe(stdin_pipe) < 0 )
     {
         perror("allocating pipe for child input redirect");
-        return -1;
+        exit(-1);
     }
 
     if ( pipe(stdout_pipe) < 0 )
@@ -28,14 +32,14 @@ int Sproc::execute(std::string input) {
         close(stdin_pipe[PIPE_READ]);
         close(stdin_pipe[PIPE_WRITE]);
         perror("allocating pipe for child output redirect");
-        return -1;
+        exit(-1);
     }
 
     if ( pipe(stderr_pipe) < 0 ) {
         close(stderr_pipe[PIPE_READ]);
         close(stderr_pipe[PIPE_WRITE]);
         perror("allocating pipe for error redirect");
-        return -1;
+        exit(-1);
     }
 
 
@@ -74,12 +78,30 @@ int Sproc::execute(std::string input) {
         // replace this with any exec* function find easier to use ("man exec")
         child_exit_code = system( input.c_str() );
 
-
         // if we get here at all, an error occurred, but we are in the child
         // process, so just exit
-        return WEXITSTATUS(child_exit_code);
+        exit(WEXITSTATUS(child_exit_code));
     } else if (child_pid > 0) {
         // parent continues here
+
+        do {
+            w = waitpid(child_pid, &child_exit_code, WUNTRACED | WCONTINUED);
+            if (w == -1) {
+                perror("waitpid");
+                exit(EXIT_FAILURE);
+            }
+
+            if (WIFEXITED(child_exit_code)) {
+                ;;
+                //printf("exited, status=%d\n", WEXITSTATUS(child_exit_code));
+            } else if (WIFSIGNALED(child_exit_code)) {
+                printf("killed by signal %d\n", WTERMSIG(child_exit_code));
+            } else if (WIFSTOPPED(child_exit_code)) {
+                printf("stopped by signal %d\n", WSTOPSIG(child_exit_code));
+            } else if (WIFCONTINUED(child_exit_code)) {
+                printf("continued\n");
+            }
+        } while (!WIFEXITED(child_exit_code) && !WIFSIGNALED(child_exit_code));
 
         // close unused file descriptors, these are for child only
         close(stdin_pipe[PIPE_READ]);
@@ -100,6 +122,7 @@ int Sproc::execute(std::string input) {
         close(stderr_pipe[PIPE_READ]);
     } else {
         // failed to create child
+        std::cout << "Failed to create child." << std::endl;
         close(stdin_pipe[PIPE_READ]);
         close(stdin_pipe[PIPE_WRITE]);
 
@@ -109,6 +132,7 @@ int Sproc::execute(std::string input) {
         close(stderr_pipe[PIPE_READ]);
         close(stderr_pipe[PIPE_WRITE]);
     }
+    child_exit_code = WEXITSTATUS( child_exit_code );
 
-    return WEXITSTATUS(child_exit_code);
+    return child_exit_code;
 }
