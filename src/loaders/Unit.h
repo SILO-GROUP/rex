@@ -28,15 +28,15 @@ private:
     // an indicator of whether the test is active or not
     // this is used as a way to give definers a way to force executors to edit arbitrary fields or prevent
     // execution of potentially dangerous or intrusive tests
-    std::string active;
+    bool active;
 
     // an indicator of whether or not this test is required to pass.
     // intended to be used as a flag to halt execution of further tests on failure
-    std::string required;
+    bool required;
 
     // indicator of whether the rectifier executable should be run on test failures.
     // if rectifier exits on non-zero return code, it should be trigger the behaviour indicated by required
-    std::string rectify;
+    bool rectify;
 
 public:
     Unit();
@@ -52,9 +52,9 @@ public:
     std::string get_target();
     std::string get_output();
     std::string get_rectifier();
-    std::string get_active();
-    std::string get_required();
-    std::string get_rectify();
+    bool get_active();
+    bool get_required();
+    bool get_rectify();
 };
 
 #endif //FTESTS_UNIT_H

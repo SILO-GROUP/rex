@@ -7,40 +7,37 @@
 /// \param input - The commandline input to execute.
 /// \return - The return code of the execution of input in the calling shell.
 int Sproc::execute(std::string input) {
-    std::cout << std::endl << "made it to subprocess execution but not implemented yet" << std::endl << std::endl;
-
     int PIPE_READ = 0;
     int PIPE_WRITE = 1;
 
     int stdin_pipe[2];
-    // int aStderrPipe[2];
+    int stderr_pipe[2];
     int stdout_pipe[2];
     int child_pid;
     char nChar;
     int child_exit_code;
 
-    if (pipe(stdin_pipe) < 0)
+    if ( pipe(stdin_pipe) < 0 )
     {
         perror("allocating pipe for child input redirect");
         return -1;
     }
 
-/*
-    if (pipe(aStderrPipe < 0)) {
-        close(aStderrPipe[PIPE_READ]);
-        close(aStderrPipe[PIPE_WRITE]);
-        perror("allocating pipe for error redirect");
-        return -1;
-    }
-*/
-
-    if (pipe(stdout_pipe) < 0)
+    if ( pipe(stdout_pipe) < 0 )
     {
         close(stdin_pipe[PIPE_READ]);
         close(stdin_pipe[PIPE_WRITE]);
         perror("allocating pipe for child output redirect");
         return -1;
     }
+
+    if ( pipe(stderr_pipe) < 0 ) {
+        close(stderr_pipe[PIPE_READ]);
+        close(stderr_pipe[PIPE_WRITE]);
+        perror("allocating pipe for error redirect");
+        return -1;
+    }
+
 
     child_pid = fork();
     if (0 == child_pid)
@@ -58,41 +55,41 @@ int Sproc::execute(std::string input) {
         }
 
         // redirect stderr
-        if (dup2(stdout_pipe[PIPE_WRITE], STDERR_FILENO) == -1) {
+        if (dup2(stderr_pipe[PIPE_WRITE], STDERR_FILENO) == -1) {
             exit(errno);
         }
 
         // all these are for use by parent only
         close(stdin_pipe[PIPE_READ]);
         close(stdin_pipe[PIPE_WRITE]);
+
         close(stdout_pipe[PIPE_READ]);
         close(stdout_pipe[PIPE_WRITE]);
+
+        close(stderr_pipe[PIPE_READ]);
+        close(stderr_pipe[PIPE_WRITE]);
+
 
         // run child process image
         // replace this with any exec* function find easier to use ("man exec")
         child_exit_code = system( input.c_str() );
 
+
         // if we get here at all, an error occurred, but we are in the child
         // process, so just exit
-        exit(child_exit_code);
+        return WEXITSTATUS(child_exit_code);
     } else if (child_pid > 0) {
         // parent continues here
 
         // close unused file descriptors, these are for child only
         close(stdin_pipe[PIPE_READ]);
         close(stdout_pipe[PIPE_WRITE]);
-
-        // da fuq?
-/*        // Include error check here
-        if (NULL != szMessage)
-        {
-            write(stdin_pipe[PIPE_WRITE], szMessage, strlen(szMessage));
-        }
-*/
+        close(stderr_pipe[PIPE_WRITE]);
 
         // Just a char by char read here, you can change it accordingly
-        while (read(stdout_pipe[PIPE_READ], &nChar, 1) == 1)
+        while ( read( stdout_pipe[PIPE_READ], &nChar, 1 ) == 1 )
         {
+            // does this loop also need to involve STDERR? -CP
             write(STDOUT_FILENO, &nChar, 1);
         }
 
@@ -100,12 +97,18 @@ int Sproc::execute(std::string input) {
         // open of course as long as you want to talk to the child
         close(stdin_pipe[PIPE_WRITE]);
         close(stdout_pipe[PIPE_READ]);
+        close(stderr_pipe[PIPE_READ]);
     } else {
         // failed to create child
         close(stdin_pipe[PIPE_READ]);
         close(stdin_pipe[PIPE_WRITE]);
+
         close(stdout_pipe[PIPE_READ]);
         close(stdout_pipe[PIPE_WRITE]);
+
+        close(stderr_pipe[PIPE_READ]);
+        close(stderr_pipe[PIPE_WRITE]);
     }
-    return child_exit_code;
+
+    return WEXITSTATUS(child_exit_code);
 }

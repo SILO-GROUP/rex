@@ -52,13 +52,13 @@ int Unit::load_root(Json::Value loader_root)
     { this->rectifier = loader_root.get("rectifier", errmsg).asString(); } else throw Unit_DataStructureException();
 
     if ( loader_root.isMember("active") )
-    { this->active = loader_root.get("active", errmsg).asString(); } else throw Unit_DataStructureException();
+    { this->active = loader_root.get("active", errmsg).asBool(); } else throw Unit_DataStructureException();
 
     if ( loader_root.isMember("required") )
-    { this->required = loader_root.get("required", errmsg).asString(); } else throw Unit_DataStructureException();
+    { this->required = loader_root.get("required", errmsg).asBool(); } else throw Unit_DataStructureException();
 
     if ( loader_root.isMember("rectify") )
-    { this->rectify = loader_root.get("rectify", errmsg).asString(); } else throw Unit_DataStructureException();
+    { this->rectify = loader_root.get("rectify", errmsg).asBool(); } else throw Unit_DataStructureException();
 
     this->populated = true;
 
@@ -119,7 +119,7 @@ std::string Unit::get_rectifier()
 /// Unit::get_active - retrieves the armed status of the unit.
 ///
 /// \return the armed status of the unit.
-std::string Unit::get_active()
+bool Unit::get_active()
 {
     if ( ! this->populated ) { throw Unit_NotPopulated(); }
     return this->active;
@@ -128,7 +128,7 @@ std::string Unit::get_active()
 /// Unit::get_required - retrieves the requirement status of the unit.
 ///
 /// \return the requirement status of the unit.
-std::string Unit::get_required()
+bool Unit::get_required()
 {
     if ( ! this->populated ) { throw Unit_NotPopulated(); }
     return this->required;
@@ -137,7 +137,7 @@ std::string Unit::get_required()
 /// Unit::get_rectify - retrieves the rectification status of the unit.
 ///
 /// \return the rectification status of the unit.
-std::string Unit::get_rectify()
+bool Unit::get_rectify()
 {
     if ( ! this->populated ) { throw Unit_NotPopulated(); }
     return this->rectify;

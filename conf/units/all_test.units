@@ -2,35 +2,35 @@
   "units": [
     {
       "name":       "independent test 1",
-      "target":     "(>&2 echo 'error is a doodle day')",
-      "rectifier":  "/usr/bin/true",
-      "active":     true,
-      "required":   true,
-      "rectify":    true
-    },
-    {
-      "name":       "independent test 2",
       "target":     "/usr/bin/false",
       "rectifier":  "/usr/bin/true",
       "active":     true,
       "required":   true,
+      "rectify":    false
+    },
+    {
+      "name":       "independent test 2",
+      "target":     "/usr/bin/false",
+      "rectifier":  "/usr/bin/false",
+      "active":     true,
+      "required":   false,
       "rectify":    false
     },
     {
       "name":       "A DEFINITION THAT IS NOT USED",
       "target":     "/usr/bin/false",
-      "rectifier":  "/usr/bin/true",
+      "rectifier":  "/usr/bin/false",
       "active":     true,
       "required":   true,
-      "rectify":    false
+      "rectify":    true
     },
     {
       "name":       "dependent test",
       "target":     "/usr/bin/false",
-      "rectifier":  "/usr/bin/true",
+      "rectifier":  "/usr/bin/false",
       "active":     true,
       "required":   true,
-      "rectify":    false
+      "rectify":    true
     }
   ]
 }
