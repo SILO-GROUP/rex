@@ -18,7 +18,7 @@
     },
     {
       "name":       "A DEFINITION THAT IS NOT USED",
-      "target":     "/usr/bin/false",
+      "target":     "/usr/bin/dialog --yesno test 50 50",
       "rectifier":  "/usr/bin/false",
       "active":     true,
       "required":   true,
@@ -26,10 +26,10 @@
     },
     {
       "name":       "dependent test",
-      "target":     "/usr/bin/false",
+      "target":     "ssh root@phanes.silogroup.org",
       "rectifier":  "/usr/bin/false",
       "active":     true,
-      "required":   true,
+      "required":   false,
       "rectify":    true
     }
   ]
