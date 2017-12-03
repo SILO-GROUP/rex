@@ -42,6 +42,11 @@ class Task
 
         // execute this task's definition
         void execute( bool verbose );
+
+        void mark_complete();
+
+        // returns a pointer to the dependencies vector
+        std::vector<std::string> get_dependencies();
 };
 
 #endif //FTESTS_TASK_H

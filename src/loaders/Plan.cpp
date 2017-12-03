@@ -11,6 +11,14 @@ class Plan_InvalidTaskName: public std::runtime_error { public:
     Plan_InvalidTaskName(): std::runtime_error("Plan: Attempted to access a Task using an invalid name.") {}
 };
 
+
+/// Plan_Task_Missing_Dependency - Exception thrown when a Plan tries to access a contained Task's value by name not present
+/// in the Unit.
+class Plan_Task_Missing_Dependency: public std::runtime_error { public:
+    Plan_Task_Missing_Dependency(): std::runtime_error("Plan: Attempted to execute a task that had unmet dependencies.") {}
+};
+
+
 /// Plan::Plan() - Constructor for Plan class.  A Plan is a managed container for a Task vector.  These tasks reference
 /// Units that are defined in the Units files (Suite).  If Units are definitions, Tasks are selections of those
 /// definitions to execute, and if Units together form a Suite, Tasks together form a Plan.
@@ -53,7 +61,7 @@ void Plan::load_plan_file(std::string filename, bool verbose)
 /// \param result - The variable receiving the value.
 /// \param index  - The numerical index in the Task vector to retrieve a value for.
 /// \param verbose  - Whether to print verbose output to STDOUT.
-void Plan::get_task(Task & result, int index, bool verbose)
+void Plan::get_task(Task & result, int index )
 {
     if ( index <= this->tasks.size() )
     {
@@ -63,30 +71,6 @@ void Plan::get_task(Task & result, int index, bool verbose)
     }
 }
 
-/// Plan::get_task - Retrieves a task by name.
-///
-/// \param result - The variable receiving the value.
-/// \param provided_name - The name to find a task by.
-/// \param verbose - Whether to print verbose output to STDOUT.
-void Plan::get_task(Task & result, std::string provided_name, bool verbose)
-{
-        bool foundMatch = false;
-
-        for ( int i = 0; i < this->tasks.size(); i++ )
-        {
-            if ( this->tasks[i].get_name() == provided_name )
-            {
-                result = this->tasks[i];
-                foundMatch = true;
-                break;
-            }
-        }
-        if (! foundMatch )
-        {
-            std::cerr << "Task name \"" << provided_name << "\" was referenced but not defined!" << std::endl;
-            throw Plan_InvalidTaskName();
-        }
-}
 
 /// Plan::load_definitions - Load the units corresponding to each task in plan from the given Suite.
 ///
@@ -108,6 +92,63 @@ void Plan::load_definitions( Suite unit_definitions, bool verbose )
     }
 }
 
+/// Plan::get_task - Retrieves a task by name.
+///
+/// \param result - The variable receiving the value.
+/// \param provided_name - The name to find a task by.
+/// \param verbose - Whether to print verbose output to STDOUT.
+void Plan::get_task(Task & result, std::string provided_name )
+{
+    bool foundMatch = false;
+
+    for ( int i = 0; i < this->tasks.size(); i++ )
+    {
+        if ( this->tasks[i].get_name() == provided_name )
+        {
+            result = this->tasks[i];
+            foundMatch = true;
+            break;
+        }
+    }
+    if (! foundMatch )
+    {
+        std::cerr << "Task name \"" << provided_name << "\" was referenced but not defined!" << std::endl;
+        throw Plan_InvalidTaskName();
+    }
+}
+
+
+// TODO dependency check goes here
+// This should check to see if there are unmet dependencies.
+// done -- add a "completed" attribute to Task
+// Iterate through Task::dependencies, a vector attached to tasks[i] containing task names
+//      use Plan::get_task( name ) method to retrieve that task
+//      check if it is in a ready state
+// return ready/not ready
+bool Plan::all_dependencies_complete(std::string name)
+{
+    // get the task by name
+    Task named_task;
+    this->get_task( named_task, name );
+
+    // get the dependencies of that task
+    std::vector<std::string> deps = named_task.get_dependencies();
+
+    // create an empty task to assign values to during iteration
+    Task tmpTask;
+    // iterate through its dependencies
+    for ( int i = 0; i < deps.size(); i++ )
+    {
+        this->get_task( tmpTask, deps[i]);
+        if (! tmpTask.is_complete() )
+        {
+            // error message?
+            return false;
+        }
+    }
+    return true;
+}
+
 /// Plan::execute() - Iterates through all tasks in a plan and executes them.
 ///
 /// \param verbose
@@ -116,15 +157,17 @@ void Plan::execute( bool verbose )
     // for each task in this plan
     for ( int i = 0; i < this->tasks.size(); i++ )
     {
-        if ( verbose ) {
-            std::cout << "Executing task \"" << this->tasks[i].get_name() << "\"." << std::endl;
-//            std::cout << "Executing task \"" << this->tasks[0].get_name() << "\"." << std::endl;
+        if (this->all_dependencies_complete(this->tasks[i].get_name()) )
+        {
+            if ( verbose )
+            {
+                std::cout << "Executing task \"" << this->tasks[i].get_name() << "\"." << std::endl;
+            }
+            this->tasks[i].execute( verbose );
+        } else {
+            throw Plan_Task_Missing_Dependency();
+          // not all deps met for this task
         }
-        this->tasks[i].execute( verbose );
-//        this->tasks[0].execute( verbose );
-
-        // for testing a logic issue in Task.execute(), remove when done
-//        throw Plan_InvalidTaskIndex();
     }
 }
 

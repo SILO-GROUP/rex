@@ -5,13 +5,13 @@
       "target":     "/usr/bin/false",
       "rectifier":  "/usr/bin/true",
       "active":     true,
-      "required":   true,
+      "required":   false,
       "rectify":    true
     },
     {
       "name":       "independent test 2",
-      "target":     "/usr/bin/false",
-      "rectifier":  "/usr/bin/false",
+      "target":     "/usr/bin/true",
+      "rectifier":  "/usr/bin/true",
       "active":     true,
       "required":   false,
       "rectify":    false
@@ -26,7 +26,7 @@
     },
     {
       "name":       "dependent test",
-      "target":     "ssh root@phanes.silogroup.org",
+      "target":     "/usr/bin/true",
       "rectifier":  "/usr/bin/false",
       "active":     true,
       "required":   false,

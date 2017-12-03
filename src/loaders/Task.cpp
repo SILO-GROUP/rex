@@ -91,6 +91,20 @@ bool Task::is_complete()
     return this->complete;
 }
 
+
+/// Task::mark_complete - Marks the task complete..
+void Task::mark_complete()
+{
+    this->complete = true;
+}
+
+
+/// Task::get_dependencies - returns a pointer to the dependencies vector.
+std::vector<std::string> Task::get_dependencies()
+{
+    return this->dependencies;
+}
+
 /// Task::has_definition - Indicator if the task has attached its definition from a Suite.
 bool Task::has_definition()
 {
@@ -102,10 +116,10 @@ bool Task::has_definition()
 /// \param verbose - Verbosity level - not implemented yet.
 void Task::execute( bool verbose )
 {
-    // DUFFING
+    // DUFFING - If Examplar is broken it's probably going to be in this block.
 
     // PREWORK
-    // throw if unit not coupled to all necessary values since Task is stateful (stateful is okay)
+    // throw if unit not coupled to all necessary values since Task is stateful (yes, stateful is okay)
     if (! this->has_definition() ) {
         throw Task_NotReady();
     }
@@ -133,6 +147,7 @@ void Task::execute( bool verbose )
         if ( verbose ) {
             std::cout << "\tTarget " << task_name << " succeeded." << std::endl;
         }
+        this->mark_complete();
         // next
     } else {
         // Non-Zero d[0] from initial target execution, get to d[1]

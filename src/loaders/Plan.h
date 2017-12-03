@@ -19,10 +19,10 @@ class Plan: public JSON_Loader
         void load_plan_file( std::string filename, bool verbose );
 
         // fetch a task from this->tasks
-        void get_task( Task & result, std::string provided_name, bool verbose );
+        void get_task( Task & result, std::string provided_name );
 
         // fetch a task from this->tasks
-        void get_task( Task & result, int index, bool verbose );
+        void get_task( Task & result, int index );
 
         // load unit definitions from a provided suite and import them into individual tasks
         void load_definitions( Suite unit_definitions, bool verbose );
@@ -32,6 +32,8 @@ class Plan: public JSON_Loader
 
         // execute all tasks in this plan
         void execute( bool verbose );
+
+        bool all_dependencies_complete(std::string name);
 };
 
 #endif //FTESTS_PLAN_H
