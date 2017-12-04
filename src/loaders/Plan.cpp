@@ -12,6 +12,49 @@ class Plan_InvalidTaskName: public std::runtime_error { public:
 };
 
 
+/// Plan_Task_GeneralExecutionException - Wrapper exception to catch exceptions thrown by the execution of Tasks.
+class Plan_Task_GeneralExecutionException: public std::exception
+{
+public:
+    /** Constructor (C strings).
+     *  @param message C-style string error message.
+     *                 The string contents are copied upon construction.
+     *                 Hence, responsibility for deleting the char* lies
+     *                 with the caller.
+     */
+    explicit Plan_Task_GeneralExecutionException(const char* message):
+            msg_(message)
+    {
+    }
+
+    /** Constructor (C++ STL strings).
+     *  @param message The error message.
+     */
+    explicit Plan_Task_GeneralExecutionException(const std::string& message):
+            msg_(message)
+    {}
+
+    /** Destructor.
+     * Virtual to allow for subclassing.
+     */
+    virtual ~Plan_Task_GeneralExecutionException() throw (){}
+
+    /** Returns a pointer to the (constant) error description.
+     *  @return A pointer to a const char*. The underlying memory
+     *          is in posession of the Exception object. Callers must
+     *          not attempt to free the memory.
+     */
+    virtual const char* what() const throw (){
+        return msg_.c_str();
+    }
+
+protected:
+    /** Error message.
+     */
+    std::string msg_;
+};
+
+
 /// Plan_Task_Missing_Dependency - Exception thrown when a Plan tries to access a contained Task's value by name not present
 /// in the Unit.
 class Plan_Task_Missing_Dependency: public std::exception
@@ -154,13 +197,10 @@ void Plan::get_task(Task & result, std::string provided_name )
 }
 
 
-// TODO dependency check goes here
-// This should check to see if there are unmet dependencies.
-// done -- add a "completed" attribute to Task
-// Iterate through Task::dependencies, a vector attached to tasks[i] containing task names
-//      use Plan::get_task( name ) method to retrieve that task
-//      check if it is in a ready state
-// return ready/not ready
+/// Plan::all_dependencies_complete
+///
+/// \param name - The name of the task in the plan to check met dependencies for.
+/// \return - boolean representation of whether all dependencies are complete or not.
 bool Plan::all_dependencies_complete(std::string name)
 {
     // get the task by name
@@ -199,10 +239,15 @@ void Plan::execute( bool verbose )
             {
                 std::cout << "Executing task \"" << this->tasks[i].get_name() << "\"." << std::endl;
             }
-            this->tasks[i].execute( verbose );
+            try {
+                this->tasks[i].execute( verbose );
+            }
+            catch (std::exception& e) {
+                throw Plan_Task_GeneralExecutionException( "Plan Task: \"" + this->tasks[i].get_name() + "\" reported: " + e.what() );
+            }
         } else {
             // not all deps met for this task
-            throw Plan_Task_Missing_Dependency( "Task \"" + this->tasks[i].get_name() + "\" was specified in the Plan but not executed due to missing dependencies.  Please revise your plan." );
+            throw Plan_Task_Missing_Dependency( "Plan Task \"" + this->tasks[i].get_name() + "\" was specified in the Plan but not executed due to missing dependencies.  Please revise your plan." );
         }
     }
 }
