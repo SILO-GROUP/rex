@@ -21,7 +21,8 @@ public:
     Task_RequiredButFailedTask(): std::runtime_error("Task: Attempted to execute a Task that failed and was required.") {}
 };
 
-/// Task_RequiredButFailedTask - Exception thrown when a Task is failed but required, and rectification also failed but returned with a zero exit code (dont try to fool the check).
+/// Task_RequiredButFailedTask - Exception thrown when a Task is failed but required, and rectification also failed but
+/// returned with a zero exit code (dont try to fool the check).
 class Task_RequiredButRectifierDoesNotHeal: public std::runtime_error {
 public:
     Task_RequiredButRectifierDoesNotHeal(): std::runtime_error("Task: The rectification script was executed and reported success, but did not actually heal the faulty condition of the Task target.") {}
@@ -60,7 +61,8 @@ void Task::load_root(Json::Value loader_root, bool verbose )
         if ( des_dep_root[i].asString() != "" ) {
             this->dependencies.push_back( des_dep_root[i].asString() );
             if ( verbose ) {
-                std::cout << "Added dependency \"" << des_dep_root[i].asString() << "\" to task \"" << this->get_name() << "\"." << std::endl;
+                std::cout << "Added dependency \"" << des_dep_root[i].asString()
+                          << "\" to task \"" << this->get_name() << "\"." << std::endl;
             }
         }
     }
@@ -80,7 +82,8 @@ void Task::load_definition( Unit selected_unit, bool verbose )
 {
     this->definition = selected_unit;
     if ( verbose ) {
-        std::cout << "Loaded definition \"" << selected_unit.get_name() << "\" for task \"" << this->get_name() << "\"." << std::endl;
+        std::cout << "Loaded definition \"" << selected_unit.get_name() << "\" for task \""
+                  << this->get_name() << "\"." << std::endl;
     }
     this->defined = true;
 }
@@ -166,7 +169,9 @@ void Task::execute( bool verbose )
             if (rectifier_error) {
                 //d[3] non-zero
 
-                std::cout << "\tRectification of \"" << task_name << "\" failed with exit code " << rectifier_error << "." << std::endl;
+                std::cout << "\tRectification of \"" << task_name << "\" failed with exit code "
+                          << rectifier_error << "." << std::endl;
+
                 // d[2] check if REQUIRED
                 if ( this->definition.get_required() ) {
                     // d[2] yes

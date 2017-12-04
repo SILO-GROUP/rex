@@ -23,7 +23,12 @@ int main( )
 
     std::cout << "Ready to execute all tasks in Plan." << std::endl;
 
-    plan.execute( verbose );
+    try {
+        plan.execute( verbose );
+    }
+    catch ( std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
 
     return 0;
 }

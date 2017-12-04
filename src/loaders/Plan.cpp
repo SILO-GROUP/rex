@@ -14,10 +14,46 @@ class Plan_InvalidTaskName: public std::runtime_error { public:
 
 /// Plan_Task_Missing_Dependency - Exception thrown when a Plan tries to access a contained Task's value by name not present
 /// in the Unit.
-class Plan_Task_Missing_Dependency: public std::runtime_error { public:
-    Plan_Task_Missing_Dependency(): std::runtime_error("Plan: Attempted to execute a task that had unmet dependencies.") {}
-};
+class Plan_Task_Missing_Dependency: public std::exception
+{
+public:
+    /** Constructor (C strings).
+     *  @param message C-style string error message.
+     *                 The string contents are copied upon construction.
+     *                 Hence, responsibility for deleting the char* lies
+     *                 with the caller.
+     */
+    explicit Plan_Task_Missing_Dependency(const char* message):
+            msg_(message)
+    {
+    }
 
+    /** Constructor (C++ STL strings).
+     *  @param message The error message.
+     */
+    explicit Plan_Task_Missing_Dependency(const std::string& message):
+            msg_(message)
+    {}
+
+    /** Destructor.
+     * Virtual to allow for subclassing.
+     */
+    virtual ~Plan_Task_Missing_Dependency() throw (){}
+
+    /** Returns a pointer to the (constant) error description.
+     *  @return A pointer to a const char*. The underlying memory
+     *          is in posession of the Exception object. Callers must
+     *          not attempt to free the memory.
+     */
+    virtual const char* what() const throw (){
+        return msg_.c_str();
+    }
+
+protected:
+    /** Error message.
+     */
+    std::string msg_;
+};
 
 /// Plan::Plan() - Constructor for Plan class.  A Plan is a managed container for a Task vector.  These tasks reference
 /// Units that are defined in the Units files (Suite).  If Units are definitions, Tasks are selections of those
@@ -165,8 +201,8 @@ void Plan::execute( bool verbose )
             }
             this->tasks[i].execute( verbose );
         } else {
-            throw Plan_Task_Missing_Dependency();
-          // not all deps met for this task
+            // not all deps met for this task
+            throw Plan_Task_Missing_Dependency( "Task \"" + this->tasks[i].get_name() + "\" was specified in the Plan but not executed due to missing dependencies.  Please revise your plan." );
         }
     }
 }
