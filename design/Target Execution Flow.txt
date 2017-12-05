@@ -1,0 +1,60 @@
+# Logic Tree for Examplar Task Execution
+
+    Examplar - An automation and testing framework.
+
+    © SURRO INDUSTRIES and Chris Punches, 2017.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+## Key:
+-Actions are labled by indices in a zero-indexed array 'a'.
+-Decisions are labeled by indices in a zero-indexed array 'd'.
+	-Decisions have two possible states, TRUE or FALSE (0 or 1 respectively).
+	-Decision determinations are labeled with the decision label and a subspecifier.
+
+## Diagram:
+
+a[0] Execute Target
+d[0] Error Code Check
+	d[0].0 ZERO
+		a[1] NEXT
+	d[0].1 NON-ZERO
+		d[1] Rectify Check
+				d[1].0 FALSE
+					d[2] Required Check
+						d[2].0 FALSE
+							a[2] NEXT
+						d[2].1 TRUE
+							a[3] EXCEPTION
+				d[1].1 TRUE
+					a[4] Execute Rectifier
+					d[3] Error Code Check
+						d[3].1 NON-ZERO
+							d[4] Required Check
+								d[4].0 FALSE
+									a[5] NEXT
+								d[4].1 TRUE
+									a[6] EXCEPTION
+						d[3].0 ZERO
+							a[7] Re-Execute Target
+							d[5] Error Code Check
+								d[5].0 ZERO
+									a[8] NEXT
+								d[5].1 NON-ZERO
+									d[6] Required Check
+										d[6].0 FALSE
+											a[9] NEXT
+										d[6].1 TRUE
+											a[10] EXCEPTION
+

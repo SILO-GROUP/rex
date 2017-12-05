@@ -27,6 +27,7 @@
 
 class Task
 {
+
     protected:
         // the name of this task
         std::string name;

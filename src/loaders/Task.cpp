@@ -35,18 +35,49 @@ public:
     Task_NotReady(): std::runtime_error("Task: Attempted to access a unit of a Task that is not defined.") {}
 };
 
-/// Task_RequiredButFailedTask - Exception thrown when a Task is failed but required, and rectification also failed.
-class Task_RequiredButFailedTask: public std::runtime_error {
+
+/// Task_RequiredButFailedTask - Exception thrown when a Task fails but should not.
+class TaskException: public std::exception
+{
 public:
-    Task_RequiredButFailedTask(): std::runtime_error("Task: Attempted to execute a Task that failed and was required.") {}
+    /** Constructor (C strings).
+     *  @param message C-style string error message.
+     *                 The string contents are copied upon construction.
+     *                 Hence, responsibility for deleting the char* lies
+     *                 with the caller.
+     */
+    explicit TaskException(const char* message):
+            msg_(message)
+    {
+    }
+
+    /** Constructor (C++ STL strings).
+     *  @param message The error message.
+     */
+    explicit TaskException(const std::string& message):
+            msg_(message)
+    {}
+
+    /** Destructor.
+     * Virtual to allow for subclassing.
+     */
+    virtual ~TaskException() throw (){}
+
+    /** Returns a pointer to the (constant) error description.
+     *  @return A pointer to a const char*. The underlying memory
+     *          is in posession of the Exception object. Callers must
+     *          not attempt to free the memory.
+     */
+    virtual const char* what() const throw (){
+        return msg_.c_str();
+    }
+
+protected:
+    /** Error message.
+     */
+    std::string msg_;
 };
 
-/// Task_RequiredButFailedTask - Exception thrown when a Task is failed but required, and rectification also failed but
-/// returned with a zero exit code (dont try to fool the check).
-class Task_RequiredButRectifierDoesNotHeal: public std::runtime_error {
-public:
-    Task_RequiredButRectifierDoesNotHeal(): std::runtime_error("Task: The rectification script was executed and reported success, but did not actually heal the faulty condition of the Task target.") {}
-};
 
 /// Task::Task() - Constructor for the Task class.  The Task is the building block of a Plan indicating of which Unit to
 /// execute, and its dependencies on other units to have already been completed successfully.
@@ -134,6 +165,11 @@ bool Task::has_definition()
     return this->defined;
 }
 
+
+
+
+
+
 /// Task::execute - execute a task's unit definition.
 /// See the design document for what flow control needs to look like here.
 /// \param verbose - Verbosity level - not implemented yet.
@@ -143,7 +179,8 @@ void Task::execute( bool verbose )
 
     // PREWORK
     // throw if unit not coupled to all necessary values since Task is stateful (yes, stateful is okay)
-    if (! this->has_definition() ) {
+    if ( ! this->has_definition() )
+    {
         throw Task_NotReady();
     }
 
@@ -156,81 +193,160 @@ void Task::execute( bool verbose )
     std::string target_command = this->definition.get_target();
 
     // if we're in verbose mode, do some verbose things
-    if ( verbose ) {
+    if ( verbose )
+    {
         std::cout << "\tUsing unit \"" << task_name << "\"." << std::endl;
         std::cout << "\tExecuting target \"" << target_command << "\"." << std::endl;
     }
 
-    // execute target
+    // a[0] execute target
     int return_code = Sproc::execute( target_command );
 
-    // d[0] check exit code of target
-    if (return_code == 0) {
-        // Zero d[0] return from target execution, good to return
+    // **********************************************
+    // d[0] Error Code Check
+    // **********************************************
+    if ( return_code == 0 )
+    {
+        // d[0].0 ZERO
+
         if ( verbose ) {
             std::cout << "\tTarget " << task_name << " succeeded." << std::endl;
         }
         this->mark_complete();
-        // next
-    } else {
-        // Non-Zero d[0] from initial target execution, get to d[1]
+
+        // a[1] NEXT
+        return;
+    }
+
+    if ( return_code != 0 )
+    {
+        // d[0].1 NON-ZERO
+
         std::cout << "\tTarget \"" << task_name << "\" failed with exit code " << return_code << "." << std::endl;
 
-        // check if rectify pattern is enabled d[1]
-        if ( this->definition.get_rectify() ) {
-            // yes d[1]
+        // **********************************************
+        // d[1] Rectify Check
+        // **********************************************
+        if (! this->definition.get_rectify() )
+        {
+            // d[1].0 FALSE
+
+            // **********************************************
+            // d[2] Required Check
+            // **********************************************
+            if (! this->definition.get_required() )
+            {
+                // d[2].0 FALSE
+                // a[2] NEXT
+                std::cout << "\tThis task is not required to continue the plan. Moving on." << std::endl;
+                return;
+            }
+
+            if ( this->definition.get_required() )
+            {
+                // d[2].1 TRUE
+                // a[3] EXCEPTION
+                throw TaskException("Task \"" + task_name + "\" is required, and failed, and rectification is not enabled.");
+            }
+            // **********************************************
+            // end - d[2] Required Check
+            // **********************************************
+        }
+
+
+        if ( this->definition.get_rectify() )
+        {
+            // d[1].1 TRUE (Rectify Check)
             std::cout << "\tRectification pattern is enabled for \"" << task_name << "\"." << std::endl;
-            // execute RECTIFIER
+
+            // a[4] Execute RECTIFIER
             std::string rectifier_command = this->definition.get_rectifier();
             std::cout << "\tExecuting rectification: " << rectifier_command << "." << std::endl;
             int rectifier_error = Sproc::execute( rectifier_command );
 
-            // d[3] check exit code of rectifier
-            if (rectifier_error) {
-                //d[3] non-zero
-
+            // **********************************************
+            // d[3] Error Code Check for Rectifier
+            // **********************************************
+            if ( rectifier_error != 0 )
+            {
+                // d[3].1 Non-Zero
                 std::cout << "\tRectification of \"" << task_name << "\" failed with exit code "
                           << rectifier_error << "." << std::endl;
 
-                // d[2] check if REQUIRED
-                if ( this->definition.get_required() ) {
-                    // d[2] yes
-                    // halt/exception
-                    throw Task_RequiredButFailedTask();
+                // **********************************************
+                // d[4] Required Check
+                // **********************************************
+                if ( ! this->definition.get_required() ) {
+                    // d[4].0 FALSE
+                    // a[5] NEXT
+                    std::cout << "\tThis task is not required to continue the plan. Moving on." << std::endl;
+                    return;
                 }
-                // d[2] no
-                // next
-            }
-            // d[3] zero
 
-            // execute target
-            std::cout << "\tRe-Executing target \"" << this->definition.get_target() << "\"." << std::endl;
-            int retry_code = Sproc::execute( target_command );
+                if ( this->definition.get_required() )
+                {
+                    // d[4].1 TRUE
+                    // a[6] EXCEPTION
+                    throw TaskException("Task \"" + task_name + "\" is required, and failed, then rectified but rectification failed.");
+                }
+                // **********************************************
+                // end - d[4] Required Check
+                // **********************************************
+            }
 
-            // d[4] exit code of target retry
-            if (retry_code == 0) {
-                // d[4] zero
+            // d[3] check exit code of rectifier
+            if ( rectifier_error == 0 )
+            {
+                // d[3].0 Zero
+                std::cout << "\tRectification returned successfully." << std::endl;
+
+                // a[7] Re-execute Target
+                std::cout << "\tRe-Executing target \"" << this->definition.get_target() << "\"." << std::endl;
+                int retry_code = Sproc::execute( target_command );
+
+                // **********************************************
+                // d[5] Error Code Check
+                // **********************************************
+                if ( retry_code == 0 )
+                {
+                    // d[5].0 ZERO
+                    // a[8] NEXT
+                    std::cout << "\tRe-execution was successful." << std::endl;
+                    return;
+                }
+
+                if ( retry_code != 0 )
+                {
+                    // d[5].1 NON-ZERO
+                    std::cout << "\tRe-execution failed with exit code " << retry_code << "." << std::endl;
+
+
+                    // **********************************************
+                    // d[6] Required Check
+                    // **********************************************
+                    if ( ! this->definition.get_required() )
+                    {
+                        // d[6].0 FALSE
+                        // a[9] NEXT
+                        std::cout << "\tThis task is not required to continue the plan. Moving on." << std::endl;
+                        return;
+                    }
+
+                    if ( this->definition.get_required() )
+                    {
+                        // d[6].1 TRUE
+                        // a[10] EXCEPTION
+                        throw TaskException("Task \"" + task_name + "\" is required, and failed, then rectified but rectifier did not heal the condition causing the target to fail.  Cannot proceed with Plan.");
+                    }
+                    // **********************************************
+                    // end - d[6] Required Check
+                    // **********************************************
+                }
+
             }
-            // d[4] non-zero
-            // d[5] required check
-            if ( this->definition.get_required() ) {
-                // d[5] yes
-                std::cout << "\tTask \"" << task_name << "\" is required but rectification did not heal." << std::endl;
-                throw Task_RequiredButRectifierDoesNotHeal();
-            }
-            // d[5] no
-            // next
         }
-        // no d[1]
-        std::cout << "\tRectification is not enabled for \"" << task_name << "\"." << std::endl;
-        // required d[2]
-        if ( this->definition.get_required() ) {
-            // d[2] yes
-            // This is executing.....
-            std::cout << "\tThis task is required to continue the plan." << std::endl;
-            // but these are NOT executing?????
-            throw Task_RequiredButFailedTask();
-        }             // d[2] no
-        std::cout << "\tThis task is not required to continue the plan." << std::endl;
+        // **********************************************
+        // end d[1] Rectify Check
+        // **********************************************
     }
 }

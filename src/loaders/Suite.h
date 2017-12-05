@@ -27,8 +27,6 @@
 #include "Unit.h"
 
 
-
-
 class Suite: public JSON_Loader
 {
     protected:

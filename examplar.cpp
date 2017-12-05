@@ -17,10 +17,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 */
+
 #include <iostream>
 #include "src/json/json.h"
 #include "src/loaders/loaders.h"
-
 
 int main( )
 {

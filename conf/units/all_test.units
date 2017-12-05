@@ -2,10 +2,10 @@
   "units": [
     {
       "name":       "independent test 1",
-      "target":     "/usr/bin/false",
+      "target":     "/usr/bin/true",
       "rectifier":  "/usr/bin/true",
       "active":     true,
-      "required":   false,
+      "required":   true,
       "rectify":    true
     },
     {
@@ -26,10 +26,10 @@
     },
     {
       "name":       "dependent test",
-      "target":     "/usr/bin/true",
-      "rectifier":  "/usr/bin/false",
+      "target":     "/usr/bin/false",
+      "rectifier":  "/usr/bin/true",
       "active":     true,
-      "required":   false,
+      "required":   true,
       "rectify":    true
     }
   ]
