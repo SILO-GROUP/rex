@@ -21,6 +21,7 @@
 #include "Task.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <syslog.h>
 #include "../sproc/Sproc.h"
 
 /// Task_InvalidDataStructure - Exception thrown when a Task is defined with invalid JSON.
@@ -112,8 +113,12 @@ void Task::load_root(Json::Value loader_root, bool verbose )
         if ( des_dep_root[i].asString() != "" ) {
             this->dependencies.push_back( des_dep_root[i].asString() );
             if ( verbose ) {
-                std::cout << "Added dependency \"" << des_dep_root[i].asString()
-                          << "\" to task \"" << this->get_name() << "\"." << std::endl;
+                std::ostringstream infostring;
+                infostring << "Added dependency \"" << des_dep_root[i].asString() << "\" to task \""
+                           << this->get_name() << "\"." << std::endl;
+
+                syslog( LOG_INFO, infostring.str().c_str() );
+                std::cout << infostring.str();
             }
         }
     }
@@ -133,8 +138,12 @@ void Task::load_definition( Unit selected_unit, bool verbose )
 {
     this->definition = selected_unit;
     if ( verbose ) {
-        std::cout << "Loaded definition \"" << selected_unit.get_name() << "\" for task \""
-                  << this->get_name() << "\"." << std::endl;
+        std::ostringstream infostring;
+        infostring << "Loaded definition \"" << selected_unit.get_name() << "\" for task \""
+                   << this->get_name() << "\"." << std::endl;
+
+        syslog( LOG_INFO, infostring.str().c_str() );
+        std::cout << infostring.str();
     }
     this->defined = true;
 }
@@ -180,6 +189,7 @@ void Task::execute( bool verbose )
 
     // PREWORK
     // throw if unit not coupled to all necessary values since Task is stateful (yes, stateful is okay)
+    std::ostringstream infostring;
     if ( ! this->has_definition() )
     {
         throw Task_NotReady();
@@ -196,8 +206,16 @@ void Task::execute( bool verbose )
     // if we're in verbose mode, do some verbose things
     if ( verbose )
     {
-        std::cout << "\tUsing unit \"" << task_name << "\"." << std::endl;
-        std::cout << "\tExecuting target \"" << target_command << "\"." << std::endl;
+        infostring = std::ostringstream();
+        infostring << "\tUsing unit \"" << task_name << "\"." << std::endl;
+        syslog( LOG_INFO, infostring.str().c_str() );
+        std::cout << infostring.str();
+
+
+        infostring = std::ostringstream();
+        infostring << "\tExecuting target \"" << target_command << "\"." << std::endl;
+        syslog( LOG_INFO, infostring.str().c_str() );
+        std::cout << infostring.str();
     }
 
     // a[0] execute target
@@ -211,7 +229,10 @@ void Task::execute( bool verbose )
         // d[0].0 ZERO
 
         if ( verbose ) {
-            std::cout << "\tTarget " << task_name << " succeeded." << std::endl;
+            infostring = std::ostringstream();
+            infostring << "\tTarget " << task_name << " succeeded.  Marking as complete." << std::endl;
+            syslog( LOG_INFO, infostring.str().c_str() );
+            std::cout << infostring.str();
         }
         this->mark_complete();
 
@@ -223,7 +244,11 @@ void Task::execute( bool verbose )
     {
         // d[0].1 NON-ZERO
 
-        std::cout << "\tTarget \"" << task_name << "\" failed with exit code " << return_code << "." << std::endl;
+        infostring = std::ostringstream();
+        infostring << "\tTarget \"" << task_name << "\" failed with exit code " << return_code << "." << std::endl;
+
+        syslog(LOG_ERR, infostring.str().c_str() );
+        std::cerr << infostring.str();
 
         // **********************************************
         // d[1] Rectify Check
@@ -239,7 +264,10 @@ void Task::execute( bool verbose )
             {
                 // d[2].0 FALSE
                 // a[2] NEXT
-                std::cout << "\tThis task is not required to continue the plan. Moving on." << std::endl;
+                infostring = std::ostringstream();
+                infostring << "\tThis task is not required to continue the plan. Moving on." << std::endl;
+                syslog(LOG_INFO, infostring.str().c_str() );
+                std::cout << infostring.str();
                 return;
             }
 
@@ -258,11 +286,19 @@ void Task::execute( bool verbose )
         if ( this->definition.get_rectify() )
         {
             // d[1].1 TRUE (Rectify Check)
-            std::cout << "\tRectification pattern is enabled for \"" << task_name << "\"." << std::endl;
+            infostring = std::ostringstream();
+            infostring << "\tRectification pattern is enabled for \"" << task_name << "\"." << std::endl;
+            syslog( LOG_INFO, infostring.str().c_str() );
+            std::cout << infostring.str();
 
             // a[4] Execute RECTIFIER
             std::string rectifier_command = this->definition.get_rectifier();
-            std::cout << "\tExecuting rectification: " << rectifier_command << "." << std::endl;
+
+            infostring = std::ostringstream();
+            infostring << "\tExecuting rectification: " << rectifier_command << "." << std::endl;
+            syslog(LOG_INFO, infostring.str().c_str() );
+            std::cout << infostring.str();
+
             int rectifier_error = Sproc::execute( rectifier_command );
 
             // **********************************************
@@ -271,8 +307,12 @@ void Task::execute( bool verbose )
             if ( rectifier_error != 0 )
             {
                 // d[3].1 Non-Zero
-                std::cout << "\tRectification of \"" << task_name << "\" failed with exit code "
-                          << rectifier_error << "." << std::endl;
+                infostring = std::ostringstream();
+                infostring << "\tRectification of \"" << task_name << "\" failed with exit code "
+                           << rectifier_error << "." << std::endl;
+                syslog( LOG_INFO, infostring.str().c_str() );
+
+                std::cout << infostring.str();
 
                 // **********************************************
                 // d[4] Required Check
@@ -280,7 +320,10 @@ void Task::execute( bool verbose )
                 if ( ! this->definition.get_required() ) {
                     // d[4].0 FALSE
                     // a[5] NEXT
-                    std::cout << "\tThis task is not required to continue the plan. Moving on." << std::endl;
+                    infostring = std::ostringstream();
+                    infostring << "\tThis task is not required to continue the plan. Moving on." << std::endl;
+                    syslog(LOG_INFO, infostring.str().c_str() );
+                    std::cout << infostring.str();
                     return;
                 }
 
@@ -299,10 +342,17 @@ void Task::execute( bool verbose )
             if ( rectifier_error == 0 )
             {
                 // d[3].0 Zero
-                std::cout << "\tRectification returned successfully." << std::endl;
+                infostring = std::ostringstream();
+                infostring << "\tRectification returned successfully." << std::endl;
+                syslog( LOG_INFO, infostring.str().c_str() );
+                std::cout << infostring.str();
 
                 // a[7] Re-execute Target
-                std::cout << "\tRe-Executing target \"" << this->definition.get_target() << "\"." << std::endl;
+                infostring = std::ostringstream();
+                infostring << "\tRe-Executing target \"" << this->definition.get_target() << "\"." << std::endl;
+                syslog( LOG_INFO, infostring.str().c_str() );
+                std::cout << infostring.str();
+
                 int retry_code = Sproc::execute( target_command );
 
                 // **********************************************
@@ -312,15 +362,20 @@ void Task::execute( bool verbose )
                 {
                     // d[5].0 ZERO
                     // a[8] NEXT
-                    std::cout << "\tRe-execution was successful." << std::endl;
+                    infostring = std::ostringstream();
+                    infostring << "\tRe-execution was successful." << std::endl;
+                    syslog( LOG_INFO, infostring.str().c_str() );
+                    std::cout << infostring.str();
                     return;
                 }
 
                 if ( retry_code != 0 )
                 {
                     // d[5].1 NON-ZERO
-                    std::cout << "\tRe-execution failed with exit code " << retry_code << "." << std::endl;
-
+                    infostring = std::ostringstream();
+                    infostring << "\tRe-execution failed with exit code " << retry_code << "." << std::endl;
+                    syslog(LOG_ERR, infostring.str().c_str() );
+                    std::cerr << infostring.str();
 
                     // **********************************************
                     // d[6] Required Check
@@ -329,7 +384,11 @@ void Task::execute( bool verbose )
                     {
                         // d[6].0 FALSE
                         // a[9] NEXT
-                        std::cout << "\tThis task is not required to continue the plan. Moving on." << std::endl;
+                        infostring = std::ostringstream();
+                        infostring << "\tThis task is not required to continue the plan. Moving on." << std::endl;
+                        syslog(LOG_INFO, infostring.str().c_str() );
+                        std::cout << infostring.str();
+
                         return;
                     }
 
