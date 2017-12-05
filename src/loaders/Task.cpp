@@ -176,6 +176,7 @@ bool Task::has_definition()
 void Task::execute( bool verbose )
 {
     // DUFFING - If Examplar is broken it's probably going to be in this block.
+    // Somebody come clean this up, eh?
 
     // PREWORK
     // throw if unit not coupled to all necessary values since Task is stateful (yes, stateful is okay)
