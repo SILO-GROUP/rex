@@ -23,8 +23,6 @@
 #include "src/loaders/loaders.h"
 
 /*
- * TODO Logging -- Pump to syslog with clone to STDOUT
- * TODO Unit Files Directory instead of a single Unit File (optional to user)
  * TODO Commandline switches
  */
 
