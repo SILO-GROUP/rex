@@ -32,8 +32,7 @@
 
 void print_usage()
 {
-    printf("examplar [ -h/--help ] [ -v/--verbose ] [ -c/--config CONFIG_PATH ]\n\n");
-    exit(0);
+    printf("examplar [ -h | --help ] [ -v | --verbose ] [ -c | --config CONFIG_PATH ]\n\n");
 }
 
 int main( int argc, char * argv[] )
@@ -78,6 +77,9 @@ int main( int argc, char * argv[] )
             case 'c':
                 config_path = std::string(optarg);
                 break;
+            case '?':
+                print_usage();
+                exit(1);
             default:
                 break;
         }
@@ -86,6 +88,7 @@ int main( int argc, char * argv[] )
     if ( show_help == true )
     {
         print_usage();
+        exit(0);
     }
 
     setlogmask( LOG_UPTO( LOG_INFO ) );
