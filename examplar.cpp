@@ -21,20 +21,61 @@
 #include <iostream>
 #include "src/json/json.h"
 #include "src/loaders/loaders.h"
+#include <unistd.h>
+
+#include <syslog.h>
 
 /*
- * TODO Logging -- Pump to syslog with clone to STDOUT
- * TODO Unit Files Directory instead of a single Unit File (optional to user)
  * TODO Commandline switches
  */
 
-
-int main( )
+void print_usage()
 {
-    bool verbose = true;
+    printf("examplar [ -h ] [ -v ] [ -c CONFIG_PATH ]");
+    exit(0);
+}
+
+int main( int argc, char * argv[] )
+{
+    int flags, opt;
+    bool verbose = false;
+    bool show_help = false;
+    std::string config_path = "/etc/Examplar/config.json";
+
+    // commandline switches:
+    // -h help
+    // -v verbose
+    // -c CONFIG_FILE_PATH -- defaults to '/etc/Examplar/config.json'
+
+    while ( ( opt = getopt( argc, argv, "hvc:" ) ) != -1 )
+    {
+        switch(opt)
+        {
+            case 'h':
+                show_help = true;
+            case 'v':
+                verbose = true;
+                break;
+            case 'c':
+                config_path = std::string(optarg);
+                break;
+            default:
+                break;
+        }
+    }
+
+    if ( show_help == true )
+    {
+        print_usage();
+    }
+
+    setlogmask( LOG_UPTO( LOG_INFO ) );
+
+    openlog( "Examplar", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_PERROR | LOG_LOCAL1 );
+
     // A Plan is made up of Tasks, and a Suite is made up of Units.
     // A Plan declares what units are executed and a Suite declares the definitions of those units.
-    Conf configuration = Conf("/home/phanes/development/internal/Examplar/conf/config.json", verbose );
+    Conf configuration = Conf(config_path, verbose );
 
     // load the configuration file which contains filepaths to definitions of a plan and definitions of units.
     std::string definitions_file = configuration.get_units_path();
@@ -58,8 +99,11 @@ int main( )
     catch ( std::exception& e)
     {
         std::cerr << e.what() << std::endl;
+        syslog( LOG_ERR, e.what() );
+        closelog();
         return 1;
     }
 
+    closelog();
     return 0;
 }
