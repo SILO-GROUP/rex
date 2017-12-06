@@ -22,6 +22,7 @@
 #include "src/json/json.h"
 #include "src/loaders/loaders.h"
 #include <unistd.h>
+#include <getopt.h>
 
 #include <syslog.h>
 
@@ -31,7 +32,7 @@
 
 void print_usage()
 {
-    printf("examplar [ -h ] [ -v ] [ -c CONFIG_PATH ]");
+    printf("examplar [ -h/--help ] [ -v/--verbose ] [ -c/--config CONFIG_PATH ]\n\n");
     exit(0);
 }
 
@@ -47,10 +48,28 @@ int main( int argc, char * argv[] )
     // -v verbose
     // -c CONFIG_FILE_PATH -- defaults to '/etc/Examplar/config.json'
 
-    while ( ( opt = getopt( argc, argv, "hvc:" ) ) != -1 )
+    while (1)
     {
-        switch(opt)
+        static struct option long_options[] =
         {
+            {"verbose", no_argument,      0, 'v'},
+            {"help", no_argument,         0, 'h'},
+            {"config", required_argument, 0, 'c'},
+            {0, 0}
+        };
+        int option_index = 0;
+
+        opt = getopt_long (argc, argv, "vhc:",
+                           long_options, &option_index);
+
+        if (opt == -1)
+          break;
+
+        switch (opt)
+        {
+            case 0:
+            if (long_options[option_index].flag !=0)
+                break;
             case 'h':
                 show_help = true;
             case 'v':
