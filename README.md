@@ -69,9 +69,9 @@ The configuration version is checked to ensure that the configuration is consuma
 
 ## I am seriously stupid and I still have no idea how to use this.
 
-That's ok.  We like stupid people, too.  Here's a hello world.
+That's ok.  We like stupid people, too.  Here's a 'hello world' example.
 
-# 1.  Write your test.
+# 1.  Write your tests.
 First, we want to know all the things we need to be able to print "hello world" to the screen.  In this case we just need to make we have the "echo" binary.
 
 Write a bash script that checks if the "echo" binary is on the system.
@@ -102,5 +102,5 @@ Execute examplar:
 
 examplar --verbose --config path/to/your/config/file.json
 
-And you should see your hello world script.
+And you should see your 'hello world' script.
 
