@@ -1,0 +1,14 @@
+# Instructions
+
+## Build
+1. cmake .
+2. make
+3. sudo make install # (or generate a package and use that)
+
+## Usage
+1.  Write a script that does a thing.
+2.  Write a script that checks if that thing is done.
+3.  Set up your check as a target in a unit.
+4.  Set up your script as its rectifier.
+5.  Turn on the rectify pattern in the unit definition.
+
