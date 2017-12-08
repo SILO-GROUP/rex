@@ -67,9 +67,9 @@ The PLAN FILE is a specification of the order that Tasks are executed, and their
 The configuration version is checked to ensure that the configuration is consumable by that version of Examplar.  This will pave the way for reverse compatibility if the project moves in that direction.
 
 
-## I am seriously stupid and I still have no idea how to use this.
+## I still don't see how this works.
 
-That's ok.  We like stupid people, too.  Here's a 'hello world' example.
+That's ok.  It's in its infancy so we're always looking for ways to make it simpler.  Here's a 'hello world' example.
 
 # 1.  Write your tests.
 First, we want to know all the things we need to be able to print "hello world" to the screen.  In this case we just need to make we have the "echo" binary.
@@ -83,6 +83,7 @@ Write a bash script that checks if the "echo" binary is on the system.
 Save it as ~/check-echo.bash.
 This script will be your "target" attribute for your "hello world" unit definition.
 
+# 2. Write your automation.
 Write a "hello world" script.
 
 	#!/usr/bin/bash
@@ -92,12 +93,16 @@ Write a "hello world" script.
 Save it as ~/hello.bash
 This script will be your "rectify" attribute for your "hello world" unit definition.
 
+# 3. Set up the Unit file.
 At this point you've got both the script that checks if hello world can run and you've got your hello world script.  Time to set up the unit.
 
+# 4. Add the Unit definition to the Plan.
 Next, add the unit to the plan by name.
 
+# 5. Set up your config file.
 Point your config file at your plan file and your units directory.
 
+# 6.  Run Examplar pointing at that config file.
 Execute examplar:
 
 examplar --verbose --config path/to/your/config/file.json
