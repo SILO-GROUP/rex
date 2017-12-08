@@ -120,7 +120,10 @@ protected:
 /// Plan::Plan() - Constructor for Plan class.  A Plan is a managed container for a Task vector.  These tasks reference
 /// Units that are defined in the Units files (Suite).  If Units are definitions, Tasks are selections of those
 /// definitions to execute, and if Units together form a Suite, Tasks together form a Plan.
-Plan::Plan(): JSON_Loader() {};
+Plan::Plan( Conf * configuration ): JSON_Loader()
+{
+    this->configuration = configuration;
+};
 
 /// Plan::load_plan_file - Uses the json_root buffer on each run to append intact Units as they're deserialized from
 /// the provided file.
@@ -259,7 +262,7 @@ void Plan::execute( bool verbose )
                 std::cout << "Executing task \"" << this->tasks[i].get_name() << "\"." << std::endl;
             }
             try {
-                this->tasks[i].execute( verbose );
+                this->tasks[i].execute( this->configuration, verbose );
             }
             catch (std::exception& e) {
                 throw Plan_Task_GeneralExecutionException( "Plan Task: \"" + this->tasks[i].get_name() + "\" reported: " + e.what() );

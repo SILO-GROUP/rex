@@ -21,9 +21,11 @@
 #ifndef FTESTS_TASK_H
 #define FTESTS_TASK_H
 #include <string>
+#include <unistd.h>
 #include "../json/json.h"
 #include "Unit.h"
 #include "Suite.h"
+#include "Conf.h"
 
 class Task
 {
@@ -62,7 +64,7 @@ class Task
         std::string get_name();
 
         // execute this task's definition
-        void execute( bool verbose );
+        void execute( Conf * configuration, bool verbose );
 
         void mark_complete();
 

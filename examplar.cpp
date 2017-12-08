@@ -23,8 +23,8 @@
 #include "src/loaders/loaders.h"
 #include <unistd.h>
 #include <getopt.h>
-
 #include <syslog.h>
+#include "src/loaders/helpers.h"
 
 /*
  * TODO Commandline switches
@@ -32,34 +32,45 @@
 
 void print_usage()
 {
-    printf("examplar [ -h | --help ] [ -v | --verbose ] [ -c | --config CONFIG_PATH ]\n\n");
+    printf("examplar [ -h | --help ] [ -v | --verbose ] [ -e | --execution-context EXECUTION_CONTEXT ][ -c | --config CONFIG_PATH ]\n\n");
 }
+
+
+
 
 int main( int argc, char * argv[] )
 {
     int flags, opt;
     bool verbose = false;
     bool show_help = false;
+
+    // indicator of whether examplar should use a commandline argument for overriding the context
+    // instead of what's supplied in the conf file
+    bool cli_context_supplied = false;
+
     std::string config_path = "/etc/Examplar/config.json";
+    std::string execution_context;
 
     // commandline switches:
     // -h help
     // -v verbose
     // -c CONFIG_FILE_PATH -- defaults to '/etc/Examplar/config.json'
+    // -e EXECUTION_CONTEXT -- current working directory when executing unit targets
 
     while (1)
     {
         static struct option long_options[] =
         {
-            {"verbose", no_argument,      0, 'v'},
-            {"help", no_argument,         0, 'h'},
-            {"config", required_argument, 0, 'c'},
+            {"verbose",             no_argument,            0, 'v'},
+            {"help",                no_argument,            0, 'h'},
+            {"config",              required_argument,      0, 'c'},
+            {"execution-context",   required_argument,      0, 'e'},
             {0, 0}
         };
+
         int option_index = 0;
 
-        opt = getopt_long (argc, argv, "vhc:",
-                           long_options, &option_index);
+        opt = getopt_long (argc, argv, "vhec:", long_options, &option_index);
 
         if (opt == -1)
           break;
@@ -80,6 +91,10 @@ int main( int argc, char * argv[] )
             case '?':
                 print_usage();
                 exit(1);
+            case 'e':
+                cli_context_supplied = true;
+                execution_context = std::string(optarg);
+                break;
             default:
                 break;
         }
@@ -99,14 +114,33 @@ int main( int argc, char * argv[] )
     // A Plan declares what units are executed and a Suite declares the definitions of those units.
     Conf configuration = Conf(config_path, verbose );
 
-    // load the configuration file which contains filepaths to definitions of a plan and definitions of units.
+    // if the user set this option as a commandline argument
+    if ( cli_context_supplied == true )
+    {
+        // override the conf file's specified execution context
+        configuration.set_execution_context( execution_context );
+    }
+
+    // check if context override
+    if ( configuration.has_context_override() )
+    {
+        // if so, set the CWD.
+        chdir( configuration.get_execution_context().c_str() );
+        std::ostringstream infostring;
+        infostring << "Execution context: " << get_working_path() << std::endl;
+        syslog(LOG_INFO, infostring.str().c_str() );
+        std::cout << infostring.str();
+    }
+
+
+    // load the filepaths to definitions of a plan and definitions of units.
     std::string definitions_file = configuration.get_units_path();
     std::string plan_file = configuration.get_plan_path();
 
     Suite available_definitions;
     available_definitions.load_units_file( definitions_file, verbose );
 
-    Plan plan;
+    Plan plan( &configuration );
     plan.load_plan_file( plan_file, verbose );
 
     plan.load_definitions( available_definitions, verbose );

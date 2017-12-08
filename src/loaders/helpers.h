@@ -22,9 +22,12 @@
 #define FTESTS_HELPERS_H
 #include <string>
 #include <sys/stat.h>
+#include <sys/param.h>
+#include <unistd.h>
+
 
 bool exists (const std::string& name);
 
-
+std::string get_working_path();
 
 #endif //FTESTS_HELPERS_H

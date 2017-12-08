@@ -1,5 +1,7 @@
 {
-  "units_path":	"/home/phanes/development/internal/Examplar/conf/units/all_test.units",
-  "plan_path":  "/home/phanes/development/internal/Examplar/conf/plans/test.plan",
-  "config_version": "1"
+  "execution_context_override": true,
+  "execution_context": "/home/phanes/development/internal/Examplar/conf/",
+  "units_path":	"units/all_test.units",
+  "plan_path":  "plans/test.plan",
+  "config_version": "2"
 }

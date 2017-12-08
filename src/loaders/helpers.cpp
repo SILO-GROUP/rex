@@ -25,3 +25,9 @@ bool exists(const std::string& name)
     struct stat buffer;
     return (stat (name.c_str(), &buffer) == 0);
 }
+
+std::string get_working_path()
+{
+    char temp[MAXPATHLEN];
+    return ( getcwd(temp, MAXPATHLEN) ? std::string( temp ) : std::string("") );
+}

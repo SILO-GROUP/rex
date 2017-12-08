@@ -25,15 +25,17 @@
 #include "../json/json.h"
 #include "JSON_Loader.h"
 #include "Task.h"
+#include "Conf.h"
 
 class Plan: public JSON_Loader
 {
     private:
         // storage for the tasks that make up the plan
         std::vector<Task> tasks;
+        Conf * configuration;
 
     public:
-        Plan();
+        Plan( Conf * configuration );
 
         // append this->tasks from JSON file
         void load_plan_file( std::string filename, bool verbose );

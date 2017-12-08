@@ -19,10 +19,10 @@
 */
 
 #include "Task.h"
-#include <unistd.h>
 #include <stdio.h>
 #include <syslog.h>
 #include "../sproc/Sproc.h"
+#include "helpers.h"
 
 /// Task_InvalidDataStructure - Exception thrown when a Task is defined with invalid JSON.
 class Task_InvalidDataStructure: public std::runtime_error {
@@ -174,15 +174,10 @@ bool Task::has_definition()
     return this->defined;
 }
 
-
-
-
-
-
 /// Task::execute - execute a task's unit definition.
 /// See the design document for what flow control needs to look like here.
 /// \param verbose - Verbosity level - not implemented yet.
-void Task::execute( bool verbose )
+void Task::execute( Conf * configuration, bool verbose )
 {
     // DUFFING - If Examplar is broken it's probably going to be in this block.
     // Somebody come clean this up, eh?
@@ -199,18 +194,28 @@ void Task::execute( bool verbose )
     std::string task_name = this->definition.get_name();
     // END PREWORK
 
-
     // get the target execution command
     std::string target_command = this->definition.get_target();
 
     // if we're in verbose mode, do some verbose things
     if ( verbose )
     {
+
         infostring = std::ostringstream();
         infostring << "\tUsing unit \"" << task_name << "\"." << std::endl;
         syslog( LOG_INFO, infostring.str().c_str() );
         std::cout << infostring.str();
 
+        // check if context override
+        if ( configuration->has_context_override() )
+        {
+            // if so, set the CWD.
+            chdir( configuration->get_execution_context().c_str() );
+            infostring = std::ostringstream();
+            infostring << "\tExecution context: " << get_working_path() << std::endl;
+            syslog(LOG_INFO, infostring.str().c_str() );
+            std::cout << infostring.str();
+        }
 
         infostring = std::ostringstream();
         infostring << "\tExecuting target \"" << target_command << "\"." << std::endl;
