@@ -26,7 +26,7 @@
 
 #define STRINGIZE2(s) #s
 #define STRINGIZE(s) STRINGIZE2(s)
-# define IMPL_CONFIG_VERSION 2
+# define IMPL_CONFIG_VERSION 3
 # define VERSION_STRING STRINGIZE(IMPL_CONFIG_VERSION)
 
 class Conf: public JSON_Loader
@@ -36,6 +36,7 @@ private:
     Json::Value units_path;
     Json::Value execution_context;
     Json::Value config_version;
+    Json::Value env_vars_file;
 
     // flag to indicate if execution context should be overriden in config file
     // if set to true Examplar should use whats in the config file for current working directory
@@ -53,7 +54,10 @@ public:
     bool has_context_override();
 
     std::string get_execution_context();
+
     void set_execution_context( std::string );
+
+    std::string get_env_vars_file();
 
 };
 

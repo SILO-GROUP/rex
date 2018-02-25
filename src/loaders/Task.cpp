@@ -200,11 +200,12 @@ void Task::execute( Conf * configuration, bool verbose )
     // if we're in verbose mode, do some verbose things
     if ( verbose )
     {
-
+/*
         infostring = std::ostringstream();
         infostring << "\tUsing unit \"" << task_name << "\"." << std::endl;
         syslog( LOG_INFO, infostring.str().c_str() );
         std::cout << infostring.str();
+*/
 
         // check if context override
         if ( configuration->has_context_override() )
@@ -224,7 +225,8 @@ void Task::execute( Conf * configuration, bool verbose )
     }
 
     // a[0] execute target
-    int return_code = Sproc::execute( target_command );
+    // TODO revise variable sourcing strategy
+    int return_code = Sproc::execute( "source " + configuration->get_env_vars_file() + " && " + target_command );
 
     // **********************************************
     // d[0] Error Code Check

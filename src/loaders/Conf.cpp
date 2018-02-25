@@ -114,6 +114,14 @@ Conf::Conf( std::string filename, bool verbose ): JSON_Loader()
     } else {
             this->execution_context_literal = this->execution_context.asString();
     }
+
+    if ( this->get_serialized(this->env_vars_file, "env_vars_file", true) != 0 )
+    {
+        throw ConfigLoadException("env_vars_file is not set in the config file supplied: " + filename);
+    }
+
+
+
 };
 
 /// Conf::has_context_override - Specifies whether or not the override context function is enabled in the conf file.
@@ -137,4 +145,9 @@ std::string Conf::get_units_path() { return this->units_path.asString(); }
 void Conf::set_execution_context( std::string execution_context )
 {
     this->execution_context_literal = execution_context;
+}
+
+std::string Conf::get_env_vars_file()
+{
+    return this->env_vars_file.asString();
 }
