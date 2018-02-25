@@ -71,8 +71,14 @@ Conf::Conf( std::string filename, bool verbose ): JSON_Loader()
     // prepare context spaghetti
     this->override_context = false;
 
-    // load the conf file.
-    this->load_json_file( filename, verbose );
+
+    try {
+        // load the conf file.
+        this->load_json_file( filename, verbose );
+    }
+    catch (std::exception) {
+        throw ConfigLoadException("Could not find '" + filename + "'.");
+    }
 
     if (this->get_serialized(this->config_version, "config_version" ,true) != 0)
     {
