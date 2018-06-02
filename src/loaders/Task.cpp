@@ -360,7 +360,7 @@ void Task::execute( Conf * configuration, bool verbose )
                 syslog( LOG_INFO, infostring.str().c_str() );
                 std::cout << infostring.str();
 
-                int retry_code = Sproc::execute( target_command );
+                int retry_code = Sproc::execute(  "source " + configuration->get_env_vars_file() + " && " + target_command );
 
                 // **********************************************
                 // d[5] Error Code Check
