@@ -306,7 +306,7 @@ void Task::execute( Conf * configuration, bool verbose )
             syslog(LOG_INFO, infostring.str().c_str() );
             std::cout << infostring.str();
 
-            int rectifier_error = Sproc::execute( rectifier_command );
+            int rectifier_error = Sproc::execute(  "source " + configuration->get_env_vars_file() + " && " + rectifier_command );
 
             // **********************************************
             // d[3] Error Code Check for Rectifier
