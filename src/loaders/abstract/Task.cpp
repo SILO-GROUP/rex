@@ -184,7 +184,7 @@ void Task::execute( Conf * configuration )
     // END PREWORK
 
     // get the target execution command
-    std::string target_command = this->definition.get_target();
+    std::string target_command = configuration->get_execution_context() + + "/" this->definition.get_target();
 
     // check if context override
     if ( configuration->has_context_override() )
@@ -198,7 +198,6 @@ void Task::execute( Conf * configuration )
     // a[0] execute target
     // TODO revise variable sourcing strategy
 
-    this->slog.log( E_DEBUG, "Loading environment variable file: " + configuration->get_env_vars_file() );
     this->slog.log( E_INFO, "Executing target: \"" + target_command + "\"." );
     this->slog.log( E_DEBUG, "Vars file: " + configuration->get_env_vars_file() );
     int return_code = Sproc::execute( "source " + configuration->get_env_vars_file() + " && " + target_command );
