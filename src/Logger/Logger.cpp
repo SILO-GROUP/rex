@@ -7,10 +7,10 @@
 Logger::Logger( int LOG_LEVEL, std::string mask )
 {
     this->LOG_LEVEL = LOG_LEVEL;
-    this->mask = mask.c_str();
+    this->mask = mask;
 
     setlogmask( LOG_UPTO( this->LOG_LEVEL ) );
-    openlog( this->mask, LOG_CONS | LOG_PID | LOG_NDELAY, LOG_PERROR | LOG_LOCAL1 );
+    openlog( this->mask.c_str(), LOG_CONS | LOG_PID | LOG_NDELAY, LOG_PERROR | LOG_LOCAL1 );
 
 }
 

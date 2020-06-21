@@ -1,6 +1,6 @@
 {
   "execution_context_override": true,
-  "execution_context": "/home/phanes/development/internal/Examplar/conf/",
+  "execution_context": "/home/bagira/development/internal/examplar/test",
   "units_path":	"units/all_test.units",
   "plan_path":  "plans/test.plan",
   "config_version": "3",

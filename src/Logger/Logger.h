@@ -13,9 +13,9 @@
 #include <sstream>
 
 enum L_LVL {
-    E_INFO,
     E_FATAL,
     E_WARN,
+    E_INFO,
     E_DEBUG
 };
 
@@ -26,7 +26,7 @@ public:
 
 private:
     int LOG_LEVEL;
-    const char * mask;
+    std::string mask;
     std::string get_8601();
 };
 

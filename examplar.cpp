@@ -39,7 +39,7 @@ int main( int argc, char * argv[] )
     bool show_help = false;
 
     // indicator of whether examplar should use a commandline argument for overriding the context
-    // instead of what's supplied in the conf file
+    // instead of what's supplied in the test file
     bool cli_context_supplied = false;
 
     std::string config_path = "/etc/Examplar/config.json";
@@ -104,8 +104,10 @@ int main( int argc, char * argv[] )
     if ( verbose )
     {
         L_LEVEL = E_DEBUG;
+        std::cout << "Verbosity is DBUG." << std::endl;
     } else {
         L_LEVEL = E_INFO;
+        std::cout << "Verbosity is INFO." << std::endl;
     }
 
     Logger slog = Logger( L_LEVEL, "Examplar" );
@@ -126,7 +128,7 @@ int main( int argc, char * argv[] )
     // if the user set this option as a commandline argument
     if ( cli_context_supplied )
     {
-        // override the conf file's specified execution context
+        // override the test file's specified execution context
         configuration.set_execution_context( execution_context );
         slog.log( E_DEBUG, "Set execution context from commandline: " + execution_context );
     }

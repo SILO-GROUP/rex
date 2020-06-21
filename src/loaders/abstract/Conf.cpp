@@ -66,7 +66,7 @@ protected:
 /// TODO Expand to detect when a directory path is supplied for units_path or plan_path and import all Tasks and Units.
 ///
 /// \param filename - The filename to load the configuration from.
-Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "examplar::conf" )
+Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "examplar::test" )
 {
     this->LOG_LEVEL = LOG_LEVEL;
 
@@ -74,7 +74,7 @@ Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slo
     this->override_context = false;
 
     try {
-        // load the conf file.
+        // load the test file.
         this->load_json_file( filename );
     }
     catch (std::exception) {
