@@ -124,9 +124,9 @@ Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slo
 
     this->env_vars_file_literal = this->execution_context_literal + "/" + this->env_vars_file.asString();
 
-    if ( exists( this->env_vars_file_literal ) )
+    if ( exists( this->get_env_vars_file() ) )
     {
-        this->slog.log( E_DEBUG, "Environment variables file exists: '" + this->env_vars_file_literal + "'." );
+        this->slog.log( E_DEBUG, "Environment variables file exists: '" + this->get_env_vars_file() + "'." );
     } else {
         this->slog.log( E_FATAL, "Variables file does not exist: '" + this->env_vars_file_literal + "'.");
         throw ConfigLoadException( "env_vars_file points to an incorrect path." );
