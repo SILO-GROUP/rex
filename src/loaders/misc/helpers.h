@@ -17,12 +17,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-#ifndef FTESTS_LOADERS_H
-#define FTESTS_LOADERS_H
 
-#include "JSON_Loader.h"
-#include "Suite.h"
-#include "Plan.h"
-#include "Conf.h"
+#ifndef FTESTS_HELPERS_H
+#define FTESTS_HELPERS_H
+#include <string>
+#include <sys/stat.h>
+#include <sys/param.h>
+#include <unistd.h>
 
-#endif //FTESTS_LOADERS_H
+
+bool exists (const std::string& name);
+
+std::string get_working_path();
+bool is_file( std::string );
+bool is_dir( std::string );
+
+#endif //FTESTS_HELPERS_H

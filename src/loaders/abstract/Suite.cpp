@@ -79,24 +79,13 @@ protected:
 /// human processes to allow modularly developed profiles of test suites.  As inferred, Unit is expected to be one of
 /// the two types that are only instantiated once per application run, though it is designed to be used more than once
 /// if the implementor so desires.
-Suite::Suite(): JSON_Loader() {};
-
-
-bool is_file( std::string path)
+Suite::Suite( int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "examplar::suite" )
 {
-    struct stat buf;
-    stat( path.c_str(), &buf );
-    return S_ISREG(buf.st_mode);
+    this->LOG_LEVEL;
 }
 
-bool is_dir( std::string path )
-{
-    struct stat buf;
-    stat( path.c_str(), &buf );
-    return S_ISDIR(buf.st_mode);
-}
 
-void get_units_from_dir( std::vector<std::string> * files, std::string path )
+void Suite::get_units_from_dir( std::vector<std::string> * files, std::string path )
 {
     DIR* dirFile = opendir( path.c_str() );
     if ( dirFile )
@@ -107,11 +96,20 @@ void get_units_from_dir( std::vector<std::string> * files, std::string path )
         errno = 0;
         while (( hFile = readdir( dirFile )) != NULL )
         {
-            if ( !strcmp( hFile->d_name, "."  )) continue;
-            if ( !strcmp( hFile->d_name, ".." )) continue;
+            if ( !strcmp( hFile->d_name, "."  ))
+            {
+                continue;
+            }
+            if ( !strcmp( hFile->d_name, ".." ))
+            {
+                continue;
+            }
 
             // hidden files
-            if ( hFile->d_name[0] == '.' ) continue;
+            if ( hFile->d_name[0] == '.' )
+            {
+                continue;
+            }
 
             // dirFile.name is the name of the file. Do whatever string comparison
             // you want here. Something like:
@@ -123,10 +121,9 @@ void get_units_from_dir( std::vector<std::string> * files, std::string path )
         }
         closedir( dirFile );
     } else {
-        std::cout << "file not found" << std::endl;
+        this->slog.log( E_DEBUG, "File not found: " + path );
     }
 }
-
 
 
 /// Suite::load_units_file - Uses the json_root buffer on each run to append intact Units as they're
@@ -134,7 +131,7 @@ void get_units_from_dir( std::vector<std::string> * files, std::string path )
 ///
 /// \param units_path - The file to pull the JSON-formatted units from.
 /// \param verbose - Whether to print verbose output to STDOUT.
-void Suite::load_units_file( std::string units_path, bool verbose )
+void Suite::load_units_file( std::string units_path )
 {
     std::vector<std::string> unit_files;
 
@@ -149,28 +146,26 @@ void Suite::load_units_file( std::string units_path, bool verbose )
         unit_files.push_back( units_path );
     }
 
-    std::ostringstream infostring;
-    infostring << "Unit files found: " << unit_files.size() << std::endl;
-    syslog(LOG_INFO, infostring.str().c_str() );
-    std::cerr << infostring.str();
+    this->slog.log( E_INFO, "Unit files found: " + std::to_string( unit_files.size() ) );
 
     for ( int i = 0; i < unit_files.size(); i++ )
     {
         // will use json_root buffer on each run to append to this->units vector as valid units are found.
-        this->load_json_file( unit_files[i], verbose );
+        this->load_json_file( unit_files[i] );
 
         // staging buffer
         Json::Value jbuff;
 
         // fill the jbuff staging buffer with a json::value object in the supplied units_path
-        if ( this->get_serialized( jbuff, "units", verbose ) == 0)
+        if ( this->get_serialized( jbuff, "units" ) == 0)
         {
             this->json_root = jbuff;
         }
 
         // iterate through the json::value members that have been loaded.  append to this->units vector
         // buffer for units to append:
-        Unit tmp_U;
+        Unit tmp_U = Unit( this->LOG_LEVEL );
+
         for ( int index = 0; index < this->json_root.size(); index++ )
         {
             // assemble the unit from json_root using the built-in value operator
@@ -178,19 +173,12 @@ void Suite::load_units_file( std::string units_path, bool verbose )
             if ( tmp_U.get_active() ) {
                 // append to this->units
                 this->units.push_back( tmp_U );
-                if ( verbose ) {
-                    std::ostringstream infostring;
-                    infostring << "Added unit \"" << tmp_U.get_name() << "\" to Suite." << std::endl;
-                    syslog(LOG_INFO, infostring.str().c_str() );
-                    std::cout << infostring.str();
-                }
+                this->slog.log( E_INFO, "Added unit \"" + tmp_U.get_name() + "\" to Suite.");
             }
         }
     }
-
-
-
 }
+
 
 /// Suite::get_unit - returns a contained Unit identified by name attribute.
 ///
@@ -213,11 +201,8 @@ void Suite::get_unit(Unit & result, std::string provided_name)
 
     if (! foundMatch )
     {
-        std::ostringstream infostring;
-        infostring << "Unit name \"" << provided_name << "\" was referenced but not defined!" << std::endl;
-        syslog(LOG_ERR, infostring.str().c_str() );
-        std::cerr << infostring.str();
-        throw SuiteException( infostring.str() );
+        this->slog.log( E_FATAL, "Unit name \"" + provided_name + "\" was referenced but not defined!" );
+        throw SuiteException( "Undefined unit in use." );
     }
 }
 

@@ -48,7 +48,10 @@ class Unit_DataStructureException: public std::runtime_error { public:
 /// required, which is used as a flag to halt or continue if rectifier does not heal the system in such a way that
 /// target can run successfully.
 /// rectify, which is used as a flag to determine in the rectifier runs.
-Unit::Unit() {}
+Unit::Unit( int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "examplar::unit" )
+{
+    this->LOG_LEVEL;
+}
 
 /// Unit::load_root - Takes a JSON::Value and assigns the members to the Unit being populated.
 ///
@@ -92,7 +95,7 @@ int Unit::load_root(Json::Value loader_root)
 int Unit::load_string(std::string json_val)
 {
     // serialize
-    this->load_json_string( json_val, true );
+    this->load_json_string( json_val );
 
     // deserialize
     this->load_root( this->json_root );

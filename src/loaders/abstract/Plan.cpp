@@ -120,40 +120,39 @@ protected:
 /// Plan::Plan() - Constructor for Plan class.  A Plan is a managed container for a Task vector.  These tasks reference
 /// Units that are defined in the Units files (Suite).  If Units are definitions, Tasks are selections of those
 /// definitions to execute, and if Units together form a Suite, Tasks together form a Plan.
-Plan::Plan( Conf * configuration ): JSON_Loader()
+Plan::Plan( Conf * configuration, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "examplar::plan" )
 {
     this->configuration = configuration;
-};
+    this->LOG_LEVEL = LOG_LEVEL;
+}
 
 /// Plan::load_plan_file - Uses the json_root buffer on each run to append intact Units as they're deserialized from
 /// the provided file.
 ///
 /// \param filename - The filename to load the plan from.
 /// \param verbose  - Whether to print verbose output to STDOUT.
-void Plan::load_plan_file(std::string filename, bool verbose)
+void Plan::load_plan_file( std::string filename )
 {
     // plan always loads from file
-    this->load_json_file( filename, verbose );
+    this->load_json_file( filename );
 
     // staging buffer
     Json::Value jbuff;
 
     // fill the jbuff staging buffer wih a json::value object in the supplied filename
-    if ( this->get_serialized( jbuff, "plan", verbose ) == 0 )
+    if ( this->get_serialized( jbuff, "plan" ) == 0 )
     {
         this->json_root = jbuff;
     }
 
     // iterate through the json::value members that have been loaded.  append to this->tasks vector
     // buffer for tasks to append:
-    Task tmp_T;
+    Task tmp_T = Task( this->LOG_LEVEL );
     for ( int index = 0; index < this->json_root.size(); index++ )
     {
-        tmp_T.load_root( this->json_root[ index ], verbose );
+        tmp_T.load_root( this->json_root[ index ] );
         this->tasks.push_back( tmp_T );
-        if ( verbose ) {
-            std::cout << "Added task \"" << tmp_T.get_name() << "\" to Plan." << std::endl;
-        }
+        this->slog.log( LOG_INFO, "Added task \"" + tmp_T.get_name() + "\" to Plan." );
     }
 }
 
@@ -177,10 +176,10 @@ void Plan::get_task(Task & result, int index )
 ///
 /// \param unit_definitions - The Suite to load definitions from.
 /// \param verbose - Whether to print verbose information to STDOUT.
-void Plan::load_definitions( Suite unit_definitions, bool verbose )
+void Plan::load_definitions( Suite unit_definitions )
 {
     // placeholder Unit
-    Unit tmp_U;
+    Unit tmp_U = Unit( this->LOG_LEVEL );
 
     // for every task in the plan:
     for (int i = 0; i < this->tasks.size(); i++ )
@@ -189,7 +188,7 @@ void Plan::load_definitions( Suite unit_definitions, bool verbose )
         unit_definitions.get_unit( tmp_U, this->tasks[i].get_name() );
 
         // then have that task attach a copy of tmp_U
-        this->tasks[i].load_definition( tmp_U, verbose );
+        this->tasks[i].load_definition( tmp_U );
     }
 }
 
@@ -213,7 +212,7 @@ void Plan::get_task(Task & result, std::string provided_name )
     }
     if (! foundMatch )
     {
-        std::cerr << "Task name \"" << provided_name << "\" was referenced but not defined!" << std::endl;
+        this->slog.log( E_FATAL, "Task name \"" + provided_name + "\" was referenced but not defined!" );
         throw Plan_InvalidTaskName();
     }
 }
@@ -226,14 +225,14 @@ void Plan::get_task(Task & result, std::string provided_name )
 bool Plan::all_dependencies_complete(std::string name)
 {
     // get the task by name
-    Task named_task;
+    Task named_task = Task( this->LOG_LEVEL );
     this->get_task( named_task, name );
 
     // get the dependencies of that task
     std::vector<std::string> deps = named_task.get_dependencies();
 
     // create an empty task to assign values to during iteration
-    Task tmpTask;
+    Task tmpTask = Task( this->LOG_LEVEL );
     // iterate through its dependencies
     for ( int i = 0; i < deps.size(); i++ )
     {
@@ -250,26 +249,26 @@ bool Plan::all_dependencies_complete(std::string name)
 /// Plan::execute() - Iterates through all tasks in a plan and executes them.
 ///
 /// \param verbose
-void Plan::execute( bool verbose )
+void Plan::execute()
 {
     // for each task in this plan
     for ( int i = 0; i < this->tasks.size(); i++ )
     {
         if (this->all_dependencies_complete(this->tasks[i].get_name()) )
         {
-            if ( verbose )
-            {
-                std::cout << "Executing task \"" << this->tasks[i].get_name() << "\"." << std::endl;
-            }
+
+            this->slog.log( E_INFO, "Executing task \"" + this->tasks[i].get_name() + "\"." );
             try {
-                this->tasks[i].execute( this->configuration, verbose );
+                this->tasks[i].execute( this->configuration );
             }
             catch (std::exception& e) {
-                throw Plan_Task_GeneralExecutionException( "Plan Task: \"" + this->tasks[i].get_name() + "\" reported: " + e.what() );
+                this->slog.log( E_FATAL, "Plan Task: \"" + this->tasks[i].get_name() + "\" reported: " + e.what() );
+                throw Plan_Task_GeneralExecutionException("Could not execute task.");
             }
         } else {
             // not all deps met for this task
-            throw Plan_Task_Missing_Dependency( "Plan Task \"" + this->tasks[i].get_name() + "\" was specified in the Plan but not executed due to missing dependencies.  Please revise your plan." );
+            this->slog.log( E_FATAL, "Plan Task \"" + this->tasks[i].get_name() + "\" was specified in the Plan but not executed due to missing dependencies.  Please revise your plan."  );
+            throw Plan_Task_Missing_Dependency( "Unmet dependency for task." );
         }
     }
 }

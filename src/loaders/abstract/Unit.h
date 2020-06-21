@@ -26,8 +26,9 @@
 #ifndef FTESTS_UNIT_H
 #define FTESTS_UNIT_H
 #include <string>
-#include "../json/json.h"
-#include "JSON_Loader.h"
+#include "../../json/json.h"
+#include "../low_level/JSON_Loader.h"
+#include "../../Logger/Logger.h"
 
 class Unit: JSON_Loader
 {
@@ -59,7 +60,7 @@ private:
     bool rectify;
 
 public:
-    Unit();
+    Unit( int LOG_LEVEL );
 
     // loads a serialized jason::value object as a unit
     int load_root( Json::Value loader_root );
@@ -75,6 +76,10 @@ public:
     bool get_active();
     bool get_required();
     bool get_rectify();
+
+private:
+    int LOG_LEVEL;
+    Logger slog;
 };
 
 #endif //FTESTS_UNIT_H

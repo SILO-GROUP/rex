@@ -19,28 +19,22 @@
 */
 
 #include <iostream>
-#include "src/json/json.h"
-#include "src/loaders/loaders.h"
 #include <unistd.h>
 #include <getopt.h>
-#include <syslog.h>
-#include "src/loaders/helpers.h"
 
-/*
- * TODO Commandline switches
- */
+#include "src/json/json.h"
+#include "src/loaders/abstract/loaders.h"
+#include "src/Logger/Logger.h"
+#include "src/loaders/misc/helpers.h"
 
 void print_usage()
 {
     printf("examplar [ -h | --help ] [ -v | --verbose ] [ -e | --execution-context EXECUTION_CONTEXT ][ -c | --config CONFIG_PATH ]\n\n");
 }
 
-
-
-
 int main( int argc, char * argv[] )
 {
-    int flags, opt;
+    int opt;
     bool verbose = false;
     bool show_help = false;
 
@@ -70,15 +64,15 @@ int main( int argc, char * argv[] )
 
         int option_index = 0;
 
-        opt = getopt_long (argc, argv, "vhec:", long_options, &option_index);
+        opt = getopt_long( argc, argv, "vhec:", long_options, &option_index );
 
-        if (opt == -1)
+        if ( opt == -1 )
           break;
 
-        switch (opt)
+        switch ( opt )
         {
             case 0:
-            if (long_options[option_index].flag !=0)
+            if ( long_options[option_index].flag !=0 )
                 break;
             case 'h':
                 show_help = true;
@@ -86,80 +80,81 @@ int main( int argc, char * argv[] )
                 verbose = true;
                 break;
             case 'c':
-                config_path = std::string(optarg);
+                config_path = std::string( optarg );
                 break;
             case '?':
                 print_usage();
-                exit(1);
+                exit( 1 );
             case 'e':
                 cli_context_supplied = true;
-                execution_context = std::string(optarg);
+                execution_context = std::string( optarg );
                 break;
             default:
                 break;
         }
     }
 
-    if ( show_help == true )
+    if ( show_help )
     {
         print_usage();
-        exit(0);
+        exit( 0 );
     }
 
-    setlogmask( LOG_UPTO( LOG_INFO ) );
+    int L_LEVEL = E_INFO;
+    if ( verbose )
+    {
+        L_LEVEL = E_DEBUG;
+    } else {
+        L_LEVEL = E_INFO;
+    }
 
-    openlog( "Examplar", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_PERROR | LOG_LOCAL1 );
+    Logger slog = Logger( L_LEVEL, "Examplar" );
 
     // A Plan is made up of Tasks, and a Suite is made up of Units.
     // A Plan declares what units are executed and a Suite declares the definitions of those units.
-    Conf configuration = Conf(config_path, verbose );
-
-    // if the user set this option as a commandline argument
-    if ( cli_context_supplied == true )
-    {
-        // override the conf file's specified execution context
-        configuration.set_execution_context( execution_context );
-    }
+    Conf configuration = Conf(config_path, L_LEVEL );
 
     // check if context override
+
     if ( configuration.has_context_override() )
     {
         // if so, set the CWD.
         chdir( configuration.get_execution_context().c_str() );
-        std::ostringstream infostring;
-        infostring << "Execution context: " << get_working_path() << std::endl;
-        syslog(LOG_INFO, infostring.str().c_str() );
-        std::cout << infostring.str();
+        slog.log( E_DEBUG, "Set execution context: " + get_working_path() );
     }
 
+    // if the user set this option as a commandline argument
+    if ( cli_context_supplied )
+    {
+        // override the conf file's specified execution context
+        configuration.set_execution_context( execution_context );
+        slog.log( E_DEBUG, "Set execution context from commandline: " + execution_context );
+    }
 
     // load the filepaths to definitions of a plan and definitions of units.
     std::string definitions_file = configuration.get_units_path();
     std::string plan_file = configuration.get_plan_path();
 
-    Suite available_definitions;
-    available_definitions.load_units_file( definitions_file, verbose );
+    Suite available_definitions = Suite( L_LEVEL );
+    available_definitions.load_units_file( definitions_file );
 
-    Plan plan( &configuration );
-    plan.load_plan_file( plan_file, verbose );
+    Plan plan = Plan( &configuration, L_LEVEL );
+    plan.load_plan_file( plan_file );
 
-    plan.load_definitions( available_definitions, verbose );
+    plan.load_definitions( available_definitions );
 
-    std::cout << "Ready to execute all tasks in Plan." << std::endl;
+    slog.log( E_DEBUG, "Ready to execute all tasks in Plan." );
 
     try
     {
-        plan.execute( verbose );
+        plan.execute();
     }
 
     catch ( std::exception& e)
     {
-        std::cerr << e.what() << std::endl;
-        syslog( LOG_ERR, e.what() );
-        closelog();
+        slog.log( E_FATAL, e.what() );
         return 1;
     }
 
-    closelog();
     return 0;
 }

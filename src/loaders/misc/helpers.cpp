@@ -31,3 +31,17 @@ std::string get_working_path()
     char temp[MAXPATHLEN];
     return ( getcwd(temp, MAXPATHLEN) ? std::string( temp ) : std::string("") );
 }
+
+bool is_file( std::string path)
+{
+    struct stat buf;
+    stat( path.c_str(), &buf );
+    return S_ISREG(buf.st_mode);
+}
+
+bool is_dir( std::string path )
+{
+    struct stat buf;
+    stat( path.c_str(), &buf );
+    return S_ISDIR(buf.st_mode);
+}

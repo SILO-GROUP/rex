@@ -22,10 +22,11 @@
 #define FTESTS_PLAN_H
 
 #include <string>
-#include "../json/json.h"
-#include "JSON_Loader.h"
+#include "../../json/json.h"
+#include "../low_level/JSON_Loader.h"
 #include "Task.h"
 #include "Conf.h"
+#include "../../Logger/Logger.h"
 
 class Plan: public JSON_Loader
 {
@@ -35,10 +36,10 @@ class Plan: public JSON_Loader
         Conf * configuration;
 
     public:
-        Plan( Conf * configuration );
+        Plan( Conf * configuration, int LOG_LEVEL );
 
         // append this->tasks from JSON file
-        void load_plan_file( std::string filename, bool verbose );
+        void load_plan_file( std::string filename );
 
         // fetch a task from this->tasks
         void get_task( Task & result, std::string provided_name );
@@ -47,15 +48,19 @@ class Plan: public JSON_Loader
         void get_task( Task & result, int index );
 
         // load unit definitions from a provided suite and import them into individual tasks
-        void load_definitions( Suite unit_definitions, bool verbose );
+        void load_definitions( Suite unit_definitions );
 
         // fetch a corresponding Unit to a Task
         // void get_definition_from_task(Unit & result, Task input, bool verbose );
 
         // execute all tasks in this plan
-        void execute( bool verbose );
+        void execute();
 
         bool all_dependencies_complete(std::string name);
+
+private:
+    int LOG_LEVEL;
+    Logger slog;
 };
 
 #endif //FTESTS_PLAN_H

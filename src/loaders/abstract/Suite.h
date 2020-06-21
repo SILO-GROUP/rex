@@ -22,9 +22,11 @@
 #define FTESTS_UNITS_H
 
 #include <vector>
-#include "../json/json.h"
-#include "JSON_Loader.h"
+#include "../../json/json.h"
+#include "../low_level/JSON_Loader.h"
 #include "Unit.h"
+#include "../../Logger/Logger.h"
+#include "../misc/helpers.h"
 
 
 class Suite: public JSON_Loader
@@ -34,14 +36,22 @@ class Suite: public JSON_Loader
         std::vector<Unit> units;
 
     public:
-        // constructor, empty
-        Suite();
+        // constructor
+        Suite( int LOG_LEVEL );
 
         // load a unit definitions file and add valid unit definitions to this->units
-        void load_units_file( std::string filename, bool verbose );
+        void load_units_file( std::string filename );
 
         // returns the unit identified by name
         void get_unit(Unit & result, std::string provided_name);
+
+    private:
+        void get_units_from_dir( std::vector<std::string> * files, std::string path );
+
+
+private:
+        int LOG_LEVEL;
+        Logger slog;
 };
 
 #endif //FTESTS_UNITS_H

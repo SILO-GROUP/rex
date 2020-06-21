@@ -66,21 +66,23 @@ protected:
 /// TODO Expand to detect when a directory path is supplied for units_path or plan_path and import all Tasks and Units.
 ///
 /// \param filename - The filename to load the configuration from.
-Conf::Conf( std::string filename, bool verbose ): JSON_Loader()
+Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "examplar::conf" )
 {
+    this->LOG_LEVEL = LOG_LEVEL;
+
     // prepare context spaghetti
     this->override_context = false;
 
-
     try {
         // load the conf file.
-        this->load_json_file( filename, verbose );
+        this->load_json_file( filename );
     }
     catch (std::exception) {
-        throw ConfigLoadException("Could not find '" + filename + "'.");
+        this->slog.log( E_FATAL, "Unable to locate configuration file: '" + filename + "'." );
+        throw ConfigLoadException("Config file not found.");
     }
 
-    if (this->get_serialized(this->config_version, "config_version" ,true) != 0)
+    if (this->get_serialized(this->config_version, "config_version" ) != 0)
     {
         throw ConfigLoadException("config_version string is not set in the config file supplied: " + filename);
     }
@@ -90,37 +92,35 @@ Conf::Conf( std::string filename, bool verbose ): JSON_Loader()
     }
 
     // find the path to the plan file
-    if (this->get_serialized(this->plan_path, "plan_path", true) != 0 )
+    if (this->get_serialized(this->plan_path, "plan_path" ) != 0 )
     {
         throw ConfigLoadException("plan_path string is not set in the config file supplied:" + filename);
     }
 
     // find the path to the unit definitions file
-    if (this->get_serialized(this->units_path, "units_path", true) != 0 )
+    if (this->get_serialized(this->units_path, "units_path" ) != 0 )
     {
         throw ConfigLoadException("units_path string is not set in the config file supplied: " + filename);
     }
 
-    if ( this->get_serialized(this->override_execution_context, "execution_context_override", true) != 0 )
+    if ( this->get_serialized(this->override_execution_context, "execution_context_override" ) != 0 )
     {
         throw ConfigLoadException("execution_context_override boolean is not set in the config file supplied: " + filename);
     } else {
         this->override_context = true;
     }
 
-    if ( this->get_serialized(this->execution_context, "execution_context", true) != 0 )
+    if ( this->get_serialized(this->execution_context, "execution_context" ) != 0 )
     {
         throw ConfigLoadException("execution_context string is not set in the config file supplied: " + filename);
     } else {
             this->execution_context_literal = this->execution_context.asString();
     }
 
-    if ( this->get_serialized(this->env_vars_file, "env_vars_file", true) != 0 )
+    if ( this->get_serialized(this->env_vars_file, "env_vars_file" ) != 0 )
     {
         throw ConfigLoadException("env_vars_file is not set in the config file supplied: " + filename);
     }
-
-
 
 };
 
@@ -136,7 +136,6 @@ std::string Conf::get_execution_context() {
 
 /// Conf::get_plan_path - Retrieves the path to the Plan definition file from the application configuration file.
 std::string Conf::get_plan_path() { return this->plan_path.asString(); }
-
 
 /// Conf::get_units_path - Retrieves the path to the Unit definition file from the application configuration file.
 std::string Conf::get_units_path() { return this->units_path.asString(); }

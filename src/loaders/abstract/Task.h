@@ -22,10 +22,13 @@
 #define FTESTS_TASK_H
 #include <string>
 #include <unistd.h>
-#include "../json/json.h"
+#include "../../json/json.h"
 #include "Unit.h"
 #include "Suite.h"
 #include "Conf.h"
+#include <stdio.h>
+#include "../../Sproc/Sproc.h"
+#include "../misc/helpers.h"
 
 class Task
 {
@@ -49,13 +52,13 @@ class Task
 
     public:
         // constructor
-        Task();
+        Task( int LOG_LEVEL );
 
         // load a json::value into task members (second stage deserialization)
-        void load_root( Json::Value loader_root, bool verbose );
+        void load_root( Json::Value loader_root );
 
         // appends definition unit as child member
-        void load_definition( Unit definition, bool verbose );
+        void load_definition( Unit definition );
 
         bool is_complete();
         bool has_definition();
@@ -64,12 +67,16 @@ class Task
         std::string get_name();
 
         // execute this task's definition
-        void execute( Conf * configuration, bool verbose );
+        void execute( Conf * configuration );
 
         void mark_complete();
 
         // returns a pointer to the dependencies vector
         std::vector<std::string> get_dependencies();
+
+private:
+    Logger slog;
+    int LOG_LEVEL;
 };
 
 #endif //FTESTS_TASK_H

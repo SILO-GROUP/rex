@@ -19,10 +19,7 @@
 */
 
 #include "Task.h"
-#include <stdio.h>
-#include <syslog.h>
-#include "../sproc/Sproc.h"
-#include "helpers.h"
+
 
 /// Task_InvalidDataStructure - Exception thrown when a Task is defined with invalid JSON.
 class Task_InvalidDataStructure: public std::runtime_error {
@@ -82,20 +79,24 @@ protected:
 
 /// Task::Task() - Constructor for the Task class.  The Task is the building block of a Plan indicating of which Unit to
 /// execute, and its dependencies on other units to have already been completed successfully.
-Task::Task()
+Task::Task( int LOG_LEVEL ):
+    slog( LOG_LEVEL, "examplar::task" ),
+    definition( LOG_LEVEL )
 {
     // it hasn't executed yet.
     this->complete = false;
 
     // it hasn't been matched with a definition yet.
     this->defined = false;
+
+    this->LOG_LEVEL = LOG_LEVEL;
 }
 
 /// Task::load_root() - loads json values to private members
 ///
 /// \param loader_root - the Json::Value to populate from.
 /// \param verbose - Whether to print verbose information to STDOUT.
-void Task::load_root(Json::Value loader_root, bool verbose )
+void Task::load_root(Json::Value loader_root )
 {
     if ( loader_root.isMember("name") ) {
         this->name = loader_root.get("name", "?").asString();
@@ -110,16 +111,10 @@ void Task::load_root(Json::Value loader_root, bool verbose )
     // iterate through each member of that obj
     for ( int i = 0; i < des_dep_root.size(); i++ ) {
         // add each string to dependencies
-        if ( des_dep_root[i].asString() != "" ) {
+        if ( des_dep_root[i].asString() != "" )
+        {
             this->dependencies.push_back( des_dep_root[i].asString() );
-            if ( verbose ) {
-                std::ostringstream infostring;
-                infostring << "Added dependency \"" << des_dep_root[i].asString() << "\" to task \""
-                           << this->get_name() << "\"." << std::endl;
-
-                syslog( LOG_INFO, infostring.str().c_str() );
-                std::cout << infostring.str();
-            }
+            this->slog.log( E_INFO,  "Added dependency \"" + des_dep_root[i].asString() + "\" to task \"" + this->get_name() + "\"." );
         }
     }
 }
@@ -134,17 +129,10 @@ std::string Task::get_name()
 ///
 /// \param selected_unit - The unit to attach.
 /// \param verbose - Whether to print to STDOUT.
-void Task::load_definition( Unit selected_unit, bool verbose )
+void Task::load_definition( Unit selected_unit  )
 {
     this->definition = selected_unit;
-    if ( verbose ) {
-        std::ostringstream infostring;
-        infostring << "Loaded definition \"" << selected_unit.get_name() << "\" for task \""
-                   << this->get_name() << "\"." << std::endl;
-
-        syslog( LOG_INFO, infostring.str().c_str() );
-        std::cout << infostring.str();
-    }
+    this->slog.log( E_INFO, "Loaded definition \"" + selected_unit.get_name() + "\" for task \"" + this->get_name() + "\".");
     this->defined = true;
 }
 
@@ -177,7 +165,7 @@ bool Task::has_definition()
 /// Task::execute - execute a task's unit definition.
 /// See the design document for what flow control needs to look like here.
 /// \param verbose - Verbosity level - not implemented yet.
-void Task::execute( Conf * configuration, bool verbose )
+void Task::execute( Conf * configuration )
 {
     // DUFFING - If Examplar is broken it's probably going to be in this block.
     // Somebody come clean this up, eh?
@@ -192,40 +180,26 @@ void Task::execute( Conf * configuration, bool verbose )
 
     // get the name
     std::string task_name = this->definition.get_name();
+    this->slog.log( E_DEBUG, "\tUsing unit: \"" + task_name + "\"." );
     // END PREWORK
 
     // get the target execution command
     std::string target_command = this->definition.get_target();
 
-    // if we're in verbose mode, do some verbose things
-    if ( verbose )
+    // check if context override
+    if ( configuration->has_context_override() )
     {
-/*
-        infostring = std::ostringstream();
-        infostring << "\tUsing unit \"" << task_name << "\"." << std::endl;
-        syslog( LOG_INFO, infostring.str().c_str() );
-        std::cout << infostring.str();
-*/
-
-        // check if context override
-        if ( configuration->has_context_override() )
-        {
-            // if so, set the CWD.
-            chdir( configuration->get_execution_context().c_str() );
-            infostring = std::ostringstream();
-            infostring << "\tExecution context: " << get_working_path() << std::endl;
-            syslog(LOG_INFO, infostring.str().c_str() );
-            std::cout << infostring.str();
-        }
-
-        infostring = std::ostringstream();
-        infostring << "\tExecuting target \"" << target_command << "\"." << std::endl;
-        syslog( LOG_INFO, infostring.str().c_str() );
-        std::cout << infostring.str();
+        // if so, set the CWD.
+        chdir( configuration->get_execution_context().c_str() );
+        this->slog.log( E_INFO, "Setting execution context: " + get_working_path() );
     }
+
 
     // a[0] execute target
     // TODO revise variable sourcing strategy
+
+    this->slog.log( E_DEBUG, "Loading environment variable file: " + configuration->get_env_vars_file() );
+    this->slog.log( E_INFO, "Executing target: \"" + target_command + "\"." );
     int return_code = Sproc::execute( "source " + configuration->get_env_vars_file() + " && " + target_command );
 
     // **********************************************
@@ -234,13 +208,8 @@ void Task::execute( Conf * configuration, bool verbose )
     if ( return_code == 0 )
     {
         // d[0].0 ZERO
+        this->slog.log( E_INFO, "Target \"" + task_name + "\" succeeded.  Marking as complete." );
 
-        if ( verbose ) {
-            infostring = std::ostringstream();
-            infostring << "\tTarget " << task_name << " succeeded.  Marking as complete." << std::endl;
-            syslog( LOG_INFO, infostring.str().c_str() );
-            std::cout << infostring.str();
-        }
         this->mark_complete();
 
         // a[1] NEXT
@@ -250,12 +219,7 @@ void Task::execute( Conf * configuration, bool verbose )
     if ( return_code != 0 )
     {
         // d[0].1 NON-ZERO
-
-        infostring = std::ostringstream();
-        infostring << "\tTarget \"" << task_name << "\" failed with exit code " << return_code << "." << std::endl;
-
-        syslog(LOG_ERR, infostring.str().c_str() );
-        std::cerr << infostring.str();
+        this->slog.log( E_WARN,  "Target \"" + task_name + "\" failed with exit code " + std::to_string( return_code ) + "." );
 
         // **********************************************
         // d[1] Rectify Check
@@ -271,18 +235,13 @@ void Task::execute( Conf * configuration, bool verbose )
             {
                 // d[2].0 FALSE
                 // a[2] NEXT
-                infostring = std::ostringstream();
-                infostring << "\tThis task is not required to continue the plan. Moving on." << std::endl;
-                syslog(LOG_INFO, infostring.str().c_str() );
-                std::cout << infostring.str();
+                this->slog.log(  E_INFO, "This task is not required to continue the plan. Moving on." );
                 return;
-            }
-
-            if ( this->definition.get_required() )
-            {
+            } else {
                 // d[2].1 TRUE
                 // a[3] EXCEPTION
-                throw TaskException("Task \"" + task_name + "\" is required, and failed, and rectification is not enabled.");
+                this->slog.log( E_FATAL, "Task \"" + task_name + "\" is required, and failed, and rectification is not enabled." );
+                throw TaskException( "Task failed: " + task_name );
             }
             // **********************************************
             // end - d[2] Required Check
@@ -293,18 +252,12 @@ void Task::execute( Conf * configuration, bool verbose )
         if ( this->definition.get_rectify() )
         {
             // d[1].1 TRUE (Rectify Check)
-            infostring = std::ostringstream();
-            infostring << "\tRectification pattern is enabled for \"" << task_name << "\"." << std::endl;
-            syslog( LOG_INFO, infostring.str().c_str() );
-            std::cout << infostring.str();
+            this->slog.log( E_INFO, "Rectification pattern is enabled for \"" + task_name + "\"." );
 
             // a[4] Execute RECTIFIER
             std::string rectifier_command = this->definition.get_rectifier();
 
-            infostring = std::ostringstream();
-            infostring << "\tExecuting rectification: " << rectifier_command << "." << std::endl;
-            syslog(LOG_INFO, infostring.str().c_str() );
-            std::cout << infostring.str();
+            this->slog.log( E_INFO, "Executing rectification: " + rectifier_command + "." );
 
             int rectifier_error = Sproc::execute(  "source " + configuration->get_env_vars_file() + " && " + rectifier_command );
 
@@ -314,12 +267,7 @@ void Task::execute( Conf * configuration, bool verbose )
             if ( rectifier_error != 0 )
             {
                 // d[3].1 Non-Zero
-                infostring = std::ostringstream();
-                infostring << "\tRectification of \"" << task_name << "\" failed with exit code "
-                           << rectifier_error << "." << std::endl;
-                syslog( LOG_INFO, infostring.str().c_str() );
-
-                std::cout << infostring.str();
+                this->slog.log(  E_WARN, "Rectification of \"" + task_name + "\" failed with exit code " + std::to_string( rectifier_error ) + "." );
 
                 // **********************************************
                 // d[4] Required Check
@@ -327,10 +275,7 @@ void Task::execute( Conf * configuration, bool verbose )
                 if ( ! this->definition.get_required() ) {
                     // d[4].0 FALSE
                     // a[5] NEXT
-                    infostring = std::ostringstream();
-                    infostring << "\tThis task is not required to continue the plan. Moving on." << std::endl;
-                    syslog(LOG_INFO, infostring.str().c_str() );
-                    std::cout << infostring.str();
+                    this->slog.log( E_INFO, "This task is not required to continue the plan. Moving on." );
                     return;
                 }
 
@@ -338,7 +283,8 @@ void Task::execute( Conf * configuration, bool verbose )
                 {
                     // d[4].1 TRUE
                     // a[6] EXCEPTION
-                    throw TaskException("Task \"" + task_name + "\" is required, and failed, then rectified but rectification failed.");
+                    this->slog.log( E_FATAL, "Task \"" + task_name + "\" is required, it failed, and then rectification failed.  Lost cause." );
+                    throw TaskException( "Lost cause, task failure." );
                 }
                 // **********************************************
                 // end - d[4] Required Check
@@ -349,16 +295,10 @@ void Task::execute( Conf * configuration, bool verbose )
             if ( rectifier_error == 0 )
             {
                 // d[3].0 Zero
-                infostring = std::ostringstream();
-                infostring << "\tRectification returned successfully." << std::endl;
-                syslog( LOG_INFO, infostring.str().c_str() );
-                std::cout << infostring.str();
+                this->slog.log( E_INFO, "Rectification returned successfully." );
 
                 // a[7] Re-execute Target
-                infostring = std::ostringstream();
-                infostring << "\tRe-Executing target \"" << this->definition.get_target() << "\"." << std::endl;
-                syslog( LOG_INFO, infostring.str().c_str() );
-                std::cout << infostring.str();
+                this->slog.log( E_INFO, "Re-Executing target \"" + this->definition.get_target() + "\"." );
 
                 int retry_code = Sproc::execute(  "source " + configuration->get_env_vars_file() + " && " + target_command );
 
@@ -369,20 +309,11 @@ void Task::execute( Conf * configuration, bool verbose )
                 {
                     // d[5].0 ZERO
                     // a[8] NEXT
-                    infostring = std::ostringstream();
-                    infostring << "\tRe-execution was successful." << std::endl;
-                    syslog( LOG_INFO, infostring.str().c_str() );
-                    std::cout << infostring.str();
+                    this->slog.log( E_INFO, "Re-execution was successful." );
                     return;
-                }
-
-                if ( retry_code != 0 )
-                {
+                } else {
                     // d[5].1 NON-ZERO
-                    infostring = std::ostringstream();
-                    infostring << "\tRe-execution failed with exit code " << retry_code << "." << std::endl;
-                    syslog(LOG_ERR, infostring.str().c_str() );
-                    std::cerr << infostring.str();
+                    this->slog.log( E_WARN, "Re-execution failed with exit code " + std::to_string( retry_code ) + "." );
 
                     // **********************************************
                     // d[6] Required Check
@@ -391,11 +322,7 @@ void Task::execute( Conf * configuration, bool verbose )
                     {
                         // d[6].0 FALSE
                         // a[9] NEXT
-                        infostring = std::ostringstream();
-                        infostring << "\tThis task is not required to continue the plan. Moving on." << std::endl;
-                        syslog(LOG_INFO, infostring.str().c_str() );
-                        std::cout << infostring.str();
-
+                        this->slog.log( E_INFO, "This task is not required to continue the plan. Moving on." );
                         return;
                     }
 
@@ -403,7 +330,8 @@ void Task::execute( Conf * configuration, bool verbose )
                     {
                         // d[6].1 TRUE
                         // a[10] EXCEPTION
-                        throw TaskException("Task \"" + task_name + "\" is required, and failed, then rectified but rectifier did not heal the condition causing the target to fail.  Cannot proceed with Plan.");
+                        this->slog.log( E_FATAL, "Task \"" + task_name + "\" is required, and failed, then rectified but rectifier did not heal the condition causing the target to fail.  Cannot proceed with Plan." );
+                        throw TaskException( "Lost cause, task failure." );
                     }
                     // **********************************************
                     // end - d[6] Required Check

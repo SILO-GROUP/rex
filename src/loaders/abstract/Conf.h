@@ -20,8 +20,9 @@
 
 #ifndef FTESTS_CONF_H
 #define FTESTS_CONF_H
-#include "JSON_Loader.h"
+#include "../low_level/JSON_Loader.h"
 #include <exception>
+#include "../../Logger/Logger.h"
 
 
 #define STRINGIZE2(s) #s
@@ -47,17 +48,20 @@ private:
     std::string execution_context_literal;
 
 public:
-    Conf( std::string filename, bool verbose );
-    std::string get_plan_path();
-    std::string get_units_path();
+    Conf( std::string filename, int LOG_LEVEL );
 
     bool has_context_override();
 
+    std::string get_plan_path();
+    std::string get_units_path();
     std::string get_execution_context();
 
     void set_execution_context( std::string );
 
     std::string get_env_vars_file();
+private:
+    int LOG_LEVEL;
+    Logger slog;
 
 };
 

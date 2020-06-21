@@ -19,11 +19,13 @@
 */
 #ifndef FTESTS_JLOADER_H
 #define FTESTS_JLOADER_H
-#include "../json/json.h"
+#include "../../json/json.h"
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-
+#include <stdexcept>
+#include "../misc/helpers.h"
+#include "../../Logger/Logger.h"
 
 class JSON_Loader
 {
@@ -33,13 +35,13 @@ class JSON_Loader
 
     public:
         // constructor
-        JSON_Loader();
+        JSON_Loader( int LOG_LEVEL );
 
         // load from json file
-        void load_json_file( std::string filename, bool verbose );
+        void load_json_file( std::string filename );
 
         // load from std::string json
-        void load_json_string( std::string input, bool verbose );
+        void load_json_string( std::string input );
 
         // return as a JSONCPP serialized object
         // deprecated -- these aren't really used.
@@ -47,6 +49,10 @@ class JSON_Loader
         std::string as_string();
 
         // safely handle deserialized type retrieval (if we want it to be safe)
-        int get_serialized(Json::Value &input, std::string key, bool verbose);
+        int get_serialized(Json::Value &input, std::string key );
+
+private:
+    Logger slog;
+    int LOG_LEVEL;
 };
 #endif //FTESTS_JLOADER_H

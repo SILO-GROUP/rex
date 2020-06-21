@@ -19,8 +19,6 @@
 */
 
 #include "JSON_Loader.h"
-#include "helpers.h"
-#include <stdexcept>
 
 /// JSON_Loader_NotReady - Exception thrown when a member function is called before data is populated.
 class JSON_Loader_NotReady: public std::runtime_error { public:
@@ -40,51 +38,10 @@ class JSON_Loader_InvalidJSON: public std::runtime_error { public:
 /// JSON_Loader::JSON_Loader - Constructor for JSON_Loader base class.  Simply inits to an unpopulated state.
 ///
 /// The JSON_Loader type is a base type.  It is meant to provide the functionalities shared between Suite and Plan.
-JSON_Loader::JSON_Loader()
+JSON_Loader::JSON_Loader( int LOG_LEVEL ): slog( LOG_LEVEL, "examplar::json_loader" )
 {
     this->populated = false;
-}
-
-/// JSON_Loader::load_json_file - Loads JSON from a filepath into a serialized representation assigned as a local member
-/// intended to be used as a buffer for further operations by base methods and derived class methods.
-///
-/// \param filename -
-/// \param verbose
-void JSON_Loader::load_json_file( std::string filename, bool verbose )
-{
-    // reads from a file into a Json::Value type.
-    Json::Reader json_reader;
-
-    // the a deserialized json type to contain what's read by the reader
-    Json::Value json_root;
-
-    // first, check if the file exists
-    if (! exists( filename ) )
-    {
-        std::cerr << "File '" << filename << "' does not exist." << std::endl;
-        throw JSON_Loader_FileNotFound();
-    }
-
-    // create the ifstream file handle
-    std::ifstream json_file_ifstream( filename, std::ifstream::binary );
-
-    // use the reader to parse the ifstream to the local property
-    bool parsingSuccessful = json_reader.parse( json_file_ifstream, this->json_root );
-
-    if (! parsingSuccessful )
-    {
-        std::cerr << "Failed to parse '" << filename << "':\n\t" << json_reader.getFormattedErrorMessages();
-        throw JSON_Loader_InvalidJSON();
-
-    } else {
-        // if in verbose mode, give the user an "it worked" message
-        if (verbose)
-        {
-            std::cout << "Parsed '" << filename << "' with " << this->json_root.size() << " element(s)." << std::endl;
-        }
-    }
-    // Flag as ready for consumption.
-    this->populated = true;
+    this->LOG_LEVEL = LOG_LEVEL;
 }
 
 /// JSON_Loader::load_json_string - loads json from std::string into a json::value type and sets to protected member
@@ -92,7 +49,7 @@ void JSON_Loader::load_json_file( std::string filename, bool verbose )
 ///
 /// \param input - The JSON-formatted string to serialize
 /// \param verbose - Whether or not to print verbose information to STDOUT.
-void JSON_Loader::load_json_string( std::string input, bool verbose )
+void JSON_Loader::load_json_string( std::string input )
 {
     // reads from a string into a Json::Value type.
     Json::Reader json_reader;
@@ -108,18 +65,52 @@ void JSON_Loader::load_json_string( std::string input, bool verbose )
 
     if (! parsingSuccessful )
     {
-        std::cerr << "Failed to parse adhoc JSON value." << std::endl << input << std::endl << std::endl << json_reader.getFormattedErrorMessages();
+        this->slog.log( E_FATAL, "Failed to parse adhoc JSON value: " + json_reader.getFormattedErrorMessages() );
+        throw JSON_Loader_InvalidJSON();
+
+    } else {
+        this->slog.log( E_DEBUG, "Successfully parsed JSON string with " + std::to_string( this->json_root.size() ) + "elements.  Value: '" + input + "'." );
+    }
+    // flag as ready for consumption
+    this->populated = true;
+}
+
+/// JSON_Loader::load_json_file - Loads JSON from a filepath into a serialized representation assigned as a local member
+/// intended to be used as a buffer for further operations by base methods and derived class methods.
+///
+/// \param filename -
+/// \param verbose
+void JSON_Loader::load_json_file( std::string filename )
+{
+    // reads from a file into a Json::Value type.
+    Json::Reader json_reader;
+
+    // the a deserialized json type to contain what's read by the reader
+    Json::Value json_root;
+
+    // first, check if the file exists
+    if (! exists( filename ) )
+    {
+        this->slog.log( E_FATAL, "File '" + filename + "' does not exist." );
+        throw JSON_Loader_FileNotFound();
+    }
+
+    // create the ifstream file handle
+    std::ifstream json_file_ifstream( filename, std::ifstream::binary );
+
+    // use the reader to parse the ifstream to the local property
+    bool parsingSuccessful = json_reader.parse( json_file_ifstream, this->json_root );
+
+    if (! parsingSuccessful )
+    {
+        this->slog.log( E_FATAL, "Failed to parse file '" + filename + "': " + json_reader.getFormattedErrorMessages() );
         throw JSON_Loader_InvalidJSON();
 
     } else {
         // if in verbose mode, give the user an "it worked" message
-        if ( verbose )
-        {
-            std::cout << "Successfully parsed JSON string with " << this->json_root.size() << " elements.  Value:" << std::endl;
-            std::cout << input << std::endl << std::endl;
-        }
+        this->slog.log( E_DEBUG, "Parsed '" + filename + "' with " + std::to_string( this->json_root.size() ) + " element(s)." );
     }
-    // flag as ready for consumption
+    // Flag as ready for consumption.
     this->populated = true;
 }
 
@@ -138,7 +129,7 @@ std::string JSON_Loader::as_string()
 /// \param key - The JSON key name to assign the value to (the root of the json::value object by name)
 /// \param verbose - Whether or not to print verbose output to STDOUT.
 /// \return - Boolean indicator of success or failure (0|1)
-int JSON_Loader::get_serialized(Json::Value &input, std::string key, bool verbose)
+int JSON_Loader::get_serialized(Json::Value &input, std::string key )
 {
     // throw if the class is not ready to be used.
     if ( ! this->populated ) { throw JSON_Loader_NotReady(); }
@@ -151,11 +142,10 @@ int JSON_Loader::get_serialized(Json::Value &input, std::string key, bool verbos
     }
 
     // key was not found
-    if ( verbose )
-    {
-        // verbose mode tells the user what key we were looking for.
-        std::cerr << "Failed to find key '" << key << "'." << std::endl;
-    }
+
+    // verbose mode tells the user what key we were looking for.
+    this->slog.log( E_FATAL, "Failed to find key '" + key + "'." );
+
     // exit code for failure
     return 1;
 }
