@@ -110,7 +110,7 @@ int main( int argc, char * argv[] )
         std::cout << "Verbosity is INFO." << std::endl;
     }
 
-    Logger slog = Logger( L_LEVEL, "Examplar" );
+    Logger slog = Logger( L_LEVEL, "examplar" );
 
     // A Plan is made up of Tasks, and a Suite is made up of Units.
     // A Plan declares what units are executed and a Suite declares the definitions of those units.

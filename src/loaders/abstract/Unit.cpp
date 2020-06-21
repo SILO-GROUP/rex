@@ -48,7 +48,7 @@ class Unit_DataStructureException: public std::runtime_error { public:
 /// required, which is used as a flag to halt or continue if rectifier does not heal the system in such a way that
 /// target can run successfully.
 /// rectify, which is used as a flag to determine in the rectifier runs.
-Unit::Unit( int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "examplar::unit" )
+Unit::Unit( int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "e_unit" )
 {
     this->LOG_LEVEL;
 }

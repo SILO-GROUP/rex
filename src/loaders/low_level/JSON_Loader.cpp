@@ -38,7 +38,7 @@ class JSON_Loader_InvalidJSON: public std::runtime_error { public:
 /// JSON_Loader::JSON_Loader - Constructor for JSON_Loader base class.  Simply inits to an unpopulated state.
 ///
 /// The JSON_Loader type is a base type.  It is meant to provide the functionalities shared between Suite and Plan.
-JSON_Loader::JSON_Loader( int LOG_LEVEL ): slog( LOG_LEVEL, "examplar::json_loader" )
+JSON_Loader::JSON_Loader( int LOG_LEVEL ): slog( LOG_LEVEL, "e_json" )
 {
     this->populated = false;
     this->LOG_LEVEL = LOG_LEVEL;

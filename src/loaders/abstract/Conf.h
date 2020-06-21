@@ -23,7 +23,7 @@
 #include "../low_level/JSON_Loader.h"
 #include <exception>
 #include "../../Logger/Logger.h"
-
+#include "../misc/helpers.h"
 
 #define STRINGIZE2(s) #s
 #define STRINGIZE(s) STRINGIZE2(s)
@@ -38,6 +38,8 @@ private:
     Json::Value execution_context;
     Json::Value config_version;
     Json::Value env_vars_file;
+
+    std::string env_vars_file_literal;
 
     // flag to indicate if execution context should be overriden in config file
     // if set to true Examplar should use whats in the config file for current working directory

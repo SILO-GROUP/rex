@@ -66,7 +66,7 @@ protected:
 /// TODO Expand to detect when a directory path is supplied for units_path or plan_path and import all Tasks and Units.
 ///
 /// \param filename - The filename to load the configuration from.
-Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "examplar::test" )
+Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "e_conf" )
 {
     this->LOG_LEVEL = LOG_LEVEL;
 
@@ -122,6 +122,18 @@ Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slo
         throw ConfigLoadException("env_vars_file is not set in the config file supplied: " + filename);
     }
 
+    this->env_vars_file_literal = this->execution_context_literal + "/" + this->env_vars_file.asString();
+
+    if ( exists( this->env_vars_file_literal ) )
+    {
+        this->slog.log( E_DEBUG, "Environment variables file exists: '" + this->env_vars_file_literal + "'." );
+    } else {
+        this->slog.log( E_FATAL, "Variables file does not exist: '" + this->env_vars_file_literal + "'.");
+        throw ConfigLoadException( "env_vars_file points to an incorrect path." );
+    }
+
+
+
 };
 
 /// Conf::has_context_override - Specifies whether or not the override context function is enabled in the conf file.
@@ -148,5 +160,5 @@ void Conf::set_execution_context( std::string execution_context )
 
 std::string Conf::get_env_vars_file()
 {
-    return this->env_vars_file.asString();
+    return this->env_vars_file_literal;
 }

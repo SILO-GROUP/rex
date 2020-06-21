@@ -79,7 +79,7 @@ protected:
 /// human processes to allow modularly developed profiles of test suites.  As inferred, Unit is expected to be one of
 /// the two types that are only instantiated once per application run, though it is designed to be used more than once
 /// if the implementor so desires.
-Suite::Suite( int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "examplar::suite" )
+Suite::Suite( int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "e_suite" )
 {
     this->LOG_LEVEL;
 }

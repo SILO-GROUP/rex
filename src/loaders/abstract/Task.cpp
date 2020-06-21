@@ -80,7 +80,7 @@ protected:
 /// Task::Task() - Constructor for the Task class.  The Task is the building block of a Plan indicating of which Unit to
 /// execute, and its dependencies on other units to have already been completed successfully.
 Task::Task( int LOG_LEVEL ):
-    slog( LOG_LEVEL, "examplar::task" ),
+    slog( LOG_LEVEL, "e_task" ),
     definition( LOG_LEVEL )
 {
     // it hasn't executed yet.
@@ -180,7 +180,7 @@ void Task::execute( Conf * configuration )
 
     // get the name
     std::string task_name = this->definition.get_name();
-    this->slog.log( E_DEBUG, "\tUsing unit: \"" + task_name + "\"." );
+    this->slog.log( E_DEBUG, "Using unit: \"" + task_name + "\"." );
     // END PREWORK
 
     // get the target execution command

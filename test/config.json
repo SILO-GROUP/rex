@@ -4,5 +4,5 @@
   "units_path":	"units/all_test.units",
   "plan_path":  "plans/test.plan",
   "config_version": "3",
-  "env_vars_file": "Examplar.variables"
+  "env_vars_file": "examplar.variables"
 }

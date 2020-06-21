@@ -20,8 +20,8 @@
       "name":       "A DEFINITION THAT IS NOT USED",
       "target":     "/usr/bin/dialog --yesno test 50 50",
       "rectifier":  "/usr/bin/false",
-      "active":     true,
-      "required":   true,
+      "active":     false,
+      "required":   false,
       "rectify":    true
     },
     {
