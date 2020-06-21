@@ -200,7 +200,7 @@ void Task::execute( Conf * configuration )
 
     this->slog.log( E_INFO, "Executing target: \"" + target_command + "\"." );
     this->slog.log( E_DEBUG, "Vars file: " + configuration->get_env_vars_file() );
-    int return_code = Sproc::execute( "source " + configuration->get_env_vars_file() + " && " + target_command );
+    int return_code = Sproc::execute( ". " + configuration->get_env_vars_file() + " && " + target_command );
 
     // **********************************************
     // d[0] Error Code Check
