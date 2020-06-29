@@ -59,6 +59,14 @@ private:
     // if rectifier exits on non-zero return code, it should be trigger the behaviour indicated by required
     bool rectify;
 
+    // user to run process as.
+    // not intended for protected accounts, handle your own security
+    std::string user;
+
+    // group to run process as.
+    // not intended for protected accounts, handle your own security
+    std::string group;
+
 public:
     Unit( int LOG_LEVEL );
 
@@ -76,6 +84,8 @@ public:
     bool get_active();
     bool get_required();
     bool get_rectify();
+    std::string get_user();
+    std::string get_group();
 
 private:
     int LOG_LEVEL;

@@ -1,0 +1,2 @@
+echo "dependent test"
+exit $?

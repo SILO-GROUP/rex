@@ -2,35 +2,23 @@
   "units": [
     {
       "name":       "independent test 1",
-      "target":     "/usr/bin/true",
-      "rectifier":  "/usr/bin/true",
+      "target":     "components/independent_test_1.bash",
+      "rectifier":  "",
       "active":     true,
       "required":   true,
-      "rectify":    true
-    },
-    {
-      "name":       "independent test 2",
-      "target":     "/usr/bin/true",
-      "rectifier":  "/usr/bin/true",
-      "active":     true,
-      "required":   false,
+      "user":       "root",
+      "group":      "root",
       "rectify":    false
     },
     {
-      "name":       "A DEFINITION THAT IS NOT USED",
-      "target":     "/usr/bin/dialog --yesno test 50 50",
-      "rectifier":  "/usr/bin/false",
-      "active":     false,
-      "required":   false,
-      "rectify":    true
-    },
-    {
-      "name":       "dependent test",
-      "target":     "/usr/bin/false",
-      "rectifier":  "/usr/bin/true",
+      "name":       "independent test 2",
+      "target":     "components/independent_test_2.bash",
+      "rectifier":  "",
       "active":     true,
-      "required":   true,
-      "rectify":    true
+      "required":   false,
+      "user":       "bagira",
+      "group":      "bagira",
+      "rectify":    false
     }
   ]
 }

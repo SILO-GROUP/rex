@@ -1,0 +1,5 @@
+{
+  "plan": [
+    { "name": "independent test 1", "dependencies":  [ null ] }
+  ]
+}

@@ -1,8 +1,8 @@
 {
   "execution_context_override": true,
   "execution_context": "/home/bagira/development/internal/examplar/test",
-  "units_path":	"units/all_test.units",
-  "plan_path":  "plans/test.plan",
+  "units_path":	"units/",
+  "plan_path":  "plans/atomic.plan",
   "config_version": "3",
   "env_vars_file": "examplar.variables"
 }

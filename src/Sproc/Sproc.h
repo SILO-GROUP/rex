@@ -23,13 +23,15 @@
 
 #include <string>
 #include <iostream>
+#include <stdio.h>
+#include "../Logger/Logger.h"
 
 // executes a subprocess and captures STDOUT, STDERR, and return code.
 // should be able to recieve path of binary to be executed as well as any parameters
 class Sproc {
     public:
         // call the object.  returnvalue is enum representing external execution attempt not binary exit code
-        static int execute( std::string input );
+        static int execute(std::string run_as, std::string group, std::string command );
 };
 
 #endif //FTESTS_SPROC_H

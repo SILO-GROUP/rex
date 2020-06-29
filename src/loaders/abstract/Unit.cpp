@@ -23,11 +23,18 @@
 #include <fstream>
 #include <cstdlib>
 #include <stdexcept>
+#include <pwd.h>
+#include <grp.h>
 
 /// Unit_NotPopulated - Meant to be thrown when a Unit type is not populated before being used.
 /// Signaled by use of the 'populated' boolean member of the Unit class.
 class Unit_NotPopulated: public std::runtime_error { public:
     Unit_NotPopulated(): std::runtime_error("Unit: Attempted to access a member before loading values.") {}
+};
+
+/// EnvironmentErrorFatal - Meant to be thrown when the environment is too broken for Examplar to do its job.
+class EnvironmentErrorFatal: public std::runtime_error { public:
+    EnvironmentErrorFatal(): std::runtime_error("Unit: Environment is too broken to continue.") {}
 };
 
 /// Unit_DataStructureException - Meant to be thrown when a Unit type is accessing a member that does not exist.
@@ -82,6 +89,44 @@ int Unit::load_root(Json::Value loader_root)
 
     if ( loader_root.isMember("rectify") )
     { this->rectify = loader_root.get("rectify", errmsg).asBool(); } else throw Unit_DataStructureException();
+
+    // TODO functionize this
+    char * lgn;
+    std::string errmsg_user;
+
+    // if no user field is specified then default to the currently executing user
+    if ( ( lgn = getlogin() ) == NULL )
+    {
+        throw EnvironmentErrorFatal();
+    } else {
+        errmsg_user = lgn;
+    }
+    // -TODO
+
+
+
+    if ( loader_root.isMember( "user" ) )
+    { this->user = loader_root.get( "user", errmsg_user ).asString(); } else this->user = lgn;
+
+
+    // TODO functionalize this
+    // get the current context gid as a backup value
+    int gid = getgid();
+    // declare the grp object to pull the name from once populated
+    struct group * grp;
+    // storage for backup value once retrieved
+    std::string errmsg_group;
+
+    // get the backup value and store it to errmsg_group
+    if ( ( grp = getgrgid( gid ) ) == NULL )
+    {
+        throw EnvironmentErrorFatal();
+    } else {
+        errmsg_group = grp->gr_name;
+    }
+
+    if ( loader_root.isMember( "group" ) )
+    { this->group = loader_root.get( "group", errmsg_group ).asString(); } else this->group = grp->gr_name;
 
     this->populated = true;
 
@@ -164,4 +209,21 @@ bool Unit::get_rectify()
 {
     if ( ! this->populated ) { throw Unit_NotPopulated(); }
     return this->rectify;
+}
+
+/// Unit::get_user - retrieves the user context for the unit.
+///
+/// \return the string value of the user name.
+std::string Unit::get_user()
+{
+    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    return this->user;
+}
+/// Unit::get_group - retrieves the group context for the unit.
+///
+/// \return the string value of the group name.
+std::string Unit::get_group()
+{
+    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    return this->group;
 }

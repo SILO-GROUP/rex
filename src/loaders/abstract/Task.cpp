@@ -132,7 +132,7 @@ std::string Task::get_name()
 void Task::load_definition( Unit selected_unit  )
 {
     this->definition = selected_unit;
-    this->slog.log( E_INFO, "Loaded definition \"" + selected_unit.get_name() + "\" for task \"" + this->get_name() + "\".");
+    this->slog.log( E_INFO, "Loaded definition \"" + selected_unit.get_name() + "\" as task in configured plan.");
     this->defined = true;
 }
 
@@ -184,7 +184,7 @@ void Task::execute( Conf * configuration )
     // END PREWORK
 
     // get the target execution command
-    std::string target_command = configuration->get_execution_context() + + "/" + this->definition.get_target();
+    std::string target_command = this->definition.get_target();
 
     // check if context override
     if ( configuration->has_context_override() )
@@ -197,10 +197,18 @@ void Task::execute( Conf * configuration )
 
     // a[0] execute target
     // TODO revise variable sourcing strategy
+    // ....sourcing on the shell for variables and environment population doesn't have a good smell.
 
     this->slog.log( E_INFO, "Executing target: \"" + target_command + "\"." );
+    if ( exists( target_command ) )
+    {
+        this->slog.log( E_DEBUG, "Executable exists.");
+    } else {
+        this->slog.log( E_FATAL, "Executable does not exist." );
+        throw Task_NotReady();
+    }
     this->slog.log( E_DEBUG, "Vars file: " + configuration->get_env_vars_file() );
-    int return_code = Sproc::execute( ". " + configuration->get_env_vars_file() + " && " + target_command );
+    int return_code = Sproc::execute( this->definition.get_user(), this->definition.get_group(), ". " + configuration->get_env_vars_file() + " && " + target_command );
 
     // **********************************************
     // d[0] Error Code Check
@@ -259,7 +267,7 @@ void Task::execute( Conf * configuration )
 
             this->slog.log( E_INFO, "Executing rectification: " + rectifier_command + "." );
 
-            int rectifier_error = Sproc::execute(  "source " + configuration->get_env_vars_file() + " && " + rectifier_command );
+            int rectifier_error = Sproc::execute(  this->definition.get_user(), this->definition.get_group(), ". " + configuration->get_env_vars_file() + " && " + rectifier_command );
 
             // **********************************************
             // d[3] Error Code Check for Rectifier
@@ -300,7 +308,7 @@ void Task::execute( Conf * configuration )
                 // a[7] Re-execute Target
                 this->slog.log( E_INFO, "Re-Executing target \"" + this->definition.get_target() + "\"." );
 
-                int retry_code = Sproc::execute(  "source " + configuration->get_env_vars_file() + " && " + target_command );
+                int retry_code = Sproc::execute(  this->definition.get_user(), this->definition.get_group(), ". " + configuration->get_env_vars_file() + " && " + target_command );
 
                 // **********************************************
                 // d[5] Error Code Check

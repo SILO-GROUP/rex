@@ -137,15 +137,22 @@ int main( int argc, char * argv[] )
     std::string definitions_file = configuration.get_units_path();
     std::string plan_file = configuration.get_plan_path();
 
+    slog.log( E_DEBUG, "* Initialising suite (definition library).");
     Suite available_definitions = Suite( L_LEVEL );
+
+    slog.log( E_INFO, "* Loading all actionable units into suite." );
     available_definitions.load_units_file( definitions_file );
 
+    slog.log( E_DEBUG, "* Initialising plan." );
     Plan plan = Plan( &configuration, L_LEVEL );
+
+    slog.log( E_INFO, "* Loading plan outline.");
     plan.load_plan_file( plan_file );
 
+    slog.log( E_INFO, "* Loading planned tasks from suite to plan." );
     plan.load_definitions( available_definitions );
 
-    slog.log( E_DEBUG, "Ready to execute all tasks in Plan." );
+    slog.log( E_INFO, "* Ready to execute all actionable tasks in plan." );
 
     try
     {
@@ -154,6 +161,7 @@ int main( int argc, char * argv[] )
 
     catch ( std::exception& e)
     {
+        slog.log( E_FATAL, "Caught exception.");
         slog.log( E_FATAL, e.what() );
         return 1;
     }
