@@ -91,7 +91,7 @@ int Sproc::execute(std::string run_as, std::string group, std::string command )
         {
             slog.log( E_INFO, "Successfully set GID to '" + std::to_string(run_as_gid) + "' (" + group + ")." );
         } else {
-            slog.log( E_FATAL, "Failed to set GID.  Panicking. (setegid: " + std::to_string( setegidval ) + ")" );
+            slog.log( E_FATAL, "Failed to set GID.  Panicking. (setegid: " + std::to_string( setegidval ) + "/" + std::to_string(errno) + ")" );
             return -401;
         }
         exit_code_raw = system( command.c_str() );
