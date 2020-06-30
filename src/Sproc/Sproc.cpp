@@ -78,14 +78,6 @@ int Sproc::execute(std::string run_as, std::string group, std::string command )
     if ( pid == 0 )
     {
         // child process
-        if ( seteuid( run_as_uid ) == 0 )
-        {
-            slog.log( E_INFO, "Successfully set UID to '" + std::to_string(run_as_uid) + "' (" + run_as + ")." );
-        } else {
-            slog.log( E_FATAL, "Failed to set UID.  Panicking." );
-            return -401;
-        }
-
         int setegidval = setegid( run_as_gid );
         if ( setegidval == 0 )
         {
@@ -94,6 +86,15 @@ int Sproc::execute(std::string run_as, std::string group, std::string command )
             slog.log( E_FATAL, "Failed to set GID.  Panicking. (setegid: " + std::to_string( setegidval ) + "/" + std::to_string(errno) + ")" );
             return -401;
         }
+
+        if ( seteuid( run_as_uid ) == 0 )
+        {
+            slog.log( E_INFO, "Successfully set UID to '" + std::to_string(run_as_uid) + "' (" + run_as + ")." );
+        } else {
+            slog.log( E_FATAL, "Failed to set UID.  Panicking." );
+            return -401;
+        }
+
         exit_code_raw = system( command.c_str() );
         exit( WEXITSTATUS( exit_code_raw ) );
     } else if ( pid > 0 )
