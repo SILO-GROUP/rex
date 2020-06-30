@@ -26,21 +26,46 @@
 #include <pwd.h>
 #include <grp.h>
 
-/// Unit_NotPopulated - Meant to be thrown when a Unit type is not populated before being used.
-/// Signaled by use of the 'populated' boolean member of the Unit class.
-class Unit_NotPopulated: public std::runtime_error { public:
-    Unit_NotPopulated(): std::runtime_error("Unit: Attempted to access a member before loading values.") {}
-};
+/// UnitException -
+class UnitException: public std::exception
+{
+public:
+    /** Constructor (C strings).
+     *  @param message C-style string error message.
+     *                 The string contents are copied upon construction.
+     *                 Hence, responsibility for deleting the char* lies
+     *                 with the caller.
+     */
+    explicit UnitException(const char* message):
+            msg_(message)
+    {
+    }
 
-/// EnvironmentErrorFatal - Meant to be thrown when the environment is too broken for Examplar to do its job.
-class EnvironmentErrorFatal: public std::runtime_error { public:
-    EnvironmentErrorFatal(): std::runtime_error("Unit: Environment is too broken to continue.") {}
-};
+    /** Constructor (C++ STL strings).
+     *  @param message The error message.
+     */
+    explicit UnitException(const std::string& message):
+            msg_(message)
+    {}
 
-/// Unit_DataStructureException - Meant to be thrown when a Unit type is accessing a member that does not exist.
-class Unit_DataStructureException: public std::runtime_error { public:
-    // TODO rework this to accept the key name being fetched
-    Unit_DataStructureException(): std::runtime_error("Unit: Attempted to access a member not present in defined Unit.") {}
+    /** Destructor.
+     * Virtual to allow for subclassing.
+     */
+    virtual ~UnitException() throw (){}
+
+    /** Returns a pointer to the (constant) error description.
+     *  @return A pointer to a const char*. The underlying memory
+     *          is in posession of the Exception object. Callers must
+     *          not attempt to free the memory.
+     */
+    virtual const char* what() const throw (){
+        return msg_.c_str();
+    }
+
+    protected:
+    /** Error message.
+     */
+        std::string msg_;
 };
 
 /// Unit::Unit - Constructor for Unit type.  The Unit is a definition of an automation task.  Each Unit has:
@@ -73,22 +98,28 @@ int Unit::load_root(Json::Value loader_root)
     // TODO this pattern is 'working but broken'.  need to use a datastructure for required members and iterate
     // do NOT replace this with a switch case pattern
     if ( loader_root.isMember("name") )
-    { this->name = loader_root.get("name", errmsg).asString(); } else throw Unit_DataStructureException();
+    { this->name = loader_root.get("name", errmsg).asString(); } else
+        throw UnitException("No name attribute specified when loading a unit.");
 
     if ( loader_root.isMember("target") )
-    { this->target = loader_root.get("target", errmsg).asString(); } else throw Unit_DataStructureException();
+    { this->target = loader_root.get("target", errmsg).asString(); } else
+        throw UnitException("No target attribute specified when loading a unit.");
 
     if ( loader_root.isMember("rectifier") )
-    { this->rectifier = loader_root.get("rectifier", errmsg).asString(); } else throw Unit_DataStructureException();
+    { this->rectifier = loader_root.get("rectifier", errmsg).asString(); } else
+        throw UnitException("No rectifier executable attribute specified when loading a unit.");
 
     if ( loader_root.isMember("active") )
-    { this->active = loader_root.get("active", errmsg).asBool(); } else throw Unit_DataStructureException();
+    { this->active = loader_root.get("active", errmsg).asBool(); } else
+        throw UnitException("No activation attribute specified when loading a unit.");
 
     if ( loader_root.isMember("required") )
-    { this->required = loader_root.get("required", errmsg).asBool(); } else throw Unit_DataStructureException();
+    { this->required = loader_root.get("required", errmsg).asBool(); } else
+        throw UnitException("No required attribute specified when loading a unit.");
 
     if ( loader_root.isMember("rectify") )
-    { this->rectify = loader_root.get("rectify", errmsg).asBool(); } else throw Unit_DataStructureException();
+    { this->rectify = loader_root.get("rectify", errmsg).asBool(); } else
+        throw UnitException("No rectify boolean attribute specified when loading a unit.");
 
     // TODO functionize this
     char * lgn;
@@ -97,12 +128,11 @@ int Unit::load_root(Json::Value loader_root)
     // if no user field is specified then default to the currently executing user
     if ( ( lgn = getlogin() ) == NULL )
     {
-        throw EnvironmentErrorFatal();
+        throw UnitException( "Could not retrieve current user." );
     } else {
         errmsg_user = lgn;
     }
     // -TODO
-
 
 
     if ( loader_root.isMember( "user" ) )
@@ -120,7 +150,7 @@ int Unit::load_root(Json::Value loader_root)
     // get the backup value and store it to errmsg_group
     if ( ( grp = getgrgid( gid ) ) == NULL )
     {
-        throw EnvironmentErrorFatal();
+        throw UnitException("Could not retrieve current group");
     } else {
         errmsg_group = grp->gr_name;
     }
@@ -153,7 +183,7 @@ int Unit::load_string(std::string json_val)
 /// \return the name of the unit.
 std::string Unit::get_name()
 {
-    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->name;
 }
 
@@ -162,7 +192,7 @@ std::string Unit::get_name()
 /// \return the target of the unit.
 std::string Unit::get_target()
 {
-    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->target;
 }
 
@@ -171,7 +201,7 @@ std::string Unit::get_target()
 /// \return the output of the unit.
 std::string Unit::get_output()
 {
-    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->output;
 }
 
@@ -180,7 +210,7 @@ std::string Unit::get_output()
 /// \return the rectifier of the unit.
 std::string Unit::get_rectifier()
 {
-    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->rectifier;
 }
 
@@ -189,7 +219,7 @@ std::string Unit::get_rectifier()
 /// \return the armed status of the unit.
 bool Unit::get_active()
 {
-    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->active;
 }
 
@@ -198,7 +228,7 @@ bool Unit::get_active()
 /// \return the requirement status of the unit.
 bool Unit::get_required()
 {
-    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->required;
 }
 
@@ -207,7 +237,7 @@ bool Unit::get_required()
 /// \return the rectification status of the unit.
 bool Unit::get_rectify()
 {
-    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->rectify;
 }
 
@@ -216,7 +246,7 @@ bool Unit::get_rectify()
 /// \return the string value of the user name.
 std::string Unit::get_user()
 {
-    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->user;
 }
 /// Unit::get_group - retrieves the group context for the unit.
@@ -224,6 +254,6 @@ std::string Unit::get_user()
 /// \return the string value of the group name.
 std::string Unit::get_group()
 {
-    if ( ! this->populated ) { throw Unit_NotPopulated(); }
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->group;
 }
