@@ -122,21 +122,23 @@ int Unit::load_root(Json::Value loader_root)
         throw UnitException("No rectify boolean attribute specified when loading a unit.");
 
     // TODO functionize this
-    char * lgn;
+    int uid = getuid();
+    struct passwd * upw;
+
     std::string errmsg_user;
 
     // if no user field is specified then default to the currently executing user
-    if ( ( lgn = getlogin() ) == NULL )
+    if ( ( upw = getpwuid(uid) ) == NULL )
     {
         throw UnitException( "Could not retrieve current user." );
     } else {
-        errmsg_user = lgn;
+        errmsg_user = upw->pw_name;
     }
     // -TODO
 
 
     if ( loader_root.isMember( "user" ) )
-    { this->user = loader_root.get( "user", errmsg_user ).asString(); } else this->user = lgn;
+    { this->user = loader_root.get( "user", errmsg_user ).asString(); } else this->user = errmsg_user;
 
 
     // TODO functionalize this
