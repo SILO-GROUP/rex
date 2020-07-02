@@ -92,7 +92,7 @@ Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slo
     }
 
     // find the path to the plan file
-    if (this->get_serialized(this->plan_path, "plan_path" ) != 0 )
+    if ( this->get_serialized(this->plan_path, "plan_path" ) != 0 )
     {
         throw ConfigLoadException("plan_path string is not set in the config file supplied:" + filename);
     }
@@ -131,9 +131,6 @@ Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slo
         this->slog.log( E_FATAL, "Variables file does not exist: '" + this->env_vars_file_literal + "'.");
         throw ConfigLoadException( "env_vars_file points to an incorrect path." );
     }
-
-
-
 };
 
 /// Conf::has_context_override - Specifies whether or not the override context function is enabled in the conf file.
@@ -158,6 +155,7 @@ void Conf::set_execution_context( std::string execution_context )
     this->execution_context_literal = execution_context;
 }
 
+/// Conf::get_env_vars_file() - returns the path to the environment variables file.
 std::string Conf::get_env_vars_file()
 {
     return this->env_vars_file_literal;

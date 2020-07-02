@@ -160,6 +160,9 @@ int Unit::load_root(Json::Value loader_root)
     if ( loader_root.isMember( "group" ) )
     { this->group = loader_root.get( "group", errmsg_group ).asString(); } else this->group = grp->gr_name;
 
+    if ( loader_root.isMember( "shell" ) )
+    { this->shell = loader_root.get( "shell", errmsg ).asString(); } else this->shell = "sh";
+
     this->populated = true;
 
     return 0;
@@ -258,4 +261,13 @@ std::string Unit::get_group()
 {
     if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->group;
+}
+
+/// Unit::get_shell - retrieves the shell path to use for the unit execution.
+///
+/// \return the string value of the shell path.
+std::string Unit::get_shell()
+{
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
+    return this->shell;
 }

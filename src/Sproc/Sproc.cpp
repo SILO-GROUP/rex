@@ -41,7 +41,7 @@ int groupname_to_gid( std::string groupname, int & gid )
 ///
 /// \param input - The commandline input to execute.
 /// \return - The return code of the execution of input in the calling shell.
-int Sproc::execute(std::string run_as, std::string group, std::string command )
+int Sproc::execute( std::string shell, std::string environment_file, std::string run_as, std::string group, std::string command )
 {
     Logger slog = Logger( E_INFO, "_sproc" );
 
@@ -64,7 +64,7 @@ int Sproc::execute(std::string run_as, std::string group, std::string command )
     {
         slog.log( E_DEBUG, "GID of '" + group + "' is '" + std::to_string( run_as_gid ) + "'." );
     } else {
-        slog.log( E_FATAL, "Failed to look up DID for '" + group + "'.");
+        slog.log( E_FATAL, "Failed to look up GID for '" + group + "'.");
         return -404;
     }
 
@@ -95,6 +95,14 @@ int Sproc::execute(std::string run_as, std::string group, std::string command )
             return -401;
         }
 
+        std::string sourcer_string = shell + " -c '. " + environment_file + "'";
+        slog.log( E_DEBUG, "Shell call for loading: ``" + sourcer_string + "``." );
+        int sourcer = system( sourcer_string.c_str() );
+        if ( sourcer != 0)
+        {
+                slog.log(E_FATAL, "Failed to source environment file.");
+                return -127;
+        }
         exit_code_raw = system( command.c_str() );
         exit( WEXITSTATUS( exit_code_raw ) );
     } else if ( pid > 0 )
@@ -106,6 +114,4 @@ int Sproc::execute(std::string run_as, std::string group, std::string command )
         slog.log( E_FATAL, "Fork Failed");
     }
     return WEXITSTATUS( exit_code_raw );
-
-
 }

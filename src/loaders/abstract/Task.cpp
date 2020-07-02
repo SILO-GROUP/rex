@@ -208,7 +208,15 @@ void Task::execute( Conf * configuration )
         throw Task_NotReady();
     }
     this->slog.log( E_DEBUG, "Vars file: " + configuration->get_env_vars_file() );
-    int return_code = Sproc::execute( this->definition.get_user(), this->definition.get_group(), ". " + configuration->get_env_vars_file() + " && " + target_command );
+    this->slog.log( E_DEBUG, "Shell: " + this->definition.get_shell() );
+
+    int return_code = Sproc::execute(
+            this->definition.get_shell(),
+            configuration->get_env_vars_file(),
+            this->definition.get_user(),
+            this->definition.get_group(),
+            target_command
+    );
 
     // **********************************************
     // d[0] Error Code Check
@@ -267,7 +275,13 @@ void Task::execute( Conf * configuration )
 
             this->slog.log( E_INFO, "Executing rectification: " + rectifier_command + "." );
 
-            int rectifier_error = Sproc::execute(  this->definition.get_user(), this->definition.get_group(), ". " + configuration->get_env_vars_file() + " && " + rectifier_command );
+            int rectifier_error = Sproc::execute(
+                    this->definition.get_shell(),
+                    configuration->get_env_vars_file(),
+                    this->definition.get_user(),
+                    this->definition.get_group(),
+                    rectifier_command
+            );
 
             // **********************************************
             // d[3] Error Code Check for Rectifier
@@ -308,7 +322,13 @@ void Task::execute( Conf * configuration )
                 // a[7] Re-execute Target
                 this->slog.log( E_INFO, "Re-Executing target \"" + this->definition.get_target() + "\"." );
 
-                int retry_code = Sproc::execute(  this->definition.get_user(), this->definition.get_group(), ". " + configuration->get_env_vars_file() + " && " + target_command );
+                int retry_code = Sproc::execute(
+                        this->definition.get_shell(),
+                        configuration->get_env_vars_file(),
+                        this->definition.get_user(),
+                        this->definition.get_group(),
+                        target_command
+                );
 
                 // **********************************************
                 // d[5] Error Code Check

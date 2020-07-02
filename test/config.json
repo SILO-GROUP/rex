@@ -4,5 +4,6 @@
   "units_path":	"units/",
   "plan_path":  "plans/atomic.plan",
   "config_version": "3",
-  "env_vars_file": "examplar.variables"
+  "env_vars_file": "examplar.variables",
+  "shell": "/bin/bash"
 }

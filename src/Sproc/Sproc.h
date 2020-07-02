@@ -31,7 +31,7 @@
 class Sproc {
     public:
         // call the object.  returnvalue is enum representing external execution attempt not binary exit code
-        static int execute(std::string run_as, std::string group, std::string command );
+        static int execute( std::string shell, std::string enviornment_file, std::string run_as, std::string group, std::string command );
 };
 
 #endif //FTESTS_SPROC_H

@@ -67,6 +67,10 @@ private:
     // not intended for protected accounts, handle your own security
     std::string group;
 
+    // shell to use for env
+    std::string shell;
+
+
 public:
     Unit( int LOG_LEVEL );
 
@@ -86,6 +90,7 @@ public:
     bool get_rectify();
     std::string get_user();
     std::string get_group();
+    std::string get_shell();
 
 private:
     int LOG_LEVEL;

@@ -6,9 +6,10 @@
       "rectifier":  "",
       "active":     true,
       "required":   true,
-      "user":       "root",
-      "group":      "root",
-      "rectify":    false
+      "user":       "bagira",
+      "group":      "bagira",
+      "rectify":    false,
+      "shell":      "/usr/bin/env bash"
     },
     {
       "name":       "independent test 2",
@@ -18,7 +19,8 @@
       "required":   false,
       "user":       "bagira",
       "group":      "bagira",
-      "rectify":    false
+      "rectify":    false,
+      "shell":      "/usr/bin/env bash"
     }
   ]
 }
