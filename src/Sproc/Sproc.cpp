@@ -96,8 +96,10 @@ int Sproc::execute( std::string shell, std::string environment_file, std::string
         }
 
         std::string sourcer = shell + " -c \". " + environment_file + " && " + command + "\"";
+
+        // I have no idea why this never shows up in the output!
         slog.log( E_DEBUG, "Shell call for loading: ``" + sourcer + "``." );
-        std::cerr << sourcer.c_str() << std::endl;
+
         exit_code_raw = system( sourcer.c_str() );
         exit( WEXITSTATUS( exit_code_raw ) );
     } else if ( pid > 0 )
