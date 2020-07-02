@@ -1,9 +1,6 @@
-whoami
-id
+#!/bin/bash
 
-touch /home/bagira/testfile
-
-stat /home/bagira/testfile
+echo "Test var is: $TEST_VAR"
 
 #dialog --stdout --title "Interact with me!" \
 #  --backtitle "This is user interaction." \

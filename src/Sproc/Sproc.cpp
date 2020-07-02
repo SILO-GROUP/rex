@@ -95,15 +95,10 @@ int Sproc::execute( std::string shell, std::string environment_file, std::string
             return -401;
         }
 
-        std::string sourcer_string = shell + " -c '. " + environment_file + "'";
-        slog.log( E_DEBUG, "Shell call for loading: ``" + sourcer_string + "``." );
-        int sourcer = system( sourcer_string.c_str() );
-        if ( sourcer != 0)
-        {
-                slog.log(E_FATAL, "Failed to source environment file.");
-                return -127;
-        }
-        exit_code_raw = system( command.c_str() );
+        std::string sourcer = shell + " -c \". " + environment_file + " && " + command + "\"";
+        slog.log( E_DEBUG, "Shell call for loading: ``" + sourcer + "``." );
+        std::cerr << sourcer.c_str() << std::endl;
+        exit_code_raw = system( sourcer.c_str() );
         exit( WEXITSTATUS( exit_code_raw ) );
     } else if ( pid > 0 )
     {
