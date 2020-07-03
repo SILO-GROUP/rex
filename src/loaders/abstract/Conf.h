@@ -37,9 +37,6 @@ private:
     Json::Value units_path;
     Json::Value execution_context;
     Json::Value config_version;
-    Json::Value env_vars_file;
-
-    std::string env_vars_file_literal;
 
     // flag to indicate if execution context should be overriden in config file
     // if set to true Examplar should use whats in the config file for current working directory
@@ -60,7 +57,6 @@ public:
 
     void set_execution_context( std::string );
 
-    std::string get_env_vars_file();
 private:
     int LOG_LEVEL;
     Logger slog;

@@ -9,7 +9,8 @@
       "user":       "bagira",
       "group":      "bagira",
       "rectify":    false,
-      "shell":      "/usr/bin/env bash"
+      "shell":      "/usr/bin/env bash",
+      "environment":    "examplar.variables"
     },
     {
       "name":       "independent test 2",
@@ -20,7 +21,8 @@
       "user":       "bagira",
       "group":      "bagira",
       "rectify":    false,
-      "shell":      "/usr/bin/env bash"
+      "shell":      "/usr/bin/env bash",
+      "environment":    "examplar.variables"
     }
   ]
 }

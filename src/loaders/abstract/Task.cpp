@@ -207,12 +207,14 @@ void Task::execute( Conf * configuration )
         this->slog.log( E_FATAL, "Executable does not exist." );
         throw Task_NotReady();
     }
-    this->slog.log( E_DEBUG, "Vars file: " + configuration->get_env_vars_file() );
+    this->slog.log( E_DEBUG, "Vars file: " + this->definition.get_env_vars_file() );
     this->slog.log( E_DEBUG, "Shell: " + this->definition.get_shell() );
 
+
+    std::string static_env_file = configuration->get_execution_context() + "/" + this->definition.get_env_vars_file();
     int return_code = Sproc::execute(
             this->definition.get_shell(),
-            configuration->get_env_vars_file(),
+            static_env_file,
             this->definition.get_user(),
             this->definition.get_group(),
             target_command
@@ -277,7 +279,7 @@ void Task::execute( Conf * configuration )
 
             int rectifier_error = Sproc::execute(
                     this->definition.get_shell(),
-                    configuration->get_env_vars_file(),
+                    static_env_file,
                     this->definition.get_user(),
                     this->definition.get_group(),
                     rectifier_command
@@ -324,7 +326,7 @@ void Task::execute( Conf * configuration )
 
                 int retry_code = Sproc::execute(
                         this->definition.get_shell(),
-                        configuration->get_env_vars_file(),
+                        static_env_file,
                         this->definition.get_user(),
                         this->definition.get_group(),
                         target_command

@@ -70,6 +70,7 @@ private:
     // shell to use for env
     std::string shell;
 
+    std::string env_vars_file;
 
 public:
     Unit( int LOG_LEVEL );
@@ -85,6 +86,8 @@ public:
     std::string get_target();
     std::string get_output();
     std::string get_rectifier();
+    std::string get_env_vars_file();
+
     bool get_active();
     bool get_required();
     bool get_rectify();

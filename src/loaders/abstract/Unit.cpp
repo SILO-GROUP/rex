@@ -161,7 +161,12 @@ int Unit::load_root(Json::Value loader_root)
     { this->group = loader_root.get( "group", errmsg_group ).asString(); } else this->group = grp->gr_name;
 
     if ( loader_root.isMember( "shell" ) )
-    { this->shell = loader_root.get( "shell", errmsg ).asString(); } else this->shell = "sh";
+    { this->shell = loader_root.get( "shell", errmsg ).asString(); } else this->shell = "/usr/bin/env sh";
+
+    if ( loader_root.isMember( "environment") )
+    { this->env_vars_file = loader_root.get( "environment", errmsg ).asString(); } else {
+        throw UnitException("No environment file specified for a unit, and environment files are required for unit definitions.");
+    }
 
     this->populated = true;
 
@@ -271,3 +276,13 @@ std::string Unit::get_shell()
     if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->shell;
 }
+
+/// Unit::get_env_vars_file - retrieves the file path to use for the unit environment file.  This is a file that is
+/// sourced by the chosen shell to populate any environment variables.
+/// \return the string value of the shell path.
+std::string Unit::get_env_vars_file()
+{
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
+    return this->env_vars_file;
+}
+
