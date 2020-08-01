@@ -78,8 +78,7 @@ int Sproc::execute( std::string shell, std::string environment_file, std::string
     if ( pid == 0 )
     {
         // child process
-        int setegidval = setegid( run_as_gid );
-        if ( setegidval == 0 )
+        if ( setgid( run_as_gid ) == 0 )
         {
             slog.log( E_INFO, "Successfully set GID to '" + std::to_string(run_as_gid) + "' (" + group + ")." );
         } else {
@@ -87,7 +86,7 @@ int Sproc::execute( std::string shell, std::string environment_file, std::string
             return -401;
         }
 
-        if ( seteuid( run_as_uid ) == 0 )
+        if ( setuid( run_as_uid ) == 0 )
         {
             slog.log( E_INFO, "Successfully set UID to '" + std::to_string(run_as_uid) + "' (" + run_as + ")." );
         } else {
