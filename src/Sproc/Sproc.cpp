@@ -82,7 +82,7 @@ int Sproc::execute( std::string shell, std::string environment_file, std::string
         {
             slog.log( E_INFO, "Successfully set GID to '" + std::to_string(run_as_gid) + "' (" + group + ")." );
         } else {
-            slog.log( E_FATAL, "Failed to set GID.  Panicking. (setegid: " + std::to_string( setegidval ) + "/" + std::to_string(errno) + ")" );
+            slog.log( E_FATAL, "Failed to set GID.  Panicking." );
             return -401;
         }
 
