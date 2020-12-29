@@ -33,9 +33,9 @@ void Logger::log( int LOG_LEVEL, std::string msg )
 
         if ( LOG_LEVEL == E_FATAL | LOG_LEVEL == E_WARN )
         {
-            std::cerr << "[" << this->get_8601() << "]\t[" << this->mask << "]\t[" << ERR << "]\t" << msg.c_str() << std::endl;
+            std::cerr << "[" << this->get_8601() << "] [" << ERR << "] " << "[" << this->mask << "] " << msg.c_str() << std::endl;
         } else {
-            std::cout << "[" << this->get_8601() << "]\t[" << this->mask << "]\t[" << ERR << "]\t" << msg.c_str() << std::endl;
+            std::cout << "[" << this->get_8601() << "] [" << ERR << "] " << "[" << this->mask << "] " << msg.c_str() << std::endl;
         }
     }
 }

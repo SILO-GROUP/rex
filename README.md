@@ -1,3 +1,13 @@
+# Examplar
+
+## What is Examplar?
+
+Examplar is an execution flow component designed for the generation of SURRO Linux but kept broad in design for other use cases.
+
+At a high level, it is a very simple thing:  It executes scripts and other executables in a predetermined order, logs their output, and has basic error handling using exit codes of the executables it is running.
+
+It relies on a library of Units which are files that define, in json format, what executables it can execute.  It uses a Plan to define which of those units it will actually execute.  This allows you to have many things defined by multiple teams, and, with sufficient abstraction, use the same library of automations for multiple purposes.
+
 # Instructions
 These are instructions for using Examplar.
 
