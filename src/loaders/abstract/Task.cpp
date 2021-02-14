@@ -30,7 +30,7 @@ public:
 /// Task_InvalidDataStructure - Exception thrown when a Task is defined with invalid JSON.
 class Task_NotReady: public std::runtime_error {
 public:
-    Task_NotReady(): std::runtime_error("Task: Attempted to access a unit of a Task that is not defined.") {}
+    Task_NotReady(): std::runtime_error("Task: Attempted to execute a Task whose Unit is not well defined.") {}
 };
 
 
@@ -180,7 +180,7 @@ void Task::execute( Conf * configuration )
 
     // get the name
     std::string task_name = this->definition.get_name();
-    this->slog.log( E_DEBUG, "Using unit: \"" + task_name + "\"." );
+    this->slog.log( E_DEBUG, "[ '" + task_name + "' ] Using unit definition: \"" + task_name + "\"." );
     // END PREWORK
 
     // get the target execution command
@@ -191,7 +191,7 @@ void Task::execute( Conf * configuration )
     {
         // if so, set the CWD.
         chdir( configuration->get_execution_context().c_str() );
-        this->slog.log( E_INFO, "Setting execution context: " + get_working_path() );
+        this->slog.log( E_INFO, "[ '" + task_name + "' ] Setting execution context: " + get_working_path() );
     }
 
 
@@ -199,16 +199,16 @@ void Task::execute( Conf * configuration )
     // TODO revise variable sourcing strategy
     // ....sourcing on the shell for variables and environment population doesn't have a good smell.
 
-    this->slog.log( E_INFO, "Executing target: \"" + target_command + "\"." );
+    this->slog.log( E_INFO, "[ '" + task_name + "' ] Executing target: \"" + target_command + "\"." );
     if ( exists( target_command ) )
     {
-        this->slog.log( E_DEBUG, "Executable exists.");
+        this->slog.log( E_DEBUG, "[ '" + task_name + "' ] Target executable found.");
     } else {
-        this->slog.log( E_FATAL, "Executable does not exist." );
+        this->slog.log( E_FATAL, "[ '" + task_name + "' ] Target executable does not exist." );
         throw Task_NotReady();
     }
-    this->slog.log( E_DEBUG, "Vars file: " + this->definition.get_env_vars_file() );
-    this->slog.log( E_DEBUG, "Shell: " + this->definition.get_shell() );
+    this->slog.log( E_DEBUG, "[ '" + task_name + "' ] Vars file: " + this->definition.get_env_vars_file() );
+    this->slog.log( E_DEBUG, "[ '" + task_name + "' ] Shell: " + this->definition.get_shell() );
 
 
     std::string static_env_file = configuration->get_execution_context() + "/" + this->definition.get_env_vars_file();
@@ -217,7 +217,9 @@ void Task::execute( Conf * configuration )
             static_env_file,
             this->definition.get_user(),
             this->definition.get_group(),
-            target_command
+            target_command,
+            this->LOG_LEVEL,
+            task_name
     );
 
     // **********************************************
@@ -226,7 +228,7 @@ void Task::execute( Conf * configuration )
     if ( return_code == 0 )
     {
         // d[0].0 ZERO
-        this->slog.log( E_INFO, "Target \"" + task_name + "\" succeeded.  Marking as complete." );
+        this->slog.log( E_INFO, "[ '" + task_name + "' ] Target succeeded.  Marking as complete." );
 
         this->mark_complete();
 
@@ -237,7 +239,7 @@ void Task::execute( Conf * configuration )
     if ( return_code != 0 )
     {
         // d[0].1 NON-ZERO
-        this->slog.log( E_WARN,  "Target \"" + task_name + "\" failed with exit code " + std::to_string( return_code ) + "." );
+        this->slog.log( E_WARN,  "[ '" + task_name + "' ] Target failed with exit code " + std::to_string( return_code ) + "." );
 
         // **********************************************
         // d[1] Rectify Check
@@ -253,12 +255,12 @@ void Task::execute( Conf * configuration )
             {
                 // d[2].0 FALSE
                 // a[2] NEXT
-                this->slog.log(  E_INFO, "This task is not required to continue the plan. Moving on." );
+                this->slog.log(  E_INFO, "[ '" + task_name + "' ] This task is not required to continue the plan. Moving on." );
                 return;
             } else {
                 // d[2].1 TRUE
                 // a[3] EXCEPTION
-                this->slog.log( E_FATAL, "Task \"" + task_name + "\" is required, and failed, and rectification is not enabled." );
+                this->slog.log( E_FATAL, "[ '" + task_name + "' ] Task is required, and failed, and rectification is not enabled." );
                 throw TaskException( "Task failed: " + task_name );
             }
             // **********************************************
@@ -270,19 +272,21 @@ void Task::execute( Conf * configuration )
         if ( this->definition.get_rectify() )
         {
             // d[1].1 TRUE (Rectify Check)
-            this->slog.log( E_INFO, "Rectification pattern is enabled for \"" + task_name + "\"." );
+            this->slog.log( E_INFO, "[ " + task_name + " ] Rectification pattern is enabled." );
 
             // a[4] Execute RECTIFIER
             std::string rectifier_command = this->definition.get_rectifier();
 
-            this->slog.log( E_INFO, "Executing rectification: " + rectifier_command + "." );
+            this->slog.log( E_INFO, "[ '" + task_name + "' ] Executing rectification: " + rectifier_command + "." );
 
             int rectifier_error = Sproc::execute(
                     this->definition.get_shell(),
                     static_env_file,
                     this->definition.get_user(),
                     this->definition.get_group(),
-                    rectifier_command
+                    rectifier_command,
+                    this->LOG_LEVEL,
+                    task_name
             );
 
             // **********************************************
@@ -291,7 +295,7 @@ void Task::execute( Conf * configuration )
             if ( rectifier_error != 0 )
             {
                 // d[3].1 Non-Zero
-                this->slog.log(  E_WARN, "Rectification of \"" + task_name + "\" failed with exit code " + std::to_string( rectifier_error ) + "." );
+                this->slog.log(  E_WARN, "[ '" + task_name + "' ] Rectification failed with exit code " + std::to_string( rectifier_error ) + "." );
 
                 // **********************************************
                 // d[4] Required Check
@@ -299,7 +303,7 @@ void Task::execute( Conf * configuration )
                 if ( ! this->definition.get_required() ) {
                     // d[4].0 FALSE
                     // a[5] NEXT
-                    this->slog.log( E_INFO, "This task is not required to continue the plan. Moving on." );
+                    this->slog.log( E_INFO, "[ '" + task_name + "' ] This task is not required to continue the plan. Moving on." );
                     return;
                 }
 
@@ -307,7 +311,7 @@ void Task::execute( Conf * configuration )
                 {
                     // d[4].1 TRUE
                     // a[6] EXCEPTION
-                    this->slog.log( E_FATAL, "Task \"" + task_name + "\" is required, it failed, and then rectification failed.  Lost cause." );
+                    this->slog.log( E_FATAL, "[ '" + task_name + "' ] Task is required, but failed, and rectification failed.  Lost cause." );
                     throw TaskException( "Lost cause, task failure." );
                 }
                 // **********************************************
@@ -319,17 +323,19 @@ void Task::execute( Conf * configuration )
             if ( rectifier_error == 0 )
             {
                 // d[3].0 Zero
-                this->slog.log( E_INFO, "Rectification returned successfully." );
+                this->slog.log( E_INFO, "[ '" + task_name + "' ] Rectification returned successfully." );
 
                 // a[7] Re-execute Target
-                this->slog.log( E_INFO, "Re-Executing target \"" + this->definition.get_target() + "\"." );
+                this->slog.log( E_INFO, "[ '" + task_name + "' ] Re-Executing target \"" + this->definition.get_target() + "\"." );
 
                 int retry_code = Sproc::execute(
                         this->definition.get_shell(),
                         static_env_file,
                         this->definition.get_user(),
                         this->definition.get_group(),
-                        target_command
+                        target_command,
+                        this->LOG_LEVEL,
+                        task_name
                 );
 
                 // **********************************************
@@ -339,11 +345,11 @@ void Task::execute( Conf * configuration )
                 {
                     // d[5].0 ZERO
                     // a[8] NEXT
-                    this->slog.log( E_INFO, "Re-execution was successful." );
+                    this->slog.log( E_INFO, "[ '" + task_name + "' ] Re-execution was successful." );
                     return;
                 } else {
                     // d[5].1 NON-ZERO
-                    this->slog.log( E_WARN, "Re-execution failed with exit code " + std::to_string( retry_code ) + "." );
+                    this->slog.log( E_WARN, "[ '" + task_name + "' ] Re-execution failed with exit code " + std::to_string( retry_code ) + "." );
 
                     // **********************************************
                     // d[6] Required Check
@@ -360,7 +366,7 @@ void Task::execute( Conf * configuration )
                     {
                         // d[6].1 TRUE
                         // a[10] EXCEPTION
-                        this->slog.log( E_FATAL, "Task \"" + task_name + "\" is required, and failed, then rectified but rectifier did not heal the condition causing the target to fail.  Cannot proceed with Plan." );
+                        this->slog.log( E_FATAL, "[ '" + task_name + "' ] Task is required, and failed, then rectified but rectifier did not heal the condition causing the target to fail.  Cannot proceed with Plan." );
                         throw TaskException( "Lost cause, task failure." );
                     }
                     // **********************************************

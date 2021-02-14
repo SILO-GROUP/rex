@@ -1,28 +1,52 @@
 {
   "units": [
     {
-      "name":       "independent test 1",
-      "target":     "components/independent_test_1.bash",
-      "rectifier":  "",
-      "active":     true,
-      "required":   true,
-      "user":       "bagira",
-      "group":      "bagira",
-      "rectify":    false,
-      "shell":      "/usr/bin/env bash",
-      "environment":    "examplar.variables"
+        "name":         "independent test 1",
+        "target":       "components/independent_test_1.bash",
+        "rectifier":    "",
+        "active":       true,
+        "required":     true,
+        "user":         "bagira",
+        "group":        "bagira",
+        "rectify":      false,
+        "shell":        "/usr/bin/env bash",
+        "environment":  "environments/examplar.variables"
     },
     {
-      "name":       "independent test 2",
-      "target":     "components/independent_test_2.bash",
-      "rectifier":  "",
-      "active":     true,
-      "required":   false,
-      "user":       "bagira",
-      "group":      "bagira",
-      "rectify":    false,
-      "shell":      "/usr/bin/env bash",
-      "environment":    "examplar.variables"
+        "name":         "independent test 2",
+        "target":       "components/independent_test_2.bash",
+        "rectifier":    "",
+        "active":       true,
+        "required":     true,
+        "user":         "bagira",
+        "group":        "bagira",
+        "rectify":      false,
+        "shell":        "/usr/bin/env bash",
+        "environment":  "environments/examplar.variables"
+    },
+    {
+        "name":         "dependent test",
+        "target":       "components/dependent_test.bash",
+        "rectifier":    "",
+        "active":       true,
+        "required":     true,
+        "user":         "bagira",
+        "group":        "bagira",
+        "rectify":      false,
+        "shell":        "/usr/bin/env bash",
+        "environment":  "environments/examplar.variables"
+    },
+    {
+        "name":         "curses dialog",
+        "target":       "components/curses_dialog.bash",
+        "rectifier":    "",
+        "active":       true,
+        "required":     true,
+        "user":         "bagira",
+        "group":        "bagira",
+        "rectify":      false,
+        "shell":        "/usr/bin/env bash",
+        "environment":  "environments/examplar.variables"
     }
   ]
 }

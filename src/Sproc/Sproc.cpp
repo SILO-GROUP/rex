@@ -41,30 +41,30 @@ int groupname_to_gid( std::string groupname, int & gid )
 ///
 /// \param input - The commandline input to execute.
 /// \return - The return code of the execution of input in the calling shell.
-int Sproc::execute( std::string shell, std::string environment_file, std::string run_as, std::string group, std::string command )
+int Sproc::execute( std::string shell, std::string environment_file, std::string run_as, std::string group, std::string command, int LOG_LEVEL, std::string task_name )
 {
-    Logger slog = Logger( E_INFO, "_sproc" );
+    Logger slog = Logger( LOG_LEVEL, "_sproc" );
 
     // the run_as_uid to capture the run_as_uid to run as
     int run_as_uid;
     int run_as_gid;
 
-    slog.log( E_DEBUG, "Attempt: Running as user '" + run_as + "'.");
-    slog.log( E_DEBUG, "Attempt: Running as group '" + group + "'.");
+    slog.log( E_DEBUG, "[ '" + task_name + "' ] Attempt: Running as user '" + run_as + "'.");
+    slog.log( E_DEBUG, "[ '" + task_name + "' ] Attempt: Running as group '" + group + "'.");
 
     if ( username_to_uid( run_as, run_as_uid ) )
     {
-        slog.log( E_DEBUG, "UID of '" + run_as + "' is  '" + std::to_string( run_as_uid ) + "'." );
+        slog.log( E_DEBUG, "[ '" + task_name + "' ] UID of '" + run_as + "' is  '" + std::to_string( run_as_uid ) + "'." );
     } else {
-        slog.log( E_FATAL, "Failed to look up UID for '" + run_as + "'.");
+        slog.log( E_FATAL, "[ '" + task_name + "' ] Failed to look up UID for '" + run_as + "'.");
         return -404;
     }
 
     if ( groupname_to_gid( group, run_as_gid ) )
     {
-        slog.log( E_DEBUG, "GID of '" + group + "' is '" + std::to_string( run_as_gid ) + "'." );
+        slog.log( E_DEBUG, "[ '" + task_name + "' ] GID of '" + group + "' is '" + std::to_string( run_as_gid ) + "'." );
     } else {
-        slog.log( E_FATAL, "Failed to look up GID for '" + group + "'.");
+        slog.log( E_FATAL, "[ '" + task_name + "' ] Failed to look up GID for '" + group + "'.");
         return -404;
     }
 
@@ -80,24 +80,24 @@ int Sproc::execute( std::string shell, std::string environment_file, std::string
         // child process
         if ( setgid( run_as_gid ) == 0 )
         {
-            slog.log( E_INFO, "Successfully set GID to '" + std::to_string(run_as_gid) + "' (" + group + ")." );
+            slog.log( E_DEBUG, "[ '" + task_name + "' ] Successfully set GID to '" + std::to_string(run_as_gid) + "' (" + group + ")." );
         } else {
-            slog.log( E_FATAL, "Failed to set GID.  Panicking." );
+            slog.log( E_FATAL, "[ '" + task_name + "' ] Failed to set GID.  Panicking." );
             return -401;
         }
 
         if ( setuid( run_as_uid ) == 0 )
         {
-            slog.log( E_INFO, "Successfully set UID to '" + std::to_string(run_as_uid) + "' (" + run_as + ")." );
+            slog.log( E_DEBUG, "[ '" + task_name + "' ] Successfully set UID to '" + std::to_string(run_as_uid) + "' (" + run_as + ")." );
         } else {
-            slog.log( E_FATAL, "Failed to set UID.  Panicking." );
+            slog.log( E_FATAL, "[ '" + task_name + "' ] Failed to set UID.  Panicking." );
             return -401;
         }
 
         std::string sourcer = shell + " -c \". " + environment_file + " && " + command + "\"";
 
         // I have no idea why this never shows up in the output!
-        slog.log( E_DEBUG, "Shell call for loading: ``" + sourcer + "``." );
+        slog.log( E_DEBUG, "[ '" + task_name + "' ] Shell call for loading: ``" + sourcer + "``." );
 
         exit_code_raw = system( sourcer.c_str() );
         exit( WEXITSTATUS( exit_code_raw ) );
@@ -107,7 +107,7 @@ int Sproc::execute( std::string shell, std::string environment_file, std::string
         while ( ( pid = waitpid( pid, &exit_code_raw, 0 ) ) == -1 ) {}
     } else {
         // fork failed
-        slog.log( E_FATAL, "Fork Failed");
+        slog.log( E_FATAL, "[ '" + task_name + "' ] Fork Failed");
     }
     return WEXITSTATUS( exit_code_raw );
 }

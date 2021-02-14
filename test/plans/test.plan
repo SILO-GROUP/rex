@@ -2,6 +2,7 @@
   "plan": [
     { "name": "independent test 1", "dependencies":  [ null ] },
     { "name": "independent test 2", "dependencies":  [ null ] },
-    { "name": "dependent test", "dependencies":  [ "independent test 1" ] }
+    { "name": "dependent test", "dependencies":  [ "independent test 1" ] },
+    { "name": "curses dialog", "dependencies": [ null ] }
   ]
 }

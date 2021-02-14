@@ -257,17 +257,17 @@ void Plan::execute()
         if (this->all_dependencies_complete(this->tasks[i].get_name()) )
         {
 
-            this->slog.log( E_INFO, "Executing task \"" + this->tasks[i].get_name() + "\"." );
+            this->slog.log( E_INFO, "[ '" + this->tasks[i].get_name() + "' ] Executing..." );
             try {
                 this->tasks[i].execute( this->configuration );
             }
             catch (std::exception& e) {
-                this->slog.log( E_FATAL, "Plan Task: \"" + this->tasks[i].get_name() + "\" reported: " + e.what() );
+                this->slog.log( E_FATAL, "[ '" + this->tasks[i].get_name() + "' ] Report: " + e.what() );
                 throw Plan_Task_GeneralExecutionException("Could not execute task.");
             }
         } else {
             // not all deps met for this task
-            this->slog.log( E_FATAL, "Plan Task \"" + this->tasks[i].get_name() + "\" was specified in the Plan but not executed due to missing dependencies.  Please revise your plan."  );
+            this->slog.log( E_FATAL, "[ '" + this->tasks[i].get_name() + "' ] This task was specified in the Plan but not executed due to missing dependencies.  Please revise your plan."  );
             throw Plan_Task_Missing_Dependency( "Unmet dependency for task." );
         }
     }
