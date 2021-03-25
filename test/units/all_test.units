@@ -47,6 +47,18 @@
         "rectify":      false,
         "shell":        "/usr/bin/env bash",
         "environment":  "environments/examplar.variables"
+    },
+    {
+        "name":         "fail",
+        "target":       "components/fail.bash",
+        "rectifier":    "",
+        "active":       true,
+        "required":     false,
+        "user":         "bagira",
+        "group":        "bagira",
+        "rectify":      false,
+        "shell":        "/usr/bin/env bash",
+        "environment":  "environments/examplar.variables"
     }
   ]
 }

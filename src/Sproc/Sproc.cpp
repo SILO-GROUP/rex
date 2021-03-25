@@ -8,6 +8,7 @@
 #include <cstring>
 #include "fcntl.h"
 
+#define PARENT default
 
 // converts username to UID
 // returns false on failure
@@ -77,8 +78,13 @@ teestream::teestream(std::ostream &o1, std::ostream &o2) : std::ostream( &tbuf),
 {}
 
 enum PIPE_FILE_DESCRIPTORS {
-    READ_FD = 0,
-    WRITE_FD = 1
+    READ_END = 0,
+    WRITE_END = 1
+};
+
+enum READ_RESULTS {
+    READ_EOF = 0,
+    READ_PIPEOPEN_O_NONBLOCK = -1
 };
 
 
@@ -185,19 +191,23 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
     stdout_log.open( child_stdout_log_path.c_str(), std::ofstream::out | std::ofstream::app );
     stderr_log.open( child_stderr_log_path.c_str(), std::ofstream::out | std::ofstream::app );
 
+
     // avoid cyclic dependencies between stdout and tee_out
     std::ostream tmp_stdout( std::cout.rdbuf() );
     std::ostream tmp_stderr( std::cerr.rdbuf() );
+
 
     // writing to this ostream derivative will write to stdout log file and std::cout
     teestream tee_out(tmp_stdout, stdout_log);
     teestream tee_err(tmp_stderr, stderr_log);
 
+
     // pop the cout/cerr buffers to the appropriate Tees' buffers
-    std::cout.rdbuf( tee_out.rdbuf() );
-    std::cerr.rdbuf( tee_err.rdbuf() );
-    // end - "set up the 'Tee' with the parent"
-    slog.log( E_INFO, "Tee Logging enabled for \"" + task_name + "\"");
+
+    // These cause a segfault when used with the I/O redirection happening around fork, pipe, dup2, execl...
+    //std::cout.rdbuf( tee_out.rdbuf() );
+    //std::cerr.rdbuf( tee_err.rdbuf() );
+    // ....and I don't know why.
 
 
     // build the command to execute in the shell
@@ -206,28 +216,30 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
     slog.log(E_DEBUG, "[ '" + task_name + "' ] Shell call for loading: ``" + sourcer + "``.");
 
     // file descriptors for parent/child i/o
-    int stdout_filedes[2];
+    int child_stdout_pipe[2];
+    int child_stderr_pipe[2];
+
     slog.log( E_DEBUG, "[ '" + task_name + "' ] STDIN/STDOUT/STDERR file descriptors created." );
 
     // man 3 pipe
-    if (pipe(stdout_filedes) == -1 ) {
-        slog.log(E_FATAL, "[ '" + task_name + "' ] PIPE FAILED");
+    if (pipe(child_stdout_pipe) == -1 ) {
+        slog.log(E_FATAL, "[ '" + task_name + "' ] STDOUT PIPE FAILED");
         return SPROC_RETURN_CODES::PIPE_FAILED;
     } else {
         slog.log(E_DEBUG, "[ '" + task_name + "' ] file descriptors piped.");
     }
 
-
- //   // avoids the need to take any explicit action within the child process to close file descriptors
-  //  if (fcntl(stdout_filedes[READ_FD], F_SETFD, FD_CLOEXEC) == -1) {
-   //     perror("fcntl");
-    //    exit(1);
-   // }
+    // man 3 pipe
+    if (pipe(child_stderr_pipe) == -1 ) {
+        slog.log(E_FATAL, "[ '" + task_name + "' ] STDERR PIPE FAILED");
+        return SPROC_RETURN_CODES::PIPE_FAILED;
+    } else {
+        slog.log(E_DEBUG, "[ '" + task_name + "' ] file descriptors piped.");
+    }
 
     // fork a process
     pid_t pid = fork();
     slog.log( E_DEBUG, "[ '" + task_name + "' ] Process forked. Reporting. (PID: " + std::to_string(pid) + ")" );
-
 
     switch ( pid ) {
         case FORK_STATES::FORK_FAILURE:
@@ -241,22 +253,30 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
             // enter child process
             slog.log(E_DEBUG, "[ '" + task_name + "' ] Entering child process.");
 
-            while ((dup2(stdout_filedes[WRITE_FD], STDOUT_FILENO) == -1) && (errno == EINTR)) {}
-            close( stdout_filedes[WRITE_FD] );
-            close( stdout_filedes[READ_FD] );
-            slog.log(E_DEBUG, "[ '" + task_name + "' ] DUP2 on stdout_filedes[1]->STDOUT_FILENO in child.");
+            while ((dup2(child_stdout_pipe[WRITE_END], STDOUT_FILENO) == -1) && (errno == EINTR)) {}
+            while ((dup2(child_stderr_pipe[WRITE_END], STDERR_FILENO) == -1) && (errno == EINTR)) {}
 
+            close(child_stdout_pipe[WRITE_END] );
+            close(child_stdout_pipe[READ_END] );
+
+            close(child_stderr_pipe[WRITE_END] );
+            close(child_stderr_pipe[READ_END] );
+
+
+            slog.log(E_INFO, "[ '" + task_name + "' ] TEE Logging enabled.");
+            slog.log(E_DEBUG, "[ '" + task_name + "' ] DUP2: child_*_pipe[1]->STD*_FILENO");
 
             // set identity context
             // set gid and uid
             int context_status = set_identity_context(task_name, user_name, group_name, slog);
             if (!(context_status)) {
-                slog.log(E_FATAL, "[ '" + task_name + "' ] Identity context switch failed.");
+                slog.log(E_FATAL, "[ '" + task_name + "' ] Identity context set failed.");
                 return context_status;
+            } else {
+                slog.log( E_INFO, "[ '" + task_name + "' ] Identity context set as user '" + user_name + "' and group '" + group_name + "'." );
             }
-
-
-            // exit_code_raw = system( sourcer.c_str() );
+            
+            // execute our big nasty thing
             int ret = execl("/bin/sh", "/bin/sh", "-c", sourcer.c_str(), (char *) NULL);
 
             // print something useful to debug with if execl fails
@@ -266,45 +286,76 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
             exit(exit_code_raw);
         }
 
-        default:
+        PARENT:
         {
-            // parent process
-            close(stdout_filedes[WRITE_FD]);
-            // ---
-            // clean up Tee
-            stdout_log.close();
-            stderr_log.close();
+            // enter the parent process
+            close(child_stdout_pipe[WRITE_END]);
+            close(child_stderr_pipe[WRITE_END]);
 
-
-            char buffer[1000] = {0};
+            char stdout_buf[1000] = {0};
+            char stderr_buf[1000] = {0};
             std::cout.flush();
+            std::cerr.flush();
+
+            bool set_break = false;
 
             // read from fd until child completes
-            while ( 1 ) {
-                ssize_t count = read(stdout_filedes[READ_FD], buffer, sizeof(buffer));
-                if (count == -1) {
-                    if (errno == EINTR) {
-                        continue;
-                    } else {
-                        perror("read");
-                        exit(1);
-                    }
-                } else if (count == 0) {
-                    break;
-                } else {
-                    std::cout << buffer;
-                    std::cout.flush();
-                    memset(&buffer[0], 0, sizeof(buffer));
-                    //                    handle_child_process_output(buffer, count);
+            while (! set_break ) {
+                ssize_t stdout_count = read(child_stdout_pipe[READ_END], stdout_buf, sizeof(stdout_buf) - 1);
+
+                // cycle through STDOUT
+                switch (stdout_count) {
+                    case READ_PIPEOPEN_O_NONBLOCK:
+                        if (errno == EINTR) {
+                            continue;
+                        } else {
+                            perror("read");
+                            slog.log(E_FATAL, "PIPE ISSUE with STDOUT");
+                            exit(1);
+                        }
+                    case READ_EOF:
+                        set_break = true;
+                        break;
+                    default:
+                        tee_out.write(stdout_buf, stdout_count);
+                        tee_out.flush();
+                        memset(&stdout_buf[0], 0, sizeof(stdout_buf));
+                        // END SWITCH
                 }
             }
 
+            set_break = false;
+            while(! set_break ) {
+                ssize_t stderr_count = read(child_stderr_pipe[READ_END], stderr_buf, sizeof(stderr_buf) - 1 );
+                switch ( stderr_count )
+                {
+                    case READ_PIPEOPEN_O_NONBLOCK:
+                        if (errno == EINTR) {
+                            continue;
+                        } else {
+                            perror("read");
+                            slog.log( E_FATAL, "PIPE ISSUE with STDERR" );
+                            exit(1);
+                        }
+                    case READ_EOF:
+                        set_break = true;
+                        break;
+                    default:
+                        tee_err.write( stderr_buf, stderr_count );
+                        tee_err.flush();
+                        memset(&stderr_buf[0], 0, sizeof(stderr_buf));
+                        // END SWITCH
+                }
+            }
 
             while ((pid = waitpid(pid, &exit_code_raw, 0)) == -1) {}
             //waitpid( pid, &exit_code_raw, 0 );
 
-
+            // clean up Tee
+            stdout_log.close();
+            stderr_log.close();
         }
     }
+
     return WEXITSTATUS( exit_code_raw );
 }
