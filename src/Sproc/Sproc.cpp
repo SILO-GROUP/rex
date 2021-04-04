@@ -294,59 +294,96 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
 
             char stdout_buf[1000] = {0};
             char stderr_buf[1000] = {0};
-            std::cout.flush();
-            std::cerr.flush();
 
-            bool set_break = false;
 
-            // read from fd until child completes
-            while (! set_break ) {
-                ssize_t stdout_count = read(child_stdout_pipe[READ_END], stdout_buf, sizeof(stdout_buf) - 1);
+            // will contain a set of file descriptors to monitor representing stdout and stderr of the child process
+            fd_set readfds;
 
-                // cycle through STDOUT
-                switch (stdout_count) {
-                    case READ_PIPEOPEN_O_NONBLOCK:
-                        if (errno == EINTR) {
-                            continue;
-                        } else {
-                            perror("read");
-                            slog.log(E_FATAL, "PIPE ISSUE with STDOUT");
-                            exit(1);
+
+
+
+            // loop completion flags
+            bool set_stdout_break = false;
+            bool set_stderr_break = false;
+
+            // read from fd until child completes -- signaled by stdout_break and stderr_break flags
+            while ((! set_stderr_break ) or (! set_stdout_break)) {
+                // clear it out to make sure it's clean
+                FD_ZERO( & readfds );
+
+                // add child stdout and stderr pipes (read end)
+                FD_SET( child_stdout_pipe[READ_END], & readfds );
+                FD_SET( child_stderr_pipe[READ_END], & readfds );
+
+
+                int highest_fd = child_stderr_pipe[READ_END] > child_stdout_pipe[READ_END] ? child_stderr_pipe[READ_END] : child_stdout_pipe[READ_END];
+
+                if ( select( highest_fd + 1, &readfds, NULL, NULL, NULL ) >= 0 )
+                { // can read any
+                    if ( FD_ISSET( child_stdout_pipe[READ_END], &readfds ) )
+                    {
+                        // can read child stdout pipe
+                        // so do so
+
+                        // read and return the byte size of what was read
+                        int stdout_count = read(child_stdout_pipe[READ_END], stdout_buf, sizeof(stdout_buf) - 1);
+
+                        // switch on the count size to allow for error return handling
+                        switch(stdout_count) {
+                            case READ_PIPEOPEN_O_NONBLOCK:
+                                if ( errno == EINTR ) {
+                                    continue;
+                                } else {
+                                    perror("read stdout");
+                                    slog.log(E_FATAL, "PIPE ISSUE with STDOUT");
+                                    exit(1);
+                                }
+                            case READ_EOF:
+                                // signal that STDOUT is complete
+                                set_stdout_break = true;
+                                break;
+                            default:
+                                tee_out.write( stdout_buf, stdout_count );
+                                tee_out.flush();
+                                // clear the buffer to prevent artifacts from previous loop
+                                memset( &stdout_buf[0], 0, sizeof( stdout_buf ) -1 );
                         }
-                    case READ_EOF:
-                        set_break = true;
-                        break;
-                    default:
-                        tee_out.write(stdout_buf, stdout_count);
-                        tee_out.flush();
-                        memset(&stdout_buf[0], 0, sizeof(stdout_buf));
-                        // END SWITCH
-                }
+                    }
+                    if ( FD_ISSET(  child_stderr_pipe[READ_END], & readfds ) ) {
+                        // can read child stderr pipe
+                        // so do so
+
+                        // read and return the byte size of what was read
+                        int stderr_count = read( child_stderr_pipe[READ_END], stderr_buf, sizeof( stderr_buf ) -1 );
+
+                        // switch on the count size to allow for error return handling
+                        switch( stderr_count ) {
+                            case READ_RESULTS::READ_PIPEOPEN_O_NONBLOCK:
+                                if ( errno == EINTR ) {
+                                    continue;
+                                } else {
+                                    perror( "read stderr" );
+                                    slog.log( E_FATAL, "PIPE ISSUE WITH STDERR" );
+                                    exit(1);
+                                }
+                            case READ_RESULTS::READ_EOF:
+                                set_stderr_break = true;
+                                //break;
+                                continue;
+                            default:
+                                tee_err.write( stderr_buf, stderr_count );
+                                tee_err.flush();
+                                // clear the buffer to prevent artifacts from previous loop
+                                memset( &stderr_buf[0], 0, sizeof( stderr_buf ) -1 );
+
+                        }
+                    }
+                } else {
+                    // select error, fatal, throw
+                    slog.log( E_FATAL, "Fatal error, Unknown.");
+                } // end select/if
             }
 
-            set_break = false;
-            while(! set_break ) {
-                ssize_t stderr_count = read(child_stderr_pipe[READ_END], stderr_buf, sizeof(stderr_buf) - 1 );
-                switch ( stderr_count )
-                {
-                    case READ_PIPEOPEN_O_NONBLOCK:
-                        if (errno == EINTR) {
-                            continue;
-                        } else {
-                            perror("read");
-                            slog.log( E_FATAL, "PIPE ISSUE with STDERR" );
-                            exit(1);
-                        }
-                    case READ_EOF:
-                        set_break = true;
-                        break;
-                    default:
-                        tee_err.write( stderr_buf, stderr_count );
-                        tee_err.flush();
-                        memset(&stderr_buf[0], 0, sizeof(stderr_buf));
-                        // END SWITCH
-                }
-            }
 
             while ((pid = waitpid(pid, &exit_code_raw, 0)) == -1) {}
             //waitpid( pid, &exit_code_raw, 0 );
@@ -356,6 +393,5 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
             stderr_log.close();
         }
     }
-
     return WEXITSTATUS( exit_code_raw );
 }

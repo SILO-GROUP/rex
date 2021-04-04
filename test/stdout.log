@@ -1,398 +1,46 @@
 
-[2021-03-25_02:00:35] [INFO] [_sproc] [ 'independent test 1' ] TEE Logging enabled.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 1' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 1' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 1' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:00:35] [INFO] [_sproc] [ 'independent test 1' ] Identity context set as user 'bagira' and group 'bagira'.
+[2021-04-03_20:20:26] [INFO] [_sproc] [ 'independent test 1' ] TEE Logging enabled.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 1' ] DUP2: child_*_pipe[1]->STD*_FILENO
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as user 'bagira'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as group_name 'bagira'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 1' ] UID of 'bagira' is  '1000'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 1' ] GID of 'bagira' is '1000'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set GID to '1000' (bagira).
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set UID to '1000' (bagira).
+[2021-04-03_20:20:26] [INFO] [_sproc] [ 'independent test 1' ] Identity context set as user 'bagira' and group 'bagira'.
 variables file says hello and set a variable named TEST_VAR
 TEST OUTPUT: Test var is: 999
-[2021-03-25_02:00:35] [INFO] [_sproc] [ 'independent test 2' ] TEE Logging enabled.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 2' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 2' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 2' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:00:35] [INFO] [_sproc] [ 'independent test 2' ] Identity context set as user 'bagira' and group 'bagira'.
+[2021-04-03_20:20:26] [INFO] [_sproc] [ 'independent test 2' ] TEE Logging enabled.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 2' ] DUP2: child_*_pipe[1]->STD*_FILENO
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as user 'bagira'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as group_name 'bagira'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 2' ] UID of 'bagira' is  '1000'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 2' ] GID of 'bagira' is '1000'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set GID to '1000' (bagira).
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set UID to '1000' (bagira).
+[2021-04-03_20:20:26] [INFO] [_sproc] [ 'independent test 2' ] Identity context set as user 'bagira' and group 'bagira'.
 variables file says hello and set a variable named TEST_VAR
 independent test 2 output
 independent test says TEST_VAR is 999
-[2021-03-25_02:00:35] [INFO] [_sproc] [ 'dependent test' ] TEE Logging enabled.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'dependent test' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'dependent test' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'dependent test' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'dependent test' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'dependent test' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:00:35] [INFO] [_sproc] [ 'dependent test' ] Identity context set as user 'bagira' and group 'bagira'.
+[2021-04-03_20:20:26] [INFO] [_sproc] [ 'dependent test' ] TEE Logging enabled.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'dependent test' ] DUP2: child_*_pipe[1]->STD*_FILENO
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as user 'bagira'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as group_name 'bagira'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'dependent test' ] UID of 'bagira' is  '1000'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'dependent test' ] GID of 'bagira' is '1000'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'dependent test' ] Successfully set GID to '1000' (bagira).
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'dependent test' ] Successfully set UID to '1000' (bagira).
+[2021-04-03_20:20:26] [INFO] [_sproc] [ 'dependent test' ] Identity context set as user 'bagira' and group 'bagira'.
 variables file says hello and set a variable named TEST_VAR
 dependent test
-[2021-03-25_02:00:35] [INFO] [_sproc] [ 'curses dialog' ] TEE Logging enabled.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'curses dialog' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'curses dialog' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'curses dialog' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:00:35] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:00:35] [INFO] [_sproc] [ 'curses dialog' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-[?1049h[22;0;0t[1;64r(B[m[4l[?7h[?1h=[?1006;1000h[39;49m[?1h=[?1h=[39;49m(B[m[H[2J[37d(B[0;1m[36m[44m[J[H[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K[28;49H[1K (0[0;1m[37m[47mlqqqqqqq(B[0;1m[34m[47mDialog title(0[0;1m[37m[47mqqqqqqqqq(0[0m[30m[47mk(B[0;1m[36m[44m[K[29;49H[1K (0[0;1m[37m[47mx(B[0m[30m[47m Enter your name:           (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[30;49H[1K (0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mlqqqqqqqqqqqqqqqqqqqqqqqq(0[0;1m[37m[47mk(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[31;49H[1K (0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[37m[47m[24X[31;77H(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[32;49H[1K (0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mm(0[0;1m[37m[47mqqqqqqqqqqqqqqqqqqqqqqqqj(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[33;49H[1K (0[0;1m[37m[47mtqqqqqqqqqqqqqqqqqqqqqqqqqqqq(0[0m[30m[47mu(B[0;1m[30m[40m  [36m[44m[K[34;49H[1K (0[0;1m[37m[47mx(B[0m[30m[47m   (B[0;1m[37m[44m<[33m[44m  [37m[44mO[33m[44mK  [37m[44m>(B[0m[30m[47m  <[31m[47mC(B[0;1m[30m[47mancel(B[0m[30m[47m>       (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[35;49H[1K (0[0;1m[37m[47mm(0[0m[30m[47mqqqqqqqqqqqqqqqqqqqqqqqqqqqqj(B[0;1m[30m[40m  [36m[44m[K[36;51H[1K [30m[40m[30X[36;82H[36m[44m[K[31;53H[39;49m(B[m[30m[47m[24X[39;49m(B[m[30m[47m1[39;49m(B[m[30m[47m2[39;49m(B[m[30m[47m1[39;49m(B[m[30m[47m3[39;49m(B[m[36;81H[?1006;1000l[64;1H[?1049l[23;0;0t[?1l>test
-[2021-03-25_02:00:38] [INFO] [_sproc] [ 'fail' ] TEE Logging enabled.
-[2021-03-25_02:00:38] [DBUG] [_sproc] [ 'fail' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:00:38] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:00:38] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:00:38] [DBUG] [_sproc] [ 'fail' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:00:38] [DBUG] [_sproc] [ 'fail' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:00:38] [DBUG] [_sproc] [ 'fail' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:00:38] [DBUG] [_sproc] [ 'fail' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:00:38] [INFO] [_sproc] [ 'fail' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-This test will fail on purpose.
-[2021-03-25_02:01:19] [INFO] [_sproc] [ 'independent test 1' ] TEE Logging enabled.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 1' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 1' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 1' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:01:19] [INFO] [_sproc] [ 'independent test 1' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-TEST OUTPUT: Test var is: 999
-[2021-03-25_02:01:19] [INFO] [_sproc] [ 'independent test 2' ] TEE Logging enabled.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 2' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 2' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 2' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:01:19] [INFO] [_sproc] [ 'independent test 2' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-independent test 2 output
-independent test says TEST_VAR is 999
-[2021-03-25_02:01:19] [INFO] [_sproc] [ 'dependent test' ] TEE Logging enabled.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'dependent test' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'dependent test' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'dependent test' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'dependent test' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'dependent test' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:01:19] [INFO] [_sproc] [ 'dependent test' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-dependent test
-[2021-03-25_02:01:19] [INFO] [_sproc] [ 'curses dialog' ] TEE Logging enabled.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'curses dialog' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'curses dialog' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'curses dialog' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:01:19] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:01:19] [INFO] [_sproc] [ 'curses dialog' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-[?1049h[22;0;0t[1;64r(B[m[4l[?7h[?1h=[?1006;1000h[39;49m[?1h=[?1h=[39;49m(B[m[H[2J[37d(B[0;1m[36m[44m[J[H[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K
-[K[28;49H[1K (0[0;1m[37m[47mlqqqqqqq(B[0;1m[34m[47mDialog title(0[0;1m[37m[47mqqqqqqqqq(0[0m[30m[47mk(B[0;1m[36m[44m[K[29;49H[1K (0[0;1m[37m[47mx(B[0m[30m[47m Enter your name:           (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[30;49H[1K (0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mlqqqqqqqqqqqqqqqqqqqqqqqq(0[0;1m[37m[47mk(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[31;49H[1K (0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[37m[47m[24X[31;77H(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[32;49H[1K (0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mm(0[0;1m[37m[47mqqqqqqqqqqqqqqqqqqqqqqqqj(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[33;49H[1K (0[0;1m[37m[47mtqqqqqqqqqqqqqqqqqqqqqqqqqqqq(0[0m[30m[47mu(B[0;1m[30m[40m  [36m[44m[K[34;49H[1K (0[0;1m[37m[47mx(B[0m[30m[47m   (B[0;1m[37m[44m<[33m[44m  [37m[44mO[33m[44mK  [37m[44m>(B[0m[30m[47m  <[31m[47mC(B[0;1m[30m[47mancel(B[0m[30m[47m>       (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[35;49H[1K (0[0;1m[37m[47mm(0[0m[30m[47mqqqqqqqqqqqqqqqqqqqqqqqqqqqqj(B[0;1m[30m[40m  [36m[44m[K[36;51H[1K [30m[40m[30X[36;82H[36m[44m[K[31;53H[39;49m(B[m[30m[47m[24X[39;49m(B[m[30m[47m1[39;49m(B[m[30m[47m2[39;49m(B[m[30m[47m1[39;49m(B[m[30m[47m3[39;49m(B[m[36;81H[?1006;1000l[64;1H[?1049l[23;0;0t[?1l>test
-[2021-03-25_02:01:21] [INFO] [_sproc] [ 'fail' ] TEE Logging enabled.
-[2021-03-25_02:01:21] [DBUG] [_sproc] [ 'fail' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:01:21] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:01:21] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:01:21] [DBUG] [_sproc] [ 'fail' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:01:21] [DBUG] [_sproc] [ 'fail' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:01:21] [DBUG] [_sproc] [ 'fail' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:01:21] [DBUG] [_sproc] [ 'fail' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:01:21] [INFO] [_sproc] [ 'fail' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-This test will fail on purpose.
-[2021-03-25_02:02:59] [INFO] [_sproc] [ 'independent test 1' ] TEE Logging enabled.
-[2021-03-25_02:02:59] [DBUG] [_sproc] [ 'independent test 1' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:02:59] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:02:59] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:02:59] [DBUG] [_sproc] [ 'independent test 1' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:02:59] [DBUG] [_sproc] [ 'independent test 1' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:02:59] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:02:59] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:02:59] [INFO] [_sproc] [ 'independent test 1' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-TEST OUTPUT: Test var is: 999
-[2021-03-25_02:04:11] [INFO] [_sproc] [ 'independent test 2' ] TEE Logging enabled.
-[2021-03-25_02:04:11] [DBUG] [_sproc] [ 'independent test 2' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:04:11] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:04:11] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:04:11] [DBUG] [_sproc] [ 'independent test 2' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:04:11] [DBUG] [_sproc] [ 'independent test 2' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:04:11] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:04:11] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:04:11] [INFO] [_sproc] [ 'independent test 2' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-independent test 2 output
-independent test says TEST_VAR is 999
-[2021-03-25_02:04:35] [INFO] [_sproc] [ 'dependent test' ] TEE Logging enabled.
-[2021-03-25_02:04:35] [DBUG] [_sproc] [ 'dependent test' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:04:35] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:04:35] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:04:35] [DBUG] [_sproc] [ 'dependent test' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:04:35] [DBUG] [_sproc] [ 'dependent test' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:04:35] [DBUG] [_sproc] [ 'dependent test' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:04:35] [DBUG] [_sproc] [ 'dependent test' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:04:35] [INFO] [_sproc] [ 'dependent test' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-dependent test
-[2021-03-25_02:04:44] [INFO] [_sproc] [ 'curses dialog' ] TEE Logging enabled.
-[2021-03-25_02:04:44] [DBUG] [_sproc] [ 'curses dialog' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:04:44] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:04:44] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:04:44] [DBUG] [_sproc] [ 'curses dialog' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:04:44] [DBUG] [_sproc] [ 'curses dialog' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:04:44] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:04:44] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:04:44] [INFO] [_sproc] [ 'curses dialog' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-                                                                                                                                                                
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               test
-[2021-03-25_02:07:20] [INFO] [_sproc] [ 'independent test 1' ] TEE Logging enabled.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 1' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 1' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 1' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:07:20] [INFO] [_sproc] [ 'independent test 1' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-TEST OUTPUT: Test var is: 999
-[2021-03-25_02:07:20] [INFO] [_sproc] [ 'independent test 2' ] TEE Logging enabled.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 2' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 2' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 2' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:07:20] [INFO] [_sproc] [ 'independent test 2' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-independent test 2 output
-independent test says TEST_VAR is 999
-[2021-03-25_02:07:20] [INFO] [_sproc] [ 'dependent test' ] TEE Logging enabled.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'dependent test' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'dependent test' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'dependent test' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'dependent test' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'dependent test' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:07:20] [INFO] [_sproc] [ 'dependent test' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-dependent test
-[2021-03-25_02:07:20] [INFO] [_sproc] [ 'curses dialog' ] TEE Logging enabled.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'curses dialog' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'curses dialog' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'curses dialog' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:07:20] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:07:20] [INFO] [_sproc] [ 'curses dialog' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-[?1049h[22;0;0t[1;24r(B[m[4l[?7h[?1h=[?1006;1000h[39;49m[?1h=[?1h=[39;49m(B[m[H[2J[17d(B[0;1m[36m[44m[J[H[K
-[K
-[K
-[K
-[K
-[K
-[K[8;24H[1K	(0[0;1m[37m[47mlqqqqqqq(B[0;1m[34m[47mDialog title(0[0;1m[37m[47mqqqqqqqqq(0[0m[30m[47mk(B[0;1m[36m[44m[K[9;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m Enter your name:           (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[10;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mlqqqqqqqqqqqqqqqqqqqqqqqq(0[0;1m[37m[47mk(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[11;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[37m[47m[24X[11;52H(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[12;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mm(0[0;1m[37m[47mqqqqqqqqqqqqqqqqqqqqqqqqj(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[13;24H[1K	(0[0;1m[37m[47mtqqqqqqqqqqqqqqqqqqqqqqqqqqqq(0[0m[30m[47mu(B[0;1m[30m[40m  [36m[44m[K[14;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m   (B[0;1m[37m[44m<[33m[44m  [37m[44mO[33m[44mK  [37m[44m>(B[0m[30m[47m  <[31m[47mC(B[0;1m[30m[47mancel(B[0m[30m[47m>       (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[15;24H[1K	(0[0;1m[37m[47mm(0[0m[30m[47mqqqqqqqqqqqqqqqqqqqqqqqqqqqqj(B[0;1m[30m[40m  [36m[44m[K[16;26H[1K [30m[40m[30X[16;57H[36m[44m[K[11;28H[39;49m(B[m[30m[47m[24X[39;49m(B[m[30m[47m1[39;49m(B[m[30m[47m2[39;49m(B[m[30m[47m3[39;49m(B[m[30m[47m1[39;49m(B[m[30m[47m3[39;49m(B[m[30m[47m2[39;49m(B[m[30m[47m1[39;49m(B[m[16;56H[?1006;1000l[24;1H[?1049l[23;0;0t[?1l>test
-[2021-03-25_02:07:22] [INFO] [_sproc] [ 'fail' ] TEE Logging enabled.
-[2021-03-25_02:07:22] [DBUG] [_sproc] [ 'fail' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:07:22] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:07:22] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:07:22] [DBUG] [_sproc] [ 'fail' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:07:22] [DBUG] [_sproc] [ 'fail' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:07:22] [DBUG] [_sproc] [ 'fail' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:07:22] [DBUG] [_sproc] [ 'fail' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:07:22] [INFO] [_sproc] [ 'fail' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-This test will fail on purpose.
-[2021-03-25_02:08:01] [INFO] [_sproc] [ 'independent test 1' ] TEE Logging enabled.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 1' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 1' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 1' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:08:01] [INFO] [_sproc] [ 'independent test 1' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-TEST OUTPUT: Test var is: 999
-[2021-03-25_02:08:01] [INFO] [_sproc] [ 'independent test 2' ] TEE Logging enabled.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 2' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 2' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 2' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:08:01] [INFO] [_sproc] [ 'independent test 2' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-independent test 2 output
-independent test says TEST_VAR is 999
-[2021-03-25_02:08:01] [INFO] [_sproc] [ 'dependent test' ] TEE Logging enabled.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'dependent test' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'dependent test' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'dependent test' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'dependent test' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'dependent test' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:08:01] [INFO] [_sproc] [ 'dependent test' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-dependent test
-[2021-03-25_02:08:01] [INFO] [_sproc] [ 'curses dialog' ] TEE Logging enabled.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'curses dialog' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'curses dialog' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'curses dialog' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:08:01] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:08:01] [INFO] [_sproc] [ 'curses dialog' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-[?1049h[22;0;0t[1;24r(B[m[4l[?7h[?1h=[?1006;1000h[39;49m[?1h=[?1h=[39;49m(B[m[H[2J[17d(B[0;1m[36m[44m[J[H[K
-[K
-[K
-[K
-[K
-[K
-[K[8;24H[1K	(0[0;1m[37m[47mlqqqqqqq(B[0;1m[34m[47mDialog title(0[0;1m[37m[47mqqqqqqqqq(0[0m[30m[47mk(B[0;1m[36m[44m[K[9;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m Enter your name:           (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[10;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mlqqqqqqqqqqqqqqqqqqqqqqqq(0[0;1m[37m[47mk(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[11;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[37m[47m[24X[11;52H(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[12;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mm(0[0;1m[37m[47mqqqqqqqqqqqqqqqqqqqqqqqqj(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[13;24H[1K	(0[0;1m[37m[47mtqqqqqqqqqqqqqqqqqqqqqqqqqqqq(0[0m[30m[47mu(B[0;1m[30m[40m  [36m[44m[K[14;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m   (B[0;1m[37m[44m<[33m[44m  [37m[44mO[33m[44mK  [37m[44m>(B[0m[30m[47m  <[31m[47mC(B[0;1m[30m[47mancel(B[0m[30m[47m>       (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[15;24H[1K	(0[0;1m[37m[47mm(0[0m[30m[47mqqqqqqqqqqqqqqqqqqqqqqqqqqqqj(B[0;1m[30m[40m  [36m[44m[K[16;26H[1K [30m[40m[30X[16;57H[36m[44m[K[11;28H[39;49m(B[m[30m[47m[24X[39;49m(B[m[30m[47m1[39;49m(B[m[30m[47m3[39;49m(B[m[30m[47m2[39;49m(B[m[30m[47m1[39;49m(B[m[30m[47m3[39;49m(B[m[30m[47m2[39;49m(B[m[30m[47m1[39;49m(B[m[16;56H[?1006;1000l[24;1H[?1049l[23;0;0t[?1l>test
-[2021-03-25_02:08:12] [INFO] [_sproc] [ 'fail' ] TEE Logging enabled.
-[2021-03-25_02:08:12] [DBUG] [_sproc] [ 'fail' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:08:12] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:08:12] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:08:12] [DBUG] [_sproc] [ 'fail' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:08:12] [DBUG] [_sproc] [ 'fail' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:08:12] [DBUG] [_sproc] [ 'fail' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:08:12] [DBUG] [_sproc] [ 'fail' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:08:12] [INFO] [_sproc] [ 'fail' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-This test will fail on purpose.
-[2021-03-25_02:08:30] [INFO] [_sproc] [ 'independent test 1' ] TEE Logging enabled.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 1' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 1' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 1' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 1' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 1' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:08:30] [INFO] [_sproc] [ 'independent test 1' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-TEST OUTPUT: Test var is: 999
-[2021-03-25_02:08:30] [INFO] [_sproc] [ 'independent test 2' ] TEE Logging enabled.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 2' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 2' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 2' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 2' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'independent test 2' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:08:30] [INFO] [_sproc] [ 'independent test 2' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-independent test 2 output
-independent test says TEST_VAR is 999
-[2021-03-25_02:08:30] [INFO] [_sproc] [ 'dependent test' ] TEE Logging enabled.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'dependent test' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'dependent test' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'dependent test' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'dependent test' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'dependent test' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'dependent test' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:08:30] [INFO] [_sproc] [ 'dependent test' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-dependent test
-[2021-03-25_02:08:30] [INFO] [_sproc] [ 'curses dialog' ] TEE Logging enabled.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'curses dialog' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'curses dialog' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'curses dialog' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'curses dialog' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:08:30] [DBUG] [_sproc] [ 'curses dialog' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:08:30] [INFO] [_sproc] [ 'curses dialog' ] Identity context set as user 'bagira' and group 'bagira'.
-variables file says hello and set a variable named TEST_VAR
-[?1049h[22;0;0t[1;24r(B[m[4l[?7h[?1h=[?1006;1000h[39;49m[?1h=[?1h=[39;49m(B[m[H[2J[17d(B[0;1m[36m[44m[J[H[K
-[K
-[K
-[K
-[K
-[K
-[K[8;24H[1K	(0[0;1m[37m[47mlqqqqqqq(B[0;1m[34m[47mDialog title(0[0;1m[37m[47mqqqqqqqqq(0[0m[30m[47mk(B[0;1m[36m[44m[K[9;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m Enter your name:           (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[10;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mlqqqqqqqqqqqqqqqqqqqqqqqq(0[0;1m[37m[47mk(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[11;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[37m[47m[24X[11;52H(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[12;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m (0[0m[30m[47mm(0[0;1m[37m[47mqqqqqqqqqqqqqqqqqqqqqqqqj(B[0m[30m[47m (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[13;24H[1K	(0[0;1m[37m[47mtqqqqqqqqqqqqqqqqqqqqqqqqqqqq(0[0m[30m[47mu(B[0;1m[30m[40m  [36m[44m[K[14;24H[1K	(0[0;1m[37m[47mx(B[0m[30m[47m   (B[0;1m[37m[44m<[33m[44m  [37m[44mO[33m[44mK  [37m[44m>(B[0m[30m[47m  <[31m[47mC(B[0;1m[30m[47mancel(B[0m[30m[47m>       (0[0m[30m[47mx(B[0;1m[30m[40m  [36m[44m[K[15;24H[1K	(0[0;1m[37m[47mm(0[0m[30m[47mqqqqqqqqqqqqqqqqqqqqqqqqqqqqj(B[0;1m[30m[40m  [36m[44m[K[16;26H[1K [30m[40m[30X[16;57H[36m[44m[K[11;28H[39;49m(B[m[30m[47m[24X[39;49m(B[m[30m[47m8[39;49m(B[m[30m[47m6[39;49m(B[m[30m[47m7[39;49m(B[m[30m[47m5[39;49m(B[m[30m[47m3[39;49m(B[m[30m[47m0[39;49m(B[m[30m[47m9[39;49m(B[m[16;56H[?1006;1000l[24;1H[?1049l[23;0;0t[?1l>test
-[2021-03-25_02:08:38] [INFO] [_sproc] [ 'fail' ] TEE Logging enabled.
-[2021-03-25_02:08:38] [DBUG] [_sproc] [ 'fail' ] DUP2: child_*_pipe[1]->STD*_FILENO
-[2021-03-25_02:08:38] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as user 'bagira'.
-[2021-03-25_02:08:38] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as group_name 'bagira'.
-[2021-03-25_02:08:38] [DBUG] [_sproc] [ 'fail' ] UID of 'bagira' is  '1000'.
-[2021-03-25_02:08:38] [DBUG] [_sproc] [ 'fail' ] GID of 'bagira' is '1000'.
-[2021-03-25_02:08:38] [DBUG] [_sproc] [ 'fail' ] Successfully set GID to '1000' (bagira).
-[2021-03-25_02:08:38] [DBUG] [_sproc] [ 'fail' ] Successfully set UID to '1000' (bagira).
-[2021-03-25_02:08:38] [INFO] [_sproc] [ 'fail' ] Identity context set as user 'bagira' and group 'bagira'.
+[2021-04-03_20:20:26] [INFO] [_sproc] [ 'fail' ] TEE Logging enabled.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'fail' ] DUP2: child_*_pipe[1]->STD*_FILENO
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as user 'bagira'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'fail' ] Attempt: Running as group_name 'bagira'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'fail' ] UID of 'bagira' is  '1000'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'fail' ] GID of 'bagira' is '1000'.
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'fail' ] Successfully set GID to '1000' (bagira).
+[2021-04-03_20:20:26] [DBUG] [_sproc] [ 'fail' ] Successfully set UID to '1000' (bagira).
+[2021-04-03_20:20:26] [INFO] [_sproc] [ 'fail' ] Identity context set as user 'bagira' and group 'bagira'.
 variables file says hello and set a variable named TEST_VAR
 This test will fail on purpose.
