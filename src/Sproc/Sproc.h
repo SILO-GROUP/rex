@@ -1,7 +1,7 @@
 /*
-    Examplar - An automation and testing framework.
+    Rex - An automation and testing system.
 
-    © SURRO INDUSTRIES and Chris Punches, 2017.
+    SILO GROUP©  and Chris Punches, 2017.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -15,30 +15,56 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 */
 
 #ifndef FTESTS_SPROC_H
 #define FTESTS_SPROC_H
 
-#include <string>
+#include "../Logger/Logger.h"
 #include <iostream>
 #include <stdio.h>
-#include "../Logger/Logger.h"
+#include "errno.h"
+#include <string>
+#include <cstring>
 #include <streambuf>
 #include "unistd.h"
+#include <sys/wait.h>
+#include <pwd.h>
+#include <grp.h>
+#include <fstream>
+#include "fcntl.h"
 
-// executes a subprocess and captures STDOUT, STDERR, and return code.
-// should be able to recieve path of binary to be executed as well as any parameters
-class Sproc {
-    public:
-        // call the object.  returnvalue is enum representing external execution attempt not binary exit code
-        static int execute(std::string shell, std::string enviornment_file, std::string user_name, std::string group_name, std::string command, int LOG_LEVEL, std::string task_name );
+// exit codes for Rex
+enum SPROC_RETURN_CODES {
+    SUCCESS = true,
+    UID_NOT_FOUND = -404,
+    GID_NOT_FOUND = -405,
+    SET_GID_FAILED = -401,
+    SET_UID_FAILED = -404,
+    EXEC_FAILURE_GENERAL = -666,
+    PIPE_FAILED3 = -996,
+    PIPE_FAILED2 = -997,
+    PIPE_FAILED = -998,
+    DUP2_FAILED = -999,
+    FORK_FAILED = -1000
 };
 
+// executes a subprocess and captures STDOUT, STDERR, and return code.
+// should be able to receive path of binary to be executed as well as any parameters
+class Sproc {
+    public:
+        // call the object.  return value is enum representing external execution attempt not binary exit code
+        static int execute(
+                std::string shell,
+                std::string environment_file,
+                std::string user_name,
+                std::string group_name,
+                std::string command,
+                int LOG_LEVEL,
+                std::string task_name
+        );
+};
 
-// mostly lifted from:
-// http://wordaligned.org/articles/cpp-streambufs
 // a teebuff implementation
 class teebuf: public std::streambuf
 {
@@ -63,4 +89,3 @@ class teestream : public std::ostream
 };
 
 #endif //FTESTS_SPROC_H
-

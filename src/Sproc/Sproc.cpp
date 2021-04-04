@@ -1,14 +1,25 @@
 #include "Sproc.h"
-#include <sys/wait.h>
-#include <pwd.h>
-#include <grp.h>
-#include <fstream>
-#include "../Logger/Logger.h"
-#include "errno.h"
-#include <cstring>
-#include "fcntl.h"
 
 #define PARENT default
+
+enum PIPE_FILE_DESCRIPTORS {
+    READ_END = 0,
+    WRITE_END = 1
+};
+
+enum READ_RESULTS {
+    READ_EOF = 0,
+    READ_PIPEOPEN_O_NONBLOCK = -1
+};
+
+enum FORK_STATES {
+    FORK_FAILURE = -1,
+    CHILD = 0
+};
+
+/* ------------------
+ * HELPERS
+ * ------------------ */
 
 // converts username to UID
 // returns false on failure
@@ -77,33 +88,7 @@ int teebuf::sync()
 teestream::teestream(std::ostream &o1, std::ostream &o2) : std::ostream( &tbuf), tbuf( o1.rdbuf(), o2.rdbuf() )
 {}
 
-enum PIPE_FILE_DESCRIPTORS {
-    READ_END = 0,
-    WRITE_END = 1
-};
-
-enum READ_RESULTS {
-    READ_EOF = 0,
-    READ_PIPEOPEN_O_NONBLOCK = -1
-};
-
-
-enum SPROC_RETURN_CODES {
-    SUCCESS = true,
-    UID_NOT_FOUND = -404,
-    GID_NOT_FOUND = -405,
-    SET_GID_FAILED = -401,
-    SET_UID_FAILED = -404,
-    EXEC_FAILURE_GENERAL = -666,
-    DUP2_FAILED = -999,
-    PIPE_FAILED = -998
-};
-
-enum FORK_STATES {
-    FORK_FAILURE = -1,
-    CHILD = 0
-};
-
+// SET PROCESS TO A CERTAIN IDENTITY CONTEXT
 int set_identity_context( std::string task_name, std::string user_name, std::string group_name, Logger slog ) {
     // the UID and GID for the username and groupname provided for context setting
     int context_user_id;
@@ -180,7 +165,6 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
     // in as hands off a way as possible with as few assumptions as possible, while still doing this in a somewhat C++-y
     // way.
 
-
     // set up the "Tee" with the parent
     std::string child_stdout_log_path = "./stdout.log";
     std::string child_stderr_log_path = "./stderr.log";
@@ -191,16 +175,13 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
     stdout_log.open( child_stdout_log_path.c_str(), std::ofstream::out | std::ofstream::app );
     stderr_log.open( child_stderr_log_path.c_str(), std::ofstream::out | std::ofstream::app );
 
-
     // avoid cyclic dependencies between stdout and tee_out
     std::ostream tmp_stdout( std::cout.rdbuf() );
     std::ostream tmp_stderr( std::cerr.rdbuf() );
 
-
     // writing to this ostream derivative will write to stdout log file and std::cout
     teestream tee_out(tmp_stdout, stdout_log);
     teestream tee_err(tmp_stderr, stderr_log);
-
 
     // pop the cout/cerr buffers to the appropriate Tees' buffers
 
@@ -208,7 +189,6 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
     //std::cout.rdbuf( tee_out.rdbuf() );
     //std::cerr.rdbuf( tee_err.rdbuf() );
     // ....and I don't know why.
-
 
     // build the command to execute in the shell
     std::string sourcer = ". " + environment_file + " && " + command;
@@ -246,6 +226,7 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
         {
             // fork failed
             slog.log(E_FATAL, "[ '" + task_name + "' ] Fork Failed.");
+            exit( FORK_FAILED );
             break;
         }
         case FORK_STATES::CHILD:
@@ -256,12 +237,11 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
             while ((dup2(child_stdout_pipe[WRITE_END], STDOUT_FILENO) == -1) && (errno == EINTR)) {}
             while ((dup2(child_stderr_pipe[WRITE_END], STDERR_FILENO) == -1) && (errno == EINTR)) {}
 
-            close(child_stdout_pipe[WRITE_END] );
-            close(child_stdout_pipe[READ_END] );
+            close( child_stdout_pipe[WRITE_END] );
+            close( child_stdout_pipe[READ_END] );
 
-            close(child_stderr_pipe[WRITE_END] );
-            close(child_stderr_pipe[READ_END] );
-
+            close( child_stderr_pipe[WRITE_END] );
+            close( child_stderr_pipe[READ_END] );
 
             slog.log(E_INFO, "[ '" + task_name + "' ] TEE Logging enabled.");
             slog.log(E_DEBUG, "[ '" + task_name + "' ] DUP2: child_*_pipe[1]->STD*_FILENO");
@@ -292,15 +272,12 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
             close(child_stdout_pipe[WRITE_END]);
             close(child_stderr_pipe[WRITE_END]);
 
+            // buffers for reading from child fd's
             char stdout_buf[1000] = {0};
             char stderr_buf[1000] = {0};
 
-
             // will contain a set of file descriptors to monitor representing stdout and stderr of the child process
             fd_set readfds;
-
-
-
 
             // loop completion flags
             bool set_stdout_break = false;
@@ -315,28 +292,24 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
                 FD_SET( child_stdout_pipe[READ_END], & readfds );
                 FD_SET( child_stderr_pipe[READ_END], & readfds );
 
-
+                // for some reason select needs the highest number of the fd +1 of its own input
                 int highest_fd = child_stderr_pipe[READ_END] > child_stdout_pipe[READ_END] ? child_stderr_pipe[READ_END] : child_stdout_pipe[READ_END];
 
+                // wait for one of the fd's to become readable
                 if ( select( highest_fd + 1, &readfds, NULL, NULL, NULL ) >= 0 )
                 { // can read any
                     if ( FD_ISSET( child_stdout_pipe[READ_END], &readfds ) )
-                    {
-                        // can read child stdout pipe
-                        // so do so
-
+                    { // can read child stdout pipe
                         // read and return the byte size of what was read
                         int stdout_count = read(child_stdout_pipe[READ_END], stdout_buf, sizeof(stdout_buf) - 1);
 
-                        // switch on the count size to allow for error return handling
-                        switch(stdout_count) {
+                        switch(stdout_count) { // switch on the count size to allow for error return handling
                             case READ_PIPEOPEN_O_NONBLOCK:
                                 if ( errno == EINTR ) {
                                     continue;
                                 } else {
-                                    perror("read stdout");
-                                    slog.log(E_FATAL, "PIPE ISSUE with STDOUT");
-                                    exit(1);
+                                    slog.log(E_FATAL, "Pipe reading issue with child STDOUT.");
+                                    exit( PIPE_FAILED2 );
                                 }
                             case READ_EOF:
                                 // signal that STDOUT is complete
@@ -345,6 +318,7 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
                             default:
                                 tee_out.write( stdout_buf, stdout_count );
                                 tee_out.flush();
+
                                 // clear the buffer to prevent artifacts from previous loop
                                 memset( &stdout_buf[0], 0, sizeof( stdout_buf ) -1 );
                         }
@@ -363,19 +337,21 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
                                     continue;
                                 } else {
                                     perror( "read stderr" );
-                                    slog.log( E_FATAL, "PIPE ISSUE WITH STDERR" );
-                                    exit(1);
+                                    slog.log( E_FATAL, "Pipe reading issue with child STDERR." );
+                                    exit( PIPE_FAILED3 );
                                 }
                             case READ_RESULTS::READ_EOF:
+                                // let the loop know the STDERR criteria has been met
                                 set_stderr_break = true;
-                                //break;
+                                // continue the loop
                                 continue;
                             default:
+                                // write the buffer contents to the STDERR Tee
                                 tee_err.write( stderr_buf, stderr_count );
+                                // flush the TEE
                                 tee_err.flush();
                                 // clear the buffer to prevent artifacts from previous loop
                                 memset( &stderr_buf[0], 0, sizeof( stderr_buf ) -1 );
-
                         }
                     }
                 } else {
@@ -384,9 +360,8 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
                 } // end select/if
             }
 
-
-            while ((pid = waitpid(pid, &exit_code_raw, 0)) == -1) {}
-            //waitpid( pid, &exit_code_raw, 0 );
+            // wait for the child to exit
+            while ( ( pid = waitpid(pid, &exit_code_raw, 0 ) ) == -1 ) {}
 
             // clean up Tee
             stdout_log.close();
