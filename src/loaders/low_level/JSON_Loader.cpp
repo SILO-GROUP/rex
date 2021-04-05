@@ -92,7 +92,7 @@ void JSON_Loader::load_json_file( std::string filename )
     // first, check if the file exists
     if (! exists( filename ) )
     {
-        this->slog.log( E_DEBUG, "File '" + filename + "' does not exist." );
+        this->slog.log( E_FATAL, "File '" + filename + "' does not exist." );
         throw JSON_Loader_FileNotFound();
     }
 
