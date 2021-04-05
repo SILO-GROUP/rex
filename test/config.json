@@ -3,5 +3,5 @@
   "execution_context": "/home/bagira/development/internal/rex/test",
   "units_path":	"units/",
   "logs_path": "logs/",
-  "config_version": "3"
+  "config_version": "4"
 }

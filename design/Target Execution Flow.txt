@@ -1,6 +1,6 @@
 # Logic Tree for Rex Task Execution
 
-    Rex - A configuration management and workflow automation tool that
+    Rex - A configuration management and workflow automation system that
     compiles and runs in minimal environments.
 
     © SILO GROUP and Chris Punches, 2020.
