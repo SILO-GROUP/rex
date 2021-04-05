@@ -1,8 +1,9 @@
 # Logic Tree for Rex Task Execution
 
-    Rex - An automation and testing framework.
+    Rex - A configuration management and workflow automation tool that
+    compiles and runs in minimal environments.
 
-    © SURRO INDUSTRIES and Chris Punches, 2017.
+    © SILO GROUP and Chris Punches, 2020.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as

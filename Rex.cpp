@@ -1,7 +1,8 @@
 /*
-    Rex - A unit-based automation, workflow, and testing system.
+    Rex - A configuration management and workflow automation tool that
+    compiles and runs in minimal environments.
 
-    © SILO GROUP and Chris Punches, 2017.
+    © SILO GROUP and Chris Punches, 2020.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
