@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -18,13 +18,18 @@
 
 */
 
-#ifndef FTESTS_HELPERS_H
-#define FTESTS_HELPERS_H
+#ifndef REX_HELPERS_H
+#define REX_HELPERS_H
 #include <string>
 #include <sys/stat.h>
 #include <sys/param.h>
 #include <unistd.h>
-
+#include <chrono>
+#include <sstream>
+#include <syslog.h>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
 
 bool exists (const std::string& name);
 
@@ -32,4 +37,7 @@ std::string get_working_path();
 bool is_file( std::string );
 bool is_dir( std::string );
 
-#endif //FTESTS_HELPERS_H
+std::string get_8601();
+
+
+#endif //REX_HELPERS_JH

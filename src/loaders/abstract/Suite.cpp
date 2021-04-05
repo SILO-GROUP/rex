@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 

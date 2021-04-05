@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -44,4 +44,14 @@ bool is_dir( std::string path )
     struct stat buf;
     stat( path.c_str(), &buf );
     return S_ISDIR(buf.st_mode);
+}
+
+std::string get_8601()
+{
+    auto now = std::chrono::system_clock::now();
+    auto itt = std::chrono::system_clock::to_time_t(now);
+    std::ostringstream ss;
+    // ss << std::put_time(gmtime(&itt), "%FT%TZ");
+    ss << std::put_time(localtime(&itt), "%Y-%m-%d_%H:%M:%S");
+    return ss.str();
 }

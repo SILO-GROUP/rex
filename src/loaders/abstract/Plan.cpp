@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -120,7 +120,7 @@ protected:
 /// Plan::Plan() - Constructor for Plan class.  A Plan is a managed container for a Task vector.  These tasks reference
 /// Units that are defined in the Units files (Suite).  If Units are definitions, Tasks are selections of those
 /// definitions to execute, and if Units together form a Suite, Tasks together form a Plan.
-Plan::Plan( Conf * configuration, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "e_plan" )
+Plan::Plan(Conf * configuration, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(LOG_LEVEL, "_plan_" )
 {
     this->configuration = configuration;
     this->LOG_LEVEL = LOG_LEVEL;

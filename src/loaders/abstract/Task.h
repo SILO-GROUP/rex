@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -18,8 +18,8 @@
 
 */
 
-#ifndef FTESTS_TASK_H
-#define FTESTS_TASK_H
+#ifndef REX_TASK_H
+#define REX_TASK_H
 #include <string>
 #include <unistd.h>
 #include "../../json/json.h"
@@ -67,7 +67,7 @@ class Task
         std::string get_name();
 
         // execute this task's definition
-        void execute( Conf * configuration );
+        void execute(Conf * configuration );
 
         void mark_complete();
 
@@ -79,4 +79,4 @@ private:
     int LOG_LEVEL;
 };
 
-#endif //FTESTS_TASK_H
+#endif //REX_TASK_H

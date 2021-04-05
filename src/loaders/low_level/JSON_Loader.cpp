@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -38,7 +38,7 @@ class JSON_Loader_InvalidJSON: public std::runtime_error { public:
 /// JSON_Loader::JSON_Loader - Constructor for JSON_Loader base class.  Simply inits to an unpopulated state.
 ///
 /// The JSON_Loader type is a base type.  It is meant to provide the functionalities shared between Suite and Plan.
-JSON_Loader::JSON_Loader( int LOG_LEVEL ): slog( LOG_LEVEL, "e_json" )
+JSON_Loader::JSON_Loader( int LOG_LEVEL ): slog( LOG_LEVEL, "_json_" )
 {
     this->populated = false;
     this->LOG_LEVEL = LOG_LEVEL;
@@ -91,7 +91,7 @@ void JSON_Loader::load_json_file( std::string filename )
     // first, check if the file exists
     if (! exists( filename ) )
     {
-        this->slog.log( E_FATAL, "File '" + filename + "' does not exist." );
+        this->slog.log( E_DEBUG, "File '" + filename + "' does not exist." );
         throw JSON_Loader_FileNotFound();
     }
 

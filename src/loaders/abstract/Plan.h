@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -18,8 +18,8 @@
 
 */
 
-#ifndef FTESTS_PLAN_H
-#define FTESTS_PLAN_H
+#ifndef REX_PLAN_H
+#define REX_PLAN_H
 
 #include <string>
 #include "../../json/json.h"
@@ -36,7 +36,7 @@ class Plan: public JSON_Loader
         Conf * configuration;
 
     public:
-        Plan( Conf * configuration, int LOG_LEVEL );
+        Plan(Conf * configuration, int LOG_LEVEL );
 
         // append this->tasks from JSON file
         void load_plan_file( std::string filename );
@@ -63,4 +63,4 @@ private:
     Logger slog;
 };
 
-#endif //FTESTS_PLAN_H
+#endif //REX_PLAN_H

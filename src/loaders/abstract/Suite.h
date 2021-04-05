@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -18,8 +18,8 @@
 
 */
 
-#ifndef FTESTS_UNITS_H
-#define FTESTS_UNITS_H
+#ifndef REX_UNITS_H
+#define REX_UNITS_H
 
 #include <vector>
 #include "../../json/json.h"
@@ -54,4 +54,4 @@ private:
         Logger slog;
 };
 
-#endif //FTESTS_UNITS_H
+#endif //REX_UNITS_H

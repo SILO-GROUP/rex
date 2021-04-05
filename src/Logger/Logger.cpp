@@ -10,7 +10,7 @@ Logger::Logger( int LOG_LEVEL, std::string mask )
     this->mask = mask;
 
     setlogmask( LOG_UPTO( this->LOG_LEVEL ) );
-    openlog( this->mask.c_str(), LOG_CONS | LOG_PID | LOG_NDELAY, LOG_PERROR | LOG_LOCAL1 );
+    openlog( "rex", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_PERROR | LOG_LOCAL1 );
 
 }
 
@@ -33,19 +33,10 @@ void Logger::log( int LOG_LEVEL, std::string msg )
 
         if ( LOG_LEVEL == E_FATAL | LOG_LEVEL == E_WARN )
         {
-            std::cerr << "[" << this->get_8601() << "] [" << ERR << "] " << "[" << this->mask << "] " << msg.c_str() << std::endl;
+            std::cerr << "[" << get_8601() << "] [" << ERR << "] " << "[" << this->mask << "] " << msg.c_str() << std::endl;
         } else {
-            std::cout << "[" << this->get_8601() << "] [" << ERR << "] " << "[" << this->mask << "] " << msg.c_str() << std::endl;
+            std::cout << "[" << get_8601() << "] [" << ERR << "] " << "[" << this->mask << "] " << msg.c_str() << std::endl;
         }
     }
 }
 
-std::string Logger::get_8601()
-{
-    auto now = std::chrono::system_clock::now();
-    auto itt = std::chrono::system_clock::to_time_t(now);
-    std::ostringstream ss;
-    // ss << std::put_time(gmtime(&itt), "%FT%TZ");
-    ss << std::put_time(localtime(&itt), "%Y-%m-%d_%H:%M:%S");
-    return ss.str();
-}

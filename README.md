@@ -1,19 +1,19 @@
-# Examplar
+# Rex
 
-## What is Examplar?
+## What is Rex?
 
-Examplar is an execution flow component designed for the generation of SURRO Linux but kept broad in design for other use cases.
+Rex is an execution flow component designed for the generation of SURRO Linux but kept broad in design for other use cases.
 
 At a high level, it is a very simple thing:  It executes scripts and other executables in a predetermined order, logs their output, and has basic error handling using exit codes of the executables it is running.
 
 It relies on a library of Units which are files that define, in json format, what executables it can execute.  It uses a Plan to define which of those units it will actually execute.  This allows you to have many things defined by multiple teams, and, with sufficient abstraction, use the same library of automations for multiple purposes.
 
 # Instructions
-These are instructions for using Examplar.
+These are instructions for using Rex.
 
 ## Build
 
-Compiling Examplar is easy.  There are zero external dependencies.  Build does require *cmake*.
+Compiling Rex is easy.  There are zero external dependencies.  Build does require *cmake*.
 
 ~~~~
 $ cmake .
@@ -31,39 +31,39 @@ Then place the binary where you'd like.  I'd recommend packaging it for your fav
 5.  Turn on the rectify pattern in the unit definition.
 
 ## Definitions
-So you've got Examplar compiled and you're ready to start automating the world.
+So you've got Rex compiled and you're ready to start automating the world.
 
 If you're thinking "how do I configure this thing", this article is for you.
 
 ### Units
 
-A Unit is an automation definition, written in JSON in a UNIT FILE.  Deeper into Examplar’s internals, Units and Tasks have slightly different functions, but for the purposes of users, the terms can be used interchangeably.  A Task is a task to be performed in a Plan, and a Unit is its definition.  A Unit is a JSON object that has:
+A Unit is an automation definition, written in JSON in a UNIT FILE.  Deeper into Rex’s internals, Units and Tasks have slightly different functions, but for the purposes of users, the terms can be used interchangeably.  A Task is a task to be performed in a Plan, and a Unit is its definition.  A Unit is a JSON object that has:
 
   * A `name`, which is an identifier for the Unit used by people.
   * A `target`, which is the path to the automation script performing the work.  This provides a clean linear path for huge chains of scripts to be executed in order and tracked on return for additional logic in chaining.
   * A `rectifier`, which is the path to the automation script to be executed if the target call fails.
-  * A `rectify` attribute, which tells Examplar whether or not to execute the rectifier in the case of failure when executing the target.
-  * An `active` attribute,which tells Examplar whether or not the Unit can be used in a Plan.  This gives Unit developers a way to tell Plan developers not to use the Unit.
-  * A `required` attribute which tells Examplar whether or not the Plan can continue if the Unit fails.  If the rectify attribute is set to true, this attribute is checked after a rectifier failure.  If not, this is checked after target failure.  In either case, if the rectifier or target do not return successfully, Examplar will halt the execution of the Plan if this is turned on for the unit being executed.  Otherwise it simply moves to the next Unit being executed.
+  * A `rectify` attribute, which tells Rex whether or not to execute the rectifier in the case of failure when executing the target.
+  * An `active` attribute,which tells Rex whether or not the Unit can be used in a Plan.  This gives Unit developers a way to tell Plan developers not to use the Unit.
+  * A `required` attribute which tells Rex whether or not the Plan can continue if the Unit fails.  If the rectify attribute is set to true, this attribute is checked after a rectifier failure.  If not, this is checked after target failure.  In either case, if the rectifier or target do not return successfully, Rex will halt the execution of the Plan if this is turned on for the unit being executed.  Otherwise it simply moves to the next Unit being executed.
 
 ### Tasks
 
-A Task is an action item in a Plan, just like in real life.  In the context of Examplar, a Task is a Unit that has been loaded and incorporated into a Plan in an actionable state.  Inactive Units can not be loaded into a Plan and thus can never be a Task.  The primary difference between a Task and a Unit is that a Unit is not actionable — it’s just a definition — while a Task a consumable, actionable automation.
+A Task is an action item in a Plan, just like in real life.  In the context of Rex, a Task is a Unit that has been loaded and incorporated into a Plan in an actionable state.  Inactive Units can not be loaded into a Plan and thus can never be a Task.  The primary difference between a Task and a Unit is that a Unit is not actionable — it’s just a definition — while a Task a consumable, actionable automation.
 Suite
 
 A Suite is not visible to the user and this is only for informational purposes.  A Suite is a collection of all available Unit definitions loaded from one or more UNIT FILES.  Just as a Unit is the definition for a Task, a Suite is a collection of Units that define the Task components of a Plan.
 
-A Suite is consumed by a Plan during the conversion of Units to Tasks, though this is not visible to the user — it just simply helps to understand the kind of abstraction taking place in the conceptual model of Examplar.
+A Suite is consumed by a Plan during the conversion of Units to Tasks, though this is not visible to the user — it just simply helps to understand the kind of abstraction taking place in the conceptual model of Rex.
 Plan
 
-A Plan is the glue of all the components of Examplar and is deceptively simple.  A Plan loads a Suite for its Task definitions (Units), but the Tasks to actually execute are specified in the PLAN FILE.  The Tasks are executed in the order specified in the PLAN FILE.
+A Plan is the glue of all the components of Rex and is deceptively simple.  A Plan loads a Suite for its Task definitions (Units), but the Tasks to actually execute are specified in the PLAN FILE.  The Tasks are executed in the order specified in the PLAN FILE.
 
 ### FILES
-There are several files used by Examplar.
+There are several files used by Rex.
 
 #### CONFIG FILE and Attributes
 
-This is the one config file that Examplar uses.  The default path it looks is /etc/Examplar/config.json.
+This is the one config file that Rex uses.  The default path it looks is /etc/Rex/config.json.
 
 A config file at the time of writing this specifies a single JSON object with 5 attributes:
 
@@ -75,7 +75,7 @@ A config file at the time of writing this specifies a single JSON object with 5 
 
 #### Configuration VERSION
 
-The configuration version is checked to ensure that the configuration is consumable by that version of Examplar.  This will pave the way for reverse compatibility if the project moves in that direction.
+The configuration version is checked to ensure that the configuration is consumable by that version of Rex.  This will pave the way for reverse compatibility if the project moves in that direction.
 
 
 #### UNIT FILE
@@ -123,10 +123,10 @@ Next, add the unit to the plan by name.
 ### 5. Set up your config file.
 Point your config file at your plan file and your units directory.
 
-### 6.  Run Examplar pointing at that config file.
-Execute examplar:
+### 6.  Run Rex pointing at that config file.
+Execute rex:
 
-examplar --verbose --config path/to/your/config/file.json
+rex --verbose --config path/to/your/config/file.json
 
 And you should see your 'hello world' script.
 

@@ -1,6 +1,6 @@
-# Logic Tree for Examplar Task Execution
+# Logic Tree for Rex Task Execution
 
-    Examplar - An automation and testing framework.
+    Rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 

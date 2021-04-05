@@ -1,4 +1,6 @@
 #include "Sproc.h"
+#include "../loaders/misc/helpers.h"
+#include "sys/stat.h"
 
 #define PARENT default
 
@@ -141,7 +143,7 @@ int set_identity_context( std::string task_name, std::string user_name, std::str
 ///
 /// \param input - The commandline input to execute.
 /// \return - The return code of the execution of input in the calling shell.
-int Sproc::execute(std::string shell, std::string environment_file, std::string user_name, std::string group_name, std::string command, int LOG_LEVEL, std::string task_name )
+int Sproc::execute(std::string shell, std::string environment_file, std::string user_name, std::string group_name, std::string command, int LOG_LEVEL, std::string task_name, bool log_to_file, std::string logs_dir )
 {
     // the logger
     Logger slog = Logger( LOG_LEVEL, "_sproc" );
@@ -164,10 +166,25 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
     // potentially corrupting user interaction with TUIs in the processes.  This should give us our log and our output
     // in as hands off a way as possible with as few assumptions as possible, while still doing this in a somewhat C++-y
     // way.
+    if (! is_dir( logs_dir ) ) {
+        int check = mkdir( logs_dir.c_str(), 0777 );
+        if (! check ) {
+            slog.log( E_FATAL, "Sprocket couldn't create the logs parent directory." );
+        }
+    }
 
+    std::string timestamp = get_8601();
+
+    std::string contained_dir = logs_dir + "/" + task_name;
+    if (! is_dir( contained_dir ) ) {
+        int check = mkdir( contained_dir.c_str(), 0777 );
+        if (! check ) {
+            slog.log( E_FATAL, "Sprocket couldn't create the instance log directory.");
+        }
+    }
     // set up the "Tee" with the parent
-    std::string child_stdout_log_path = "./stdout.log";
-    std::string child_stderr_log_path = "./stderr.log";
+    std::string child_stdout_log_path = contained_dir + "/" + timestamp + ".stdout.log";
+    std::string child_stderr_log_path = contained_dir + "/" + timestamp + ".stderr.log";
 
     std::ofstream stdout_log;
     std::ofstream stderr_log;
@@ -316,9 +333,13 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
                                 set_stdout_break = true;
                                 break;
                             default:
-                                tee_out.write( stdout_buf, stdout_count );
-                                tee_out.flush();
-
+                                if ( log_to_file ) {
+                                    tee_out.write( stdout_buf, stdout_count );
+                                    tee_out.flush();
+                                } else {
+                                    std::cout.write( stdout_buf, stdout_count );
+                                    std::cout.flush();
+                                }
                                 // clear the buffer to prevent artifacts from previous loop
                                 memset( &stdout_buf[0], 0, sizeof( stdout_buf ) -1 );
                         }

@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -17,12 +17,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-#ifndef FTESTS_LOADERS_H
-#define FTESTS_LOADERS_H
+#ifndef REX_LOADERS_H
+#define REX_LOADERS_H
 
 #include "../low_level/JSON_Loader.h"
 #include "Suite.h"
 #include "Plan.h"
 #include "Conf.h"
 
-#endif //FTESTS_LOADERS_H
+#endif //REX_LOADERS_H

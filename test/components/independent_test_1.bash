@@ -1,8 +1,5 @@
 #!/bin/bash
+echo "This is an independent test.  It does not depend on other tests."
+echo "Environment file check: TEST_VAR from environment file is set to: $TEST_VAR"
 
-echo "TEST OUTPUT: Test var is: $TEST_VAR"
-
-#dialog --stdout --title "Interact with me!" \
-#  --backtitle "This is user interaction." \
-#  --yesno "Yes: pass, No:  fail" 7 60
 exit $?

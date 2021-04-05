@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -80,7 +80,7 @@ protected:
 /// Task::Task() - Constructor for the Task class.  The Task is the building block of a Plan indicating of which Unit to
 /// execute, and its dependencies on other units to have already been completed successfully.
 Task::Task( int LOG_LEVEL ):
-    slog( LOG_LEVEL, "e_task" ),
+    slog( LOG_LEVEL, "_task_" ),
     definition( LOG_LEVEL )
 {
     // it hasn't executed yet.
@@ -165,9 +165,9 @@ bool Task::has_definition()
 /// Task::execute - execute a task's unit definition.
 /// See the design document for what flow control needs to look like here.
 /// \param verbose - Verbosity level - not implemented yet.
-void Task::execute( Conf * configuration )
+void Task::execute(Conf * configuration )
 {
-    // DUFFING - If Examplar is broken it's probably going to be in this block.
+    // DUFFING - If rex is broken it's probably going to be in this block.
     // Somebody come clean this up, eh?
 
     // PREWORK
@@ -219,7 +219,9 @@ void Task::execute( Conf * configuration )
             this->definition.get_group(),
             target_command,
             this->LOG_LEVEL,
-            task_name
+            task_name,
+            this->definition.get_stdout_log_flag(),
+            configuration->get_logs_path()
     );
 
     // **********************************************
@@ -286,7 +288,9 @@ void Task::execute( Conf * configuration )
                     this->definition.get_group(),
                     rectifier_command,
                     this->LOG_LEVEL,
-                    task_name
+                    task_name,
+                    this->definition.get_stdout_log_flag(),
+                    configuration->get_logs_path()
             );
 
             // **********************************************
@@ -335,7 +339,9 @@ void Task::execute( Conf * configuration )
                         this->definition.get_group(),
                         target_command,
                         this->LOG_LEVEL,
-                        task_name
+                        task_name,
+                        this->definition.get_stdout_log_flag(),
+                        configuration->get_logs_path()
                 );
 
                 // **********************************************

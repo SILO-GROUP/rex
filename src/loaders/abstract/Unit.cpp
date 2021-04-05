@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -80,7 +80,7 @@ public:
 /// required, which is used as a flag to halt or continue if rectifier does not heal the system in such a way that
 /// target can run successfully.
 /// rectify, which is used as a flag to determine in the rectifier runs.
-Unit::Unit( int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "e_unit" )
+Unit::Unit( int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "_unit_" )
 {
     this->LOG_LEVEL;
 }
@@ -116,6 +116,10 @@ int Unit::load_root(Json::Value loader_root)
     if ( loader_root.isMember("required") )
     { this->required = loader_root.get("required", errmsg).asBool(); } else
         throw UnitException("No required attribute specified when loading a unit.");
+
+    if ( loader_root.isMember("log") )
+    { this->stdout_log_flag = loader_root.get("log", errmsg).asBool(); } else
+        throw UnitException("No log attribute specified when loading a unit.");
 
     if ( loader_root.isMember("rectify") )
     { this->rectify = loader_root.get("rectify", errmsg).asBool(); } else
@@ -284,5 +288,14 @@ std::string Unit::get_env_vars_file()
 {
     if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
     return this->env_vars_file;
+}
+
+/// Unit::get_stdout_log_flag() - retrieves the file path to use for the unit environment file.  This is a file that is
+/// sourced by the chosen shell to populate any environment variables.
+/// \return the string value of the shell path.
+bool Unit::get_stdout_log_flag()
+{
+    if ( ! this->populated ) { throw UnitException("Attempted to access an unpopulated unit."); }
+    return this->stdout_log_flag;
 }
 

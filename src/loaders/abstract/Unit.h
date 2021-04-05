@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -19,12 +19,12 @@
 */
 
 /* Unit.h
- * Unit is a type that represents a safely deserialized JSON object which defines what actions are taken as Examplar
+ * Unit is a type that represents a safely deserialized JSON object which defines what actions are taken as rex
  * iterates through it's Tasks in it's given Plan.  They only define the behaviour on execution, while the tasks define
  * which Units are executed and in what order (and which Units a given Task depends on.
  */
-#ifndef FTESTS_UNIT_H
-#define FTESTS_UNIT_H
+#ifndef FTEST_UNIT_H
+#define FTEST_UNIT_H
 #include <string>
 #include "../../json/json.h"
 #include "../low_level/JSON_Loader.h"
@@ -59,6 +59,9 @@ private:
     // if rectifier exits on non-zero return code, it should be trigger the behaviour indicated by required
     bool rectify;
 
+    //indicator of whether stdout should log to file.  used mainly to handle glitchy TUI systems when logs are being tailed.
+    bool stdout_log_flag;
+
     // user to run process as.
     // not intended for protected accounts, handle your own security
     std::string user;
@@ -91,6 +94,7 @@ public:
     bool get_active();
     bool get_required();
     bool get_rectify();
+    bool get_stdout_log_flag();
     std::string get_user();
     std::string get_group();
     std::string get_shell();
@@ -100,4 +104,4 @@ private:
     Logger slog;
 };
 
-#endif //FTESTS_UNIT_H
+#endif //FTEST_UNIT_H

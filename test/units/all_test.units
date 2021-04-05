@@ -6,11 +6,12 @@
         "rectifier":    "",
         "active":       true,
         "required":     true,
+        "log":          true,
         "user":         "bagira",
         "group":        "bagira",
         "rectify":      false,
         "shell":        "/usr/bin/env bash",
-        "environment":  "environments/examplar.variables"
+        "environment":  "environments/rex.variables"
     },
     {
         "name":         "independent test 2",
@@ -18,11 +19,12 @@
         "rectifier":    "",
         "active":       true,
         "required":     true,
+        "log":          true,
         "user":         "bagira",
         "group":        "bagira",
         "rectify":      false,
         "shell":        "/usr/bin/env bash",
-        "environment":  "environments/examplar.variables"
+        "environment":  "environments/rex.variables"
     },
     {
         "name":         "dependent test",
@@ -30,11 +32,12 @@
         "rectifier":    "",
         "active":       true,
         "required":     true,
+        "log":          true,
         "user":         "bagira",
         "group":        "bagira",
         "rectify":      false,
         "shell":        "/usr/bin/env bash",
-        "environment":  "environments/examplar.variables"
+        "environment":  "environments/rex.variables"
     },
     {
         "name":         "curses dialog",
@@ -42,11 +45,12 @@
         "rectifier":    "",
         "active":       true,
         "required":     true,
+        "log":          false,
         "user":         "bagira",
         "group":        "bagira",
         "rectify":      false,
         "shell":        "/usr/bin/env bash",
-        "environment":  "environments/examplar.variables"
+        "environment":  "environments/rex.variables"
     },
     {
         "name":         "fail",
@@ -54,11 +58,12 @@
         "rectifier":    "",
         "active":       true,
         "required":     false,
+        "log":          true,
         "user":         "bagira",
         "group":        "bagira",
         "rectify":      false,
         "shell":        "/usr/bin/env bash",
-        "environment":  "environments/examplar.variables"
+        "environment":  "environments/rex.variables"
     }
   ]
 }

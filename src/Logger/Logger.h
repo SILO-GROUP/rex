@@ -2,15 +2,15 @@
 // Created by bagira on 6/13/20.
 //
 
-#ifndef EXAMPLAR_LOGGER_H
-#define EXAMPLAR_LOGGER_H
+#ifndef REX_LOGGER_H
+#define REX_LOGGER_H
 
 #include <syslog.h>
 #include <string>
 #include <iostream>
-#include <chrono>
 #include <iomanip>
 #include <sstream>
+#include "../loaders/misc/helpers.h"
 
 enum L_LVL {
     E_FATAL,
@@ -27,9 +27,8 @@ public:
 private:
     int LOG_LEVEL;
     std::string mask;
-    std::string get_8601();
 };
 
 
 
-#endif //EXAMPLAR_LOGGER_H
+#endif //REX_LOGGER_H

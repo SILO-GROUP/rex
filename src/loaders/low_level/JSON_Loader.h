@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -17,8 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-#ifndef FTESTS_JLOADER_H
-#define FTESTS_JLOADER_H
+#ifndef REX_JLOADER_H
+#define REX_JLOADER_H
 #include "../../json/json.h"
 #include <iostream>
 #include <fstream>
@@ -55,4 +55,4 @@ private:
     Logger slog;
     int LOG_LEVEL;
 };
-#endif //FTESTS_JLOADER_H
+#endif //REX_JLOADER_H

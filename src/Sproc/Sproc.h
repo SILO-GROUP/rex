@@ -17,8 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef FTESTS_SPROC_H
-#define FTESTS_SPROC_H
+#ifndef REX_SPROCKET_H
+#define REX_SPROCKET_H
 
 #include "../Logger/Logger.h"
 #include <iostream>
@@ -61,7 +61,9 @@ class Sproc {
                 std::string group_name,
                 std::string command,
                 int LOG_LEVEL,
-                std::string task_name
+                std::string task_name,
+                bool log_to_file,
+                std::string logs_dir
         );
 };
 
@@ -88,4 +90,4 @@ class teestream : public std::ostream
         teebuf tbuf;
 };
 
-#endif //FTESTS_SPROC_H
+#endif //REX_SPROCKET_H

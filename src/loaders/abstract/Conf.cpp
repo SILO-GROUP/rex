@@ -1,5 +1,5 @@
 /*
-    Examplar - An automation and testing framework.
+    rex - An automation and testing framework.
 
     © SURRO INDUSTRIES and Chris Punches, 2017.
 
@@ -66,7 +66,7 @@ protected:
 /// TODO Expand to detect when a directory path is supplied for units_path or plan_path and import all Tasks and Units.
 ///
 /// \param filename - The filename to load the configuration from.
-Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slog( LOG_LEVEL, "e_conf" )
+Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(LOG_LEVEL, "_conf_" )
 {
     this->LOG_LEVEL = LOG_LEVEL;
 
@@ -91,16 +91,16 @@ Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slo
         throw ConfigLoadException("config_version string expected was " + std::string(VERSION_STRING) + " in: " + filename);
     }
 
-    // find the path to the plan file
-    if ( this->get_serialized(this->plan_path, "plan_path" ) != 0 )
-    {
-        throw ConfigLoadException("plan_path string is not set in the config file supplied:" + filename);
-    }
-
     // find the path to the unit definitions file
     if (this->get_serialized(this->units_path, "units_path" ) != 0 )
     {
         throw ConfigLoadException("units_path string is not set in the config file supplied: " + filename);
+    }
+
+    // find the path to logs directory
+    if (this->get_serialized(this->logs_path, "logs_path" ) != 0 )
+    {
+        throw ConfigLoadException("logs_path string is not set in the config file supplied: " + filename);
     }
 
     if ( this->get_serialized(this->override_execution_context, "execution_context_override" ) != 0 )
@@ -114,11 +114,15 @@ Conf::Conf( std::string filename, int LOG_LEVEL ): JSON_Loader( LOG_LEVEL ), slo
     {
         throw ConfigLoadException("execution_context string is not set in the config file supplied: " + filename);
     } else {
-            this->execution_context_literal = this->execution_context.asString();
+            if ( is_dir( this->execution_context.asString() ) ) {
+                this->execution_context_literal = this->execution_context.asString();
+            } else {
+                throw ConfigLoadException( "The execution context supplied is an invalid directory.");
+            }
     }
 };
 
-/// Conf::has_context_override - Specifies whether or not the override context function is enabled in the conf file.
+/// Conf::has_context_override - Specifies whether or not the override context function is enabled in the Conf file.
 bool Conf::has_context_override() {
     return this->override_execution_context.asBool();
 }
@@ -128,14 +132,14 @@ std::string Conf::get_execution_context() {
     return this->execution_context_literal;
 }
 
-/// Conf::get_plan_path - Retrieves the path to the Plan definition file from the application configuration file.
-std::string Conf::get_plan_path() { return this->plan_path.asString(); }
-
 /// Conf::get_units_path - Retrieves the path to the Unit definition file from the application configuration file.
 std::string Conf::get_units_path() { return this->units_path.asString(); }
 
+/// Conf::get_units_path - Retrieves the path to the Unit definition file from the application configuration file.
+std::string Conf::get_logs_path() { return this->logs_path.asString(); }
+
 /// Conf::set_execution_context- Sets the execution context.
-void Conf::set_execution_context( std::string execution_context )
+void Conf::set_execution_context(std::string execution_context )
 {
     this->execution_context_literal = execution_context;
 }
