@@ -311,8 +311,8 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
             close(child_stderr_pipe[WRITE_END]);
 
             // buffers for reading from child fd's
-            char stdout_buf[1000] = {0};
-            char stderr_buf[1000] = {0};
+            char stdout_buf[1] = {0};
+            char stderr_buf[1] = {0};
 
             // will contain a set of file descriptors to monitor representing stdout and stderr of the child process
             fd_set readfds;
