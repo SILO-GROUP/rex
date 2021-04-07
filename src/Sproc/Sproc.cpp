@@ -160,6 +160,7 @@ int set_identity_context( std::string task_name, std::string user_name, std::str
     return SPROC_RETURN_CODES::SUCCESS;
 }
 
+
 /// Sproc::execute
 ///
 /// \param input - The commandline input to execute.
@@ -255,6 +256,26 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
         slog.log(E_DEBUG, "[ '" + task_name + "' ] file descriptors piped.");
     }
 
+    if (fcntl(child_stdout_pipe[READ_END], F_SETFD, FD_CLOEXEC) == -1) {
+        perror("fcntl");
+        exit(1);
+    }
+
+    if (fcntl(child_stdout_pipe[WRITE_END], F_SETFD, FD_CLOEXEC) == -1) {
+        perror("fcntl");
+        exit(1);
+    }
+
+    if (fcntl(child_stderr_pipe[READ_END], F_SETFD, FD_CLOEXEC) == -1) {
+        perror("fcntl");
+        exit(1);
+    }
+
+    if (fcntl(child_stderr_pipe[WRITE_END], F_SETFD, FD_CLOEXEC) == -1) {
+        perror("fcntl");
+        exit(1);
+    }
+
     // fork a process
     pid_t pid = fork();
     slog.log( E_DEBUG, "[ '" + task_name + "' ] Process forked. Reporting. (PID: " + std::to_string(pid) + ")" );
@@ -311,8 +332,8 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
             close(child_stderr_pipe[WRITE_END]);
 
             // buffers for reading from child fd's
-            char stdout_buf[1] = {0};
-            char stderr_buf[1] = {0};
+            char stdout_buf[4096] = {0};
+            char stderr_buf[4096] = {0};
 
             // will contain a set of file descriptors to monitor representing stdout and stderr of the child process
             fd_set readfds;
@@ -402,12 +423,16 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
                 } // end select/if
             }
 
-            // wait for the child to exit
-            while ( ( pid = waitpid(pid, &exit_code_raw, 0 ) ) == -1 ) {}
+            close( child_stderr_pipe[READ_END] );
+            close( child_stdout_pipe[READ_END] );
 
             // clean up Tee
             stdout_log.close();
             stderr_log.close();
+
+            // wait for the child to exit
+            while ( ( pid = waitpid(pid, &exit_code_raw, 0 ) ) == -1 ) {}
+
         }
     }
     return WEXITSTATUS( exit_code_raw );
