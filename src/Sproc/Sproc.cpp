@@ -316,7 +316,7 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
             }
             
             // execute our big nasty thing
-            int ret = execl("/bin/sh", "/bin/sh", "-c", sourcer.c_str(), (char *) NULL);
+            int ret = execl( shell.c_str(), shell.c_str(), "-c", sourcer.c_str(), (char *) NULL);
 
             // print something useful to debug with if execl fails
             slog.log(E_FATAL, "ret code: " + std::to_string(ret) + "; errno: " + strerror(errno));
