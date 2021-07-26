@@ -233,13 +233,14 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
     std::string sourcer = ". " + environment_file + " && " + command;
 
     // Show the user a debug print of what is going to be executed in the shell.
-    slog.log(E_DEBUG, "[ '" + task_name + "' ] Shell call for loading: ``" + sourcer + "``.");
+    slog.log(E_INFO, "[ '" + task_name + "' ] Shell call for loading: ``" + sourcer + "``.");
 
     // file descriptors for parent/child i/o
     int child_stdout_pipe[2];
     int child_stderr_pipe[2];
 
-    slog.log( E_DEBUG, "[ '" + task_name + "' ] STDIN/STDOUT/STDERR file descriptors created." );
+    // no longer really needed, but may be handy for more verbosity settings later
+    //slog.log( E_DEBUG, "[ '" + task_name + "' ] STDIN/STDOUT/STDERR file descriptors created." );
 
     // man 3 pipe
     if (pipe(child_stdout_pipe) == -1 ) {
@@ -279,7 +280,7 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
 
     // fork a process
     pid_t pid = fork();
-    slog.log( E_DEBUG, "[ '" + task_name + "' ] Process forked. Reporting. (PID: " + std::to_string(pid) + ")" );
+    //slog.log( E_DEBUG, "[ '" + task_name + "' ] Process forked. Reporting. (PID: " + std::to_string(pid) + ")" );
 
     switch ( pid ) {
         case FORK_STATES::FORK_FAILURE:
@@ -304,7 +305,7 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
             close( child_stderr_pipe[READ_END] );
 
             slog.log(E_INFO, "[ '" + task_name + "' ] TEE Logging enabled.");
-            slog.log(E_DEBUG, "[ '" + task_name + "' ] DUP2: child_*_pipe[1]->STD*_FILENO");
+            //slog.log(E_DEBUG, "[ '" + task_name + "' ] DUP2: child_*_pipe[1]->STD*_FILENO");
 
             // set identity context
             // set gid and uid

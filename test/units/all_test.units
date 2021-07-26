@@ -23,7 +23,7 @@
         "user":         "bagira",
         "group":        "bagira",
         "rectify":      false,
-        "shell":        "/usr/bin/env bash",
+        "shell":        "/usr/bin/bash",
         "environment":  "environments/rex.variables"
     },
     {
