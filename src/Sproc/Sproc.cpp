@@ -247,7 +247,7 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
         slog.log(E_FATAL, "[ '" + task_name + "' ] STDOUT PIPE FAILED");
         return SPROC_RETURN_CODES::PIPE_FAILED;
     } else {
-        slog.log(E_DEBUG, "[ '" + task_name + "' ] file descriptors piped.");
+        // slog.log(E_DEBUG, "[ '" + task_name + "' ] file descriptors piped.");
     }
 
     // man 3 pipe
