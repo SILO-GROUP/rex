@@ -247,7 +247,7 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
         slog.log(E_FATAL, "[ '" + task_name + "' ] STDOUT PIPE FAILED");
         return SPROC_RETURN_CODES::PIPE_FAILED;
     } else {
-        // slog.log(E_DEBUG, "[ '" + task_name + "' ] file descriptors piped.");
+        slog.log(E_DEBUG, "[ '" + task_name + "' ] STDOUT Piped to Log.");
     }
 
     // man 3 pipe
@@ -255,7 +255,7 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
         slog.log(E_FATAL, "[ '" + task_name + "' ] STDERR PIPE FAILED");
         return SPROC_RETURN_CODES::PIPE_FAILED;
     } else {
-        slog.log(E_DEBUG, "[ '" + task_name + "' ] file descriptors piped.");
+        slog.log(E_DEBUG, "[ '" + task_name + "' ] STDERR Piped to Log.");
     }
 
     if (fcntl(child_stdout_pipe[READ_END], F_SETFD, FD_CLOEXEC) == -1) {
@@ -280,7 +280,7 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
 
     // fork a process
     pid_t pid = fork();
-    //slog.log( E_DEBUG, "[ '" + task_name + "' ] Process forked. Reporting. (PID: " + std::to_string(pid) + ")" );
+    slog.log( E_DEBUG, "[ '" + task_name + "' ] Process forked. Reporting. (PID: " + std::to_string(pid) + ")" );
 
     switch ( pid ) {
         case FORK_STATES::FORK_FAILURE:
