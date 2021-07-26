@@ -35,6 +35,8 @@
 #include <grp.h>
 #include <fstream>
 #include "fcntl.h"
+#include "../loaders/misc/helpers.h"
+
 
 // exit codes for Rex
 enum SPROC_RETURN_CODES {

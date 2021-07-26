@@ -2,7 +2,7 @@
   "units": [
     {
         "name":         "independent test 1",
-        "target":       "components/independent_test_1.bash",
+        "target":       "components/independent_test_1.bash --ls -s --arg",
         "rectifier":    "",
         "active":       true,
         "required":     true,
@@ -10,12 +10,12 @@
         "user":         "bagira",
         "group":        "bagira",
         "rectify":      false,
-        "shell":        "/usr/bin/env bash",
+        "shell":        "/usr/bin/bash",
         "environment":  "environments/rex.variables"
     },
     {
         "name":         "independent test 2",
-        "target":       "components/independent_test_2.bash",
+        "target":       "components/independent_test_2.bash --ls",
         "rectifier":    "",
         "active":       true,
         "required":     true,

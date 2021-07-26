@@ -20,7 +20,6 @@
 */
 
 #include "Sproc.h"
-#include "../loaders/misc/helpers.h"
 #include "sys/stat.h"
 
 #define PARENT default
@@ -161,6 +160,7 @@ int set_identity_context( std::string task_name, std::string user_name, std::str
 }
 
 
+
 /// Sproc::execute
 ///
 /// \param input - The commandline input to execute.
@@ -231,6 +231,7 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
 
     // build the command to execute in the shell
     std::string sourcer = ". " + environment_file + " && " + command;
+
     // Show the user a debug print of what is going to be executed in the shell.
     slog.log(E_DEBUG, "[ '" + task_name + "' ] Shell call for loading: ``" + sourcer + "``.");
 
@@ -314,12 +315,17 @@ int Sproc::execute(std::string shell, std::string environment_file, std::string 
             } else {
                 slog.log( E_INFO, "[ '" + task_name + "' ] Identity context set as user '" + user_name + "' and group '" + group_name + "'." );
             }
-            
+
+            slog.log( E_DEBUG, "[ '" + task_name + "' ] EXECL_CALL_PARAM: " + sourcer.c_str() );
+            slog.log( E_DEBUG,  "[ '" + task_name + "' ] CWD: " + get_current_dir_name() );
+
             // execute our big nasty thing
-            int ret = execl( shell.c_str(), shell.c_str(), "-c", sourcer.c_str(), (char *) NULL);
+            // int ret = execlp( shell.c_str(), shell.c_str(), "-c", sourcer.c_str(), (char*)NULL );
+
+            int ret = execl(shell.c_str(), shell.c_str(), "-c", sourcer.c_str(), (char*)NULL );
 
             // print something useful to debug with if execl fails
-            slog.log(E_FATAL, "ret code: " + std::to_string(ret) + "; errno: " + strerror(errno));
+            slog.log(E_FATAL, "[ '" + task_name + "' ] ret code: " + std::to_string(ret) + "; errno: " + strerror(errno));
             // exit child -- if this is executing, you've had a failure
 
             exit(exit_code_raw);

@@ -166,7 +166,7 @@ bool Task::has_definition()
 /// Task::execute - execute a task's unit definition.
 /// See the design document for what flow control needs to look like here.
 /// \param verbose - Verbosity level - not implemented yet.
-void Task::execute(Conf * configuration )
+void Task::execute( Conf * configuration )
 {
     // DUFFING - If rex is broken it's probably going to be in this block.
     // Somebody come clean this up, eh?
@@ -201,15 +201,20 @@ void Task::execute(Conf * configuration )
     // ....sourcing on the shell for variables and environment population doesn't have a good smell.
 
     this->slog.log( E_INFO, "[ '" + task_name + "' ] Executing target: \"" + target_command + "\"." );
-    if ( exists( target_command ) )
+
+    std::string delimiter = " ";
+    int space_index = target_command.find( delimiter );
+    std::string bin_path = target_command.substr( 0, space_index );
+
+    if ( exists( bin_path ) )
     {
         this->slog.log( E_DEBUG, "[ '" + task_name + "' ] Target executable found.");
     } else {
         this->slog.log( E_FATAL, "[ '" + task_name + "' ] Target executable does not exist." );
         throw Task_NotReady();
     }
-    this->slog.log( E_DEBUG, "[ '" + task_name + "' ] Vars file: " + this->definition.get_env_vars_file() );
-    this->slog.log( E_DEBUG, "[ '" + task_name + "' ] Shell: " + this->definition.get_shell() );
+    this->slog.log( E_INFO, "[ '" + task_name + "' ] Vars file: " + this->definition.get_env_vars_file() );
+    this->slog.log( E_INFO, "[ '" + task_name + "' ] Shell: " + this->definition.get_shell() );
 
 
     std::string static_env_file = configuration->get_execution_context() + "/" + this->definition.get_env_vars_file();

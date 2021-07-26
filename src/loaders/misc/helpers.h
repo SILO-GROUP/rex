@@ -31,6 +31,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <vector>
 
 bool exists (const std::string& name);
 
@@ -39,6 +40,6 @@ bool is_file( std::string );
 bool is_dir( std::string );
 
 std::string get_8601();
-
+const char * command2args( std::string input_string );
 
 #endif //REX_HELPERS_JH
