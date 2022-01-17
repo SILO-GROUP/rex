@@ -57,3 +57,16 @@ std::string get_8601()
     ss << std::put_time(localtime(&itt), "%Y-%m-%d_%H:%M:%S");
     return ss.str();
 }
+
+void interpolate( std::string & text )
+{
+    static std::regex env( "\\$\\{([^}]+)\\}" );
+    std::smatch match;
+    while ( std::regex_search( text, match, env ) )
+    {
+            const char * s = getenv( match[1].str().c_str() );
+            const std::string var( s == NULL ? "" : s );
+            text.replace( match[0].first, match[0].second, var );
+    }
+
+}

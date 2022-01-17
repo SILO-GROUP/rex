@@ -50,7 +50,9 @@ class JSON_Loader
         std::string as_string();
 
         // safely handle deserialized type retrieval (if we want it to be safe)
-        int get_serialized(Json::Value &input, std::string key );
+        int get_serialized( Json::Value & input, std::string key );
+        int get_string(std::string & input, std::string key );
+        int get_bool(bool & input, std::string key );
 
 private:
     Logger slog;

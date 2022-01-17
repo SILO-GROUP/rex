@@ -70,6 +70,8 @@ protected:
 Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(LOG_LEVEL, "_conf_" )
 {
     this->LOG_LEVEL = LOG_LEVEL;
+    std::string jval_s;
+    bool jval_b;
 
     // prepare context spaghetti
     this->override_context = false;
@@ -83,65 +85,59 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
         throw ConfigLoadException("Config file not found.");
     }
 
-    if (this->get_serialized(this->config_version, "config_version" ) != 0)
-    {
-        throw ConfigLoadException("config_version string is not set in the config file supplied: " + filename);
-    }
-    if ( this->config_version.asString() != VERSION_STRING )
-    {
-        throw ConfigLoadException("config_version string expected was " + std::string(VERSION_STRING) + " in: " + filename);
-    }
-
     // find the path to the unit definitions file
-    if (this->get_serialized(this->units_path, "units_path" ) != 0 )
-    {
-        throw ConfigLoadException("units_path string is not set in the config file supplied: " + filename);
+    if (this->get_string(jval_s, "units_path") != 0 )
+    { throw ConfigLoadException("units_path string is not set in the config file supplied: " + filename); } else {
+        this->units_path = jval_s;
     }
+    jval_s = {0};
 
     // find the path to logs directory
-    if (this->get_serialized(this->logs_path, "logs_path" ) != 0 )
-    {
-        throw ConfigLoadException("logs_path string is not set in the config file supplied: " + filename);
+    if (this->get_string(jval_s, "logs_path") != 0 )
+    { throw ConfigLoadException("logs_path string is not set in the config file supplied: " + filename); } else {
+        this->logs_path = jval_s;
     }
+    jval_s = {0};
 
-    if ( this->get_serialized(this->override_execution_context, "execution_context_override" ) != 0 )
-    {
-        throw ConfigLoadException("execution_context_override boolean is not set in the config file supplied: " + filename);
-    } else {
-        this->override_context = true;
+    if (this->get_bool(jval_b, "execution_context_override") != 0 )
+    { throw ConfigLoadException("execution_context_override boolean is not set in the config file supplied: " + filename); } else {
+        this->override_context = jval_b;
     }
+    jval_b = {0};
 
-    if ( this->get_serialized(this->execution_context, "execution_context" ) != 0 )
-    {
-        throw ConfigLoadException("execution_context string is not set in the config file supplied: " + filename);
-    } else {
-            if ( is_dir( this->execution_context.asString() ) ) {
-                this->execution_context_literal = this->execution_context.asString();
-            } else {
-                throw ConfigLoadException( "The execution context supplied is an invalid directory.");
+    if (this->get_string(jval_s, "execution_context") != 0 )
+    { throw ConfigLoadException("execution_context string is not set in the config file supplied: " + filename); } else {
+            if ( ! is_dir( jval_s ) ) { throw ConfigLoadException( "The execution context supplied is an invalid directory."); } else {
+                this->execution_context = jval_s;
             }
     }
+    jval_s = {0};
+
+    interpolate( this->units_path );
+    interpolate( this->logs_path );
+    interpolate( this->execution_context );
+
 };
 
 /// Conf::has_context_override - Specifies whether or not the override context function is enabled in the Conf file.
 bool Conf::has_context_override() {
-    return this->override_execution_context.asBool();
+    return this->override_execution_context;
 }
 
 /// Conf::get_execution_context - Specifies the path to the current working directory to set for all unit executions.
 std::string Conf::get_execution_context() {
-    return this->execution_context_literal;
+    return this->execution_context;
 }
 
 /// Conf::get_units_path - Retrieves the path to the Unit definition file from the application configuration file.
-std::string Conf::get_units_path() { return this->units_path.asString(); }
+std::string Conf::get_units_path() { return this->units_path; }
 
 /// Conf::get_units_path - Retrieves the path to the Unit definition file from the application configuration file.
-std::string Conf::get_logs_path() { return this->logs_path.asString(); }
+std::string Conf::get_logs_path() { return this->logs_path; }
 
 /// Conf::set_execution_context- Sets the execution context.
 void Conf::set_execution_context(std::string execution_context )
 {
-    this->execution_context_literal = execution_context;
+    this->execution_context = execution_context;
 }
 

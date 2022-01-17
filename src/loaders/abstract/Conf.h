@@ -28,28 +28,26 @@
 
 #define STRINGIZE2(s) #s
 #define STRINGIZE(s) STRINGIZE2(s)
-# define IMPL_CONFIG_VERSION 4
+# define IMPL_CONFIG_VERSION 5
 # define VERSION_STRING STRINGIZE(IMPL_CONFIG_VERSION)
 
 class Conf: public JSON_Loader
 {
 private:
-    Json::Value plan_path;
-    Json::Value units_path;
-    Json::Value execution_context;
-    Json::Value config_version;
-    Json::Value logs_path;
+    std::string plan_path;
+    std::string units_path;
+    std::string execution_context;
+    std::string logs_path;
 
     // flag to indicate if execution context should be overriden in config file
     // if set to true rex should use whats in the config file for current working directory
     // if set to false, rex should use the current working directory at time of execution
-    Json::Value override_execution_context;
+    bool override_execution_context;
 
     bool override_context;
-    std::string execution_context_literal;
 
 public:
-    Conf(std::string filename, int LOG_LEVEL );
+    Conf( std::string filename, int LOG_LEVEL );
 
     bool has_context_override();
 

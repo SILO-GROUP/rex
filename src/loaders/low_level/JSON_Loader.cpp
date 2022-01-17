@@ -130,7 +130,7 @@ std::string JSON_Loader::as_string()
 /// \param key - The JSON key name to assign the value to (the root of the json::value object by name)
 /// \param verbose - Whether or not to print verbose output to STDOUT.
 /// \return - Boolean indicator of success or failure (0|1)
-int JSON_Loader::get_serialized(Json::Value &input, std::string key )
+int JSON_Loader::get_serialized( Json::Value &input, std::string key )
 {
     // throw if the class is not ready to be used.
     if ( ! this->populated ) { throw JSON_Loader_NotReady(); }
@@ -139,6 +139,60 @@ int JSON_Loader::get_serialized(Json::Value &input, std::string key )
     {
         // key was found so return it to the passed input ref
         input = this->json_root[ key ];
+        return 0;
+    }
+
+    // key was not found
+
+    // verbose mode tells the user what key we were looking for.
+    this->slog.log( E_FATAL, "Failed to find key '" + key + "'." );
+
+    // exit code for failure
+    return 1;
+}
+
+/// JSON_Loader::get_string - assigns the serialized representation of the value of a key (json::value)
+///
+/// \param input - A reference to the json::value object to receive the new value.
+/// \param key - The JSON key name to assign the value to (the root of the json::value object by name)
+/// \param verbose - Whether or not to print verbose output to STDOUT.
+/// \return - Boolean indicator of success or failure (0|1)
+int JSON_Loader::get_string( std::string &input, std::string key )
+{
+    // throw if the class is not ready to be used.
+    if ( ! this->populated ) { throw JSON_Loader_NotReady(); }
+
+    if ( this->json_root.isMember( key ) )
+    {
+        // key was found so return it to the passed input ref
+        input = this->json_root[ key ].asString();
+        return 0;
+    }
+
+    // key was not found
+
+    // verbose mode tells the user what key we were looking for.
+    this->slog.log( E_FATAL, "Failed to find key '" + key + "'." );
+
+    // exit code for failure
+    return 1;
+}
+
+/// JSON_Loader::get_bool - assigns the serialized representation of the value of a key (json::value)
+///
+/// \param input - A reference to the json::value object to receive the new value.
+/// \param key - The JSON key name to assign the value to (the root of the json::value object by name)
+/// \param verbose - Whether or not to print verbose output to STDOUT.
+/// \return - Boolean indicator of success or failure (0|1)
+int JSON_Loader::get_bool( bool & input, std::string key )
+{
+    // throw if the class is not ready to be used.
+    if ( ! this->populated ) { throw JSON_Loader_NotReady(); }
+
+    if ( this->json_root.isMember( key ) )
+    {
+        // key was found so return it to the passed input ref
+        input = this->json_root[ key ].asBool();
         return 0;
     }
 
