@@ -213,11 +213,12 @@ void Task::execute( Conf * configuration )
         this->slog.log( E_FATAL, "[ '" + task_name + "' ] Target executable does not exist." );
         throw Task_NotReady();
     }
-    this->slog.log( E_INFO, "[ '" + task_name + "' ] Vars file: " + this->definition.get_env_vars_file() );
+    std::string static_env_file = configuration->get_execution_context() + "/" + this->definition.get_env_vars_file();
+
+    this->slog.log( E_INFO, "[ '" + task_name + "' ] Vars file: " + static_env_file );
     this->slog.log( E_INFO, "[ '" + task_name + "' ] Shell: " + this->definition.get_shell() );
 
 
-    std::string static_env_file = configuration->get_execution_context() + "/" + this->definition.get_env_vars_file();
     int return_code = Sproc::execute(
             this->definition.get_shell(),
             static_env_file,
