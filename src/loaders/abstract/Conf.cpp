@@ -91,6 +91,7 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
     // find the path to the unit definitions file
     if (this->get_string(jval_s, "units_path") != 0 )
     { throw ConfigLoadException("units_path string is not set in the config file supplied: " + filename); } else {
+        interpolate( jval_s );
         this->units_path = jval_s;
     }
     jval_s = {0};
@@ -98,6 +99,7 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
     // find the path to logs directory
     if (this->get_string(jval_s, "logs_path") != 0 )
     { throw ConfigLoadException("logs_path string is not set in the config file supplied: " + filename); } else {
+        interpolate( jval_s );
         this->logs_path = jval_s;
     }
     jval_s = {0};
@@ -110,15 +112,13 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
 
     if (this->get_string(jval_s, "execution_context") != 0 )
     { throw ConfigLoadException("execution_context string is not set in the config file supplied: " + filename); } else {
-            interpolate( this->execution_context );
+            interpolate( jval_s );
             if ( ! is_dir( jval_s ) ) { throw ConfigLoadException( "The execution context supplied is an invalid directory."); } else {
                 this->execution_context = jval_s;
             }
     }
     jval_s = {0};
 
-    interpolate( this->units_path );
-    interpolate( this->logs_path );
 
 
 };
