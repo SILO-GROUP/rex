@@ -110,6 +110,7 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
 
     if (this->get_string(jval_s, "execution_context") != 0 )
     { throw ConfigLoadException("execution_context string is not set in the config file supplied: " + filename); } else {
+            interpolate( this->execution_context );
             if ( ! is_dir( jval_s ) ) { throw ConfigLoadException( "The execution context supplied is an invalid directory."); } else {
                 this->execution_context = jval_s;
             }
@@ -118,7 +119,7 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
 
     interpolate( this->units_path );
     interpolate( this->logs_path );
-    interpolate( this->execution_context );
+
 
 };
 
