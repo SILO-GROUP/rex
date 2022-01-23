@@ -185,7 +185,7 @@ void Task::execute( Conf * configuration )
     // END PREWORK
 
     // get the target execution command
-    std::string target_command = this->definition.get_target();
+    std::string target_command = configuration->get_execution_context() + "/" + this->definition.get_target();
 
     // check if context override
     if ( configuration->has_context_override() )
@@ -206,7 +206,7 @@ void Task::execute( Conf * configuration )
     int space_index = target_command.find( delimiter );
     std::string bin_path = target_command.substr( 0, space_index );
 
-    if ( exists( bin_path ) )
+    if ( exists(   bin_path ) )
     {
         this->slog.log( E_DEBUG, "[ '" + task_name + "' ] Target executable found.");
     } else {

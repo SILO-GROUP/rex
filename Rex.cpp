@@ -146,6 +146,9 @@ int main( int argc, char * argv[] )
         help_flag = true;
     }
 
+    interpolate( config_path );
+    interpolate( plan_path );
+
     // if the user wants the help screen, just show it and leave
     if ( (help_flag) | (! config_flag) | (! plan_flag) )
     {
