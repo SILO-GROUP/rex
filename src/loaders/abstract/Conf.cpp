@@ -73,8 +73,11 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
     std::string jval_s;
     bool jval_b;
 
+
     // prepare context spaghetti
     this->override_context = false;
+
+    interpolate( filename);
 
     try {
         // load the test file.
