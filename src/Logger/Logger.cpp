@@ -24,10 +24,6 @@ Logger::Logger( int LOG_LEVEL, std::string mask )
 {
     this->LOG_LEVEL = LOG_LEVEL;
     this->mask = mask;
-
-    setlogmask( LOG_UPTO( this->LOG_LEVEL ) );
-    openlog( "rex", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_PERROR | LOG_LOCAL1 );
-
 }
 
 void Logger::log( int LOG_LEVEL, std::string msg )
@@ -45,7 +41,6 @@ void Logger::log( int LOG_LEVEL, std::string msg )
         }
 
         std::string s_msg = "[" + ERR + "] " + msg;
-        syslog( this->LOG_LEVEL, s_msg.c_str() );
 
         if ( LOG_LEVEL == E_FATAL | LOG_LEVEL == E_WARN )
         {

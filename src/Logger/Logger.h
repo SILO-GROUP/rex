@@ -22,7 +22,6 @@
 #ifndef REX_LOGGER_H
 #define REX_LOGGER_H
 
-#include <syslog.h>
 #include <string>
 #include <iostream>
 #include <iomanip>
