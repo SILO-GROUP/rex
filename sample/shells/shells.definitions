@@ -1,0 +1,16 @@
+{
+	"shells":	[
+		{
+			"name":			"bash",
+			"path": 		"/usr/bin/bash",
+			"execution_arg": 	"-c",
+			"source_cmd":		"source"
+		},
+		{
+			"name":			"ksh",
+			"path":			"/usr/bin/ksh",
+			"execution_arg":	"-c",
+			"source_cmd":		"source"
+		}
+	]
+}

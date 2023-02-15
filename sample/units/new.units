@@ -1,0 +1,22 @@
+{
+  "units": [
+    {
+        "name":         		"independent test 1",
+        "target":       		"components/independent_test_1.bash --ls -s --arg",
+	"is_shell_command":		true,
+	"shell_definition":		"bash",
+	"force_pty":			true,
+	"set_working_directory":	false,
+	"working_directory":		"",
+        "rectify":      		false,
+        "rectifier":    		"echo rectifier executed",
+        "active":       		true,
+        "required":     		true,
+	"set_user_context": 		true,
+        "user":         		"bagira",
+        "group":        		"bagira",
+	"supply_environment":		true,
+        "environment":  		"environments/rex.variables"
+    }
+ ]
+}

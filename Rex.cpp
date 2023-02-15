@@ -1,53 +1,60 @@
 /*
     Rex - A configuration management and workflow automation tool that
     compiles and runs in minimal environments.
-
     © SILO GROUP and Chris Punches, 2020.
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
     published by the Free Software Foundation, either version 3 of the
     License, or (at your option) any later version.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Affero General Public License for more details.
-
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 */
 
 #include <iostream>
 #include <unistd.h>
 #include <getopt.h>
-
-#include "src/loaders/abstract/loaders.h"
-#include "src/Logger/Logger.h"
+#include "src/logger/Logger.h"
+#include "src/config/Config.h"
+#include "src/suite/Suite.h"
+#include "src/plan/Plan.h"
 
 void version_info()
 {
     std::cout << "pre-release alpha" << std::endl;
 }
 
+// helper function to print out commandline arguments for print_usage()
+void print_arg(const char *short_opt, const char *long_opt, const char *desc)
+{
+    fprintf(stderr, "  %-3s %-25s %s\n", short_opt, long_opt, desc);
+}
+
+void print_section_header(const std::string &header_title)
+{
+    fprintf(stderr, "\n%s:\n", header_title.c_str());
+}
+
 void print_usage()
 {
-    // commandline switches:
-    // -h help                 OPTIONAL
-    // -v verbose              OPTIONAL
-    // -c CONFIG_FILE          REQUIRED
-    // -p PLAN_FILE            REQUIRED
+    fprintf(stderr, "\nUsage:\n\trex [ -h | --help ] [ -v | --verbose ] ( ( ( -c | --config ) CONFIG_PATH ) ( -p | plan ) PLAN_PATH ) )\n");
 
-    fprintf( stderr, "\nUsage:\n\trex [ -h | --help ] [ -v | --verbose ] ( ( ( -c | --config ) CONFIG_PATH ) ( -p | plan ) PLAN_PATH ) )\n" );
+    print_section_header("Optional Arguments");
+    print_arg(  "-h", "--help",         "This usage screen. Mutually exclusive to all other options.");
+    print_arg(  "-v", "--verbose",      "Sets verbose output. Generally more than you want to see.");
+    print_arg(  "-i", "--version_info", "Prints version information and exits. Mutually exclusive to all other options.");
 
-    fprintf( stderr, "\nOptional Arguments:\n");
-    fprintf( stderr, "\t-h | --help\n\t\tThis usage screen.  Mutually exclusive to all other options.\n");
-    fprintf( stderr, "\t-v | --verbose\n\t\tSets verbose output.  Generally more than you want to see.\n");
-    fprintf( stderr, "\nRequired Arguments:\n");
-    fprintf( stderr, "\t-c | --config\n\t\tSupply the directory path for the configuration file.\n");
-    fprintf( stderr, "\t-p | --plan\n\t\tSupply the directory path for the plan file to execute.\n\n");
+    print_section_header("Required Arguments");
+    print_arg(  "-c", "--config",       "Supply the path for the configuration file.");
+    print_arg(  "-p", "--plan",         "Supply the path for the plan file to execute.");
+
+    fprintf(stderr, "\n");
 }
+
+
 
 int main( int argc, char * argv[] )
 {
@@ -128,10 +135,16 @@ int main( int argc, char * argv[] )
                 break;
         } // end switch
     } // end opts while
-
     if ( version_flag ) {
         version_info();
         exit(0);
+    }
+
+    // if the user wants the help screen, just show it and leave
+    if ( (help_flag) | (! config_flag) | (! plan_flag) )
+    {
+        print_usage();
+        exit( 0 );
     }
 
     // if the user supplied no config file, there's nothing to do but teach the user how to use this tool
@@ -149,13 +162,6 @@ int main( int argc, char * argv[] )
     interpolate( config_path );
     interpolate( plan_path );
 
-    // if the user wants the help screen, just show it and leave
-    if ( (help_flag) | (! config_flag) | (! plan_flag) )
-    {
-        print_usage();
-        exit( 0 );
-    }
-
     // default logging level
     int L_LEVEL = E_INFO;
 
@@ -168,52 +174,38 @@ int main( int argc, char * argv[] )
 
     // the main scope logger
     Logger slog = Logger( L_LEVEL, "_main_" );
-    slog.log( E_INFO, "* Initialising Logging...");
+    slog.log_task( E_DEBUG, "INIT", "Logging initialised." );
 
     // configuration object that reads from config_path
     Conf configuration = Conf( config_path, L_LEVEL );
+    slog.log_task(E_DEBUG, "INIT", "Configuration initialised.");
 
-    // check if context override is set in the config file
-    if ( configuration.has_context_override() )
-    {
-        // if so, set the CWD.
-        chdir( configuration.get_execution_context().c_str() );
-        slog.log( E_DEBUG, "* Setting execution context: " + get_working_path() );
-    }
+    // load the paths to definitions of units.
+    std::string unit_definitions_path = configuration.get_units_path();
 
-    // The Rex Paradigm:
-    //  - A Suite is made up of Units.
-    //  - A Unit is a definition of an executable along with various options surrounding its context and behaviour.
-    //  - A Plan is made up of Tasks.
-    //  - A Unit becomes a Task when it is added to a Plan.
+    // initialise an empty suite (unit definitions library)
+    slog.log_task( E_DEBUG, "SUITE_INIT", "Initialising Suite...");
+    Suite available_definitions = Suite( L_LEVEL );
+
+    // load units into suite
+    slog.log_task( E_INFO, "LOAD", "Loading all actionable Units into Suite..." );
+    available_definitions.load_units_file( unit_definitions_path );
 
     // A Plan contains what units are executed and a Suite contains the definitions of those units.
     std::string plan_file = plan_path;
 
-    // load the filepaths to definitions of a plan and definitions of units.
-    std::string definitions_file = configuration.get_units_path();
-
-    // initialise an empty suite (unit definitions library)
-    slog.log( E_DEBUG, "* Initialising Suite...");
-    Suite available_definitions = Suite( L_LEVEL );
-
-    // load units into suite
-    slog.log( E_INFO, "* Loading all actionable Units into Suite..." );
-    available_definitions.load_units_file( definitions_file );
-
     // initialise an empty plan
-    slog.log( E_DEBUG, "* Initialising Plan..." );
+    slog.log_task( E_DEBUG, "PLAN_INIT", "Initialising Plan..." );
     Plan plan = Plan( &configuration, L_LEVEL );
 
-    // load the plan the user supplied
-    slog.log( E_INFO, "* Loading Plan...");
     plan.load_plan_file( plan_file );
 
+
     // ingest the suitable Tasks from the Suite into the Plan
-    slog.log( E_INFO, "* Loading planned Tasks from Suite to Plan." );
+    slog.log_task( E_INFO, "LOAD", "Loading planned Tasks from Suite to Plan." );
     plan.load_definitions( available_definitions );
 
-    slog.log( E_INFO, "* Ready to execute all actionable Tasks in Plan." );
+    slog.log_task( E_INFO, "main", "Ready to execute all actionable Tasks in Plan." );
 
     try
     {
