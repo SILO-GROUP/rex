@@ -16,7 +16,8 @@ std::string prefix_generator(
         prefix = shell_path;
 
         // if the shell takes an argument to execute a command, add it enclosed in quotes
-        if (shell_execution_arg != "") {
+        if ( shell_execution_arg != "" )
+        {
             // add the execution arg
             prefix += " " + shell_execution_arg + " ";
         } else {

@@ -231,7 +231,7 @@ void Conf::load_shells() {
     {
         tmp_S.load_root( jbuff[index] );
         this->shells.push_back( tmp_S );
-        this->slog.log_task( E_DEBUG, "SHELLS", "Loaded shell: '" + tmp_S.name + "'" );
+        this->slog.log_task( E_DEBUG, "SHELLS", "Loaded shell: '" + tmp_S.name + "' (" + tmp_S.path + ")" );
     }
 }
 

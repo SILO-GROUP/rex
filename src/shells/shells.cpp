@@ -54,11 +54,11 @@ int Shell::load_root( Json::Value loader_root )
         throw ShellException("No execution_arg attribute specified when loading a shell definition.");
     }
 
-    if ( loader_root.isMember("execution_arg") )
+    if ( loader_root.isMember("source_cmd") )
     {
-        this->execution_arg = loader_root.get( "execution_arg", errmsg ).asString();
+        this->source_cmd = loader_root.get( "source_cmd", errmsg ).asString();
     } else {
-        throw ShellException("No execution_arg attribute specified when loading a shell definition.");
+        throw ShellException("No source_cmd attribute specified when loading a shell definition.");
     }
     return 0;
 }
