@@ -130,23 +130,23 @@ void run_child_process(bool context_override, const char* context_user, const ch
             case IDENTITY_CONTEXT_ERRORS::ERROR_NONE:
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_NO_SUCH_USER:
-                std::cerr << "lcpex: Aborting: context user not found: " << context_user << std::endl;
+                std::cerr << "REX: Aborting: context user not found: " << context_user << std::endl;
                 exit(1);
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_NO_SUCH_GROUP:
-                std::cerr << "lcpex: Aborting: context group not found: " << context_group << std::endl;
+                std::cerr << "REX: Aborting: context group not found: " << context_group << std::endl;
                 exit(1);
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_SETGID_FAILED:
-                std::cerr << "lcpex: Aborting: Setting GID failed: " << context_user << "/" << context_group << std::endl;
+                std::cerr << "REX: Aborting: Setting GID failed: " << context_user << "/" << context_group << std::endl;
                 exit(1);
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_SETUID_FAILED:
-                std::cerr << "lcpex: Aborting: Setting UID failed: " << context_user << "/" << context_group << std::endl;
+                std::cerr << "REX: Aborting: Setting UID failed: " << context_user << "/" << context_group << std::endl;
                 exit(1);
                 break;
             default:
-                std::cerr << "lcpex: Aborting: Unknown error while setting identity context." << std::endl;
+                std::cerr << "REX: Aborting: Unknown error while setting identity context." << std::endl;
                 exit(1);
                 break;
         }

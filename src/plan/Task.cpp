@@ -418,8 +418,8 @@ void Task::execute( Conf * configuration )
         throw TaskException("Could not prepare logs for task execution at '" + logs_root + "'.");
     }
 
-    std::string stdout_log_file = logs_root + "/" + timestamp + ".stdout.log";
-    std::string stderr_log_file = logs_root + "/" + timestamp + ".stderr.log";
+    std::string stdout_log_file = logs_root + "/" + task_name + "/" + timestamp + ".stdout.log";
+    std::string stderr_log_file = logs_root + "/" + task_name + "/" + timestamp + ".stderr.log";
 
     // check if working directory is to be set
     if ( override_working_dir )
