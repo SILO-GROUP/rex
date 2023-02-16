@@ -129,7 +129,7 @@ void Suite::get_units_from_dir( std::vector<std::string> * files, std::string pa
             // you want here. Something like:
             if ( strstr( hFile->d_name, ".units" ))
             {
-                std::string full_path = path + hFile->d_name;
+                std::string full_path = path + "/" + hFile->d_name;
                 files->push_back( full_path );
             }
         }

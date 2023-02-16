@@ -134,6 +134,12 @@ void Conf::set_object_b(std::string keyname, bool & object_member, std::string f
     this->slog.log_task( E_DEBUG, "SET_PROPERTY", "'" + keyname + "' " + std::to_string(object_member));
 }
 
+void removeTrailingSlash(std::string &str) {
+    if (!str.empty() && str.back() == '/') {
+        str.pop_back();
+    }
+}
+
 /**
  * @brief Prepend the project root to a relative path
  *
@@ -147,6 +153,7 @@ void Conf::set_object_b(std::string keyname, bool & object_member, std::string f
  */
 std::string Conf::prepend_project_root( std::string relative_path)
 {
+    removeTrailingSlash(relative_path);
     return this->project_root + "/" + relative_path;
 }
 
@@ -259,6 +266,7 @@ Shell Conf::get_shell_by_name( std::string name ) {
 }
 
 
+
 /**
  * @class Conf
  * @brief Loads the configuration for the application
@@ -300,6 +308,8 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
     set_object_s(               "project_root",     this->project_root,           filename );
     // convert to an absolute path after all the interpolation is done.
     this->project_root = get_absolute_path( this->project_root );
+
+
 
     // all other paths are relative to project_root
     set_object_s_derivedpath(   "units_path",       this->units_path,             filename );

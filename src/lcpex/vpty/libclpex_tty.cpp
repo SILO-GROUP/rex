@@ -118,6 +118,16 @@ int exec_pty(
     FILE * stdout_log_fh = fopen( stdout_log_file.c_str(), "a+" );
     FILE * stderr_log_fh = fopen( stderr_log_file.c_str(), "a+" );
 
+    if ( stdout_log_fh == NULL ) {
+        safe_perror( "Error opening STDOUT log file.  Aborting.", &ttyOrig );
+        exit( 1 );
+    }
+    if ( stderr_log_fh == NULL ) {
+        safe_perror( "Error opening STDERR log file.  Aborting.", &ttyOrig );
+        exit( 1 );
+    }
+
+
     // create the pipes for the child process to write and read from using its stderr
     int fd_child_stderr_pipe[2];
 
