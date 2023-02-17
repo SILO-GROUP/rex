@@ -39,8 +39,8 @@
  */
 int execute(
         std::string command,
-        std::string stdout_log_file,
-        std::string stderr_log_file,
+        FILE * stdout_log_fh,
+        FILE * stderr_log_fh,
         bool context_override,
         std::string context_user,
         std::string context_group,
@@ -76,8 +76,8 @@ int execute(
  */
 int lcpex(
         std::string command,
-        std::string stdout_log_file,
-        std::string stderr_log_file,
+        FILE * stdout_log_fh,
+        FILE * stderr_log_fh,
         bool context_override,
         std::string context_user,
         std::string context_group,

@@ -307,7 +307,7 @@ bool createDirectory(const std::string& path) {
     return true;
 }
 
-bool Task::prepare_logs( std::string task_name, std::string logs_root, std::string timestamp )
+bool Task::prepare_logs( std::string task_name, std::string logs_root )
 {
     std::string full_path = logs_root + "/" + task_name;
     bool ret = false;
@@ -407,19 +407,24 @@ void Task::execute( Conf * configuration )
         logs_root = configuration->get_project_root() + "/" + logs_root;
     }
 
-    std::string timestamp = get_8601();
+
     // set these first so the pre-execution logs get there.
     /*
      * create the logs dir here
      */
 
-    if (! this->prepare_logs( task_name, logs_root, timestamp ) )
+    if (! this->prepare_logs( task_name, logs_root ) )
     {
         throw TaskException("Could not prepare logs for task execution at '" + logs_root + "'.");
     }
 
+    std::string timestamp = get_8601();
     std::string stdout_log_file = logs_root + "/" + task_name + "/" + timestamp + ".stdout.log";
     std::string stderr_log_file = logs_root + "/" + task_name + "/" + timestamp + ".stderr.log";
+
+    // open file handles to the two log files we need to create for each execution
+    FILE * stdout_log_fh = fopen( stdout_log_file.c_str(), "a+" );
+    FILE * stderr_log_fh = fopen( stderr_log_file.c_str(), "a+" );
 
     // check if working directory is to be set
     if ( override_working_dir )
@@ -443,8 +448,8 @@ void Task::execute( Conf * configuration )
 
     int return_code = lcpex(
             command,
-            stdout_log_file,
-            stderr_log_file,
+            stdout_log_fh,
+            stderr_log_fh,
             set_user_context,
             user,
             group,
@@ -456,7 +461,6 @@ void Task::execute( Conf * configuration )
             shell_definition.source_cmd,
             environment_file
     );
-
 
     // **********************************************
     // d[0] Error Code Check
@@ -513,8 +517,8 @@ void Task::execute( Conf * configuration )
             this->slog.log_task( E_INFO, task_name, "Executing rectification: " + rectifier + "." );
             int rectifier_error = lcpex(
                     rectifier,
-                    stdout_log_file,
-                    stderr_log_file,
+                    stdout_log_fh,
+                    stderr_log_fh,
                     set_user_context,
                     user,
                     group,
@@ -565,8 +569,8 @@ void Task::execute( Conf * configuration )
 
                 int retry_code = lcpex(
                         command,
-                        stdout_log_file,
-                        stderr_log_file,
+                        stdout_log_fh,
+                        stderr_log_fh,
                         set_user_context,
                         user,
                         group,
@@ -618,4 +622,7 @@ void Task::execute( Conf * configuration )
         // end d[1] Rectify Check
         // **********************************************
     }
+    // close the log file handles
+    fclose(stdout_log_fh);
+    fclose(stderr_log_fh);
 }

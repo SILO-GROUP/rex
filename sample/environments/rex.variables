@@ -8,4 +8,5 @@ set -a
 
 echo "variables file says hello and set a variable named TEST_VAR"
 TEST_VAR="999"
+TERM=xterm
 

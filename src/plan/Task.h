@@ -47,7 +47,7 @@ class Task
         // the readiness of this task to execute
         bool defined;
 
-        bool prepare_logs( std::string task_name, std::string logs_root, std::string timestamp );
+        bool prepare_logs( std::string task_name, std::string logs_root );
 
 
 public:

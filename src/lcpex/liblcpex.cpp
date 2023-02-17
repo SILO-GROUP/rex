@@ -36,15 +36,15 @@ std::string prefix_generator(
         // it's not a shell command, so we can just execute it directly
         prefix = command;
     }
-    std::cout << "prefix: " << prefix << std::endl;
+    std::cout << "LAUNCHER: " << prefix << std::endl;
     return prefix;
 }
 
 
 int lcpex(
         std::string command,
-        std::string stdout_log_file,
-        std::string stderr_log_file,
+        FILE * stdout_log_fh,
+        FILE * stderr_log_fh,
         bool context_override,
         std::string context_user,
         std::string context_group,
@@ -72,11 +72,11 @@ int lcpex(
     // if we are forcing a pty, then we will use the vpty library
     if( force_pty )
     {
-        return exec_pty( command, stdout_log_file, stderr_log_file, context_override, context_user, context_group, supply_environment );
+        return exec_pty( command, stdout_log_fh, stderr_log_fh, context_override, context_user, context_group, supply_environment );
     }
 
     // otherwise, we will use the execute function
-    return execute( command, stdout_log_file, stderr_log_file, context_override, context_user, context_group, supply_environment );
+    return execute( command, stdout_log_fh, stderr_log_fh, context_override, context_user, context_group, supply_environment );
 }
 
 /**
@@ -161,8 +161,8 @@ void run_child_process(bool context_override, const char* context_user, const ch
 
 int execute(
         std::string command,
-        std::string stdout_log_file,
-        std::string stderr_log_file,
+        FILE * stdout_log_fh,
+        FILE * stderr_log_fh,
         bool context_override,
         std::string context_user,
         std::string context_group,
@@ -182,10 +182,6 @@ int execute(
     if ( environment_supplied ) {
         clearenv();
     }
-
-    // open file handles to the two log files we need to create for each execution
-    FILE * stdout_log_fh = fopen( stdout_log_file.c_str(), "a+" );
-    FILE * stderr_log_fh = fopen( stderr_log_file.c_str(), "a+" );
 
     // create the pipes for the child process to write and read from using its stdin/stdout/stderr
     int fd_child_stdout_pipe[2];
@@ -325,9 +321,7 @@ int execute(
             // wait for child to exit, capture status
             waitpid(pid, &status, 0);
 
-            // close the log file handles
-            fclose(stdout_log_fh);
-            fclose(stderr_log_fh);
+
             if WIFEXITED(status) {
                 return WEXITSTATUS(status);
             } else {

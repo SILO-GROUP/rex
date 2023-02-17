@@ -83,7 +83,7 @@ void run_child_process( int fd_child_stderr_pipe[2], char * processed_command[],
 
     // execute the dang command, print to stdout, stderr (of parent), and dump to file for each!!!!
     // (and capture exit code in parent)
-    int exit_code = execvp(processed_command[0], processed_command);
+    int exit_code = execvp( processed_command[0], processed_command );
     safe_perror("failed on execvp in child", ttyOrig );
     exit(exit_code);
 }
@@ -94,8 +94,8 @@ void run_child_process( int fd_child_stderr_pipe[2], char * processed_command[],
 //  - TEE child stdout/stderr to parent stdout/stderr
 int exec_pty(
         std::string command,
-        std::string stdout_log_file,
-        std::string stderr_log_file,
+        FILE * stdout_log_fh,
+        FILE * stderr_log_fh,
         bool context_override,
         std::string context_user,
         std::string context_group,
@@ -112,16 +112,13 @@ int exec_pty(
     }
 
     // turn our command string into something execvp can consume
-    char ** processed_command = expand_env(command );
-
-    // open file handles to the two log files we need to create for each execution
-    FILE * stdout_log_fh = fopen( stdout_log_file.c_str(), "a+" );
-    FILE * stderr_log_fh = fopen( stderr_log_file.c_str(), "a+" );
+    char ** processed_command = expand_env( command );
 
     if ( stdout_log_fh == NULL ) {
         safe_perror( "Error opening STDOUT log file.  Aborting.", &ttyOrig );
         exit( 1 );
     }
+
     if ( stderr_log_fh == NULL ) {
         safe_perror( "Error opening STDERR log file.  Aborting.", &ttyOrig );
         exit( 1 );
@@ -277,9 +274,6 @@ int exec_pty(
             // wait for child to exit, capture status
             waitpid(pid, &status, 0);
 
-            // close the log file handles
-            fclose(stdout_log_fh);
-            fclose(stderr_log_fh);
             ttyResetExit( &ttyOrig);
             if WIFEXITED(status) {
                 return WEXITSTATUS(status);
