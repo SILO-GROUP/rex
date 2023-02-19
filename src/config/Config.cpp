@@ -308,12 +308,12 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
     set_object_s(               "project_root",     this->project_root,           filename );
     // convert to an absolute path after all the interpolation is done.
     this->project_root = get_absolute_path( this->project_root );
-
+    set_object_s(   "logs_path",        this->logs_path,              filename );
+    this->logs_path = get_absolute_path( this->logs_path );
 
 
     // all other paths are relative to project_root
     set_object_s_derivedpath(   "units_path",       this->units_path,             filename );
-    set_object_s_derivedpath(   "logs_path",        this->logs_path,              filename );
     set_object_s_derivedpath(   "shells_path",      this->shell_definitions_path, filename );
 
     // ensure these paths exists, with exception to the logs_path, which will be created at runtime
