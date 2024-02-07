@@ -24,7 +24,6 @@
 
 #include <exception>
 #include <string>
-#include <cstring>
 #include "../json_support/JSON.h"
 #include "../logger/Logger.h"
 #include "../misc/helpers.h"

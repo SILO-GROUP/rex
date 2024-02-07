@@ -13,8 +13,8 @@
         "active":       		true,
         "required":     		true,
 	"set_user_context": 		true,
-        "user":         		"bagira",
-        "group":        		"bagira",
+        "user":         		"$USER",
+        "group":        		"$USER",
 	"supply_environment":		true,
         "environment":  		"environments/rex.variables"
     }

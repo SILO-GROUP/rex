@@ -15,12 +15,15 @@
 */
 
 #include <iostream>
+#include <string>
+#include <cstring>
 #include <unistd.h>
 #include <getopt.h>
 #include "src/logger/Logger.h"
 #include "src/config/Config.h"
 #include "src/suite/Suite.h"
 #include "src/plan/Plan.h"
+#include "src/misc/helpers.h"
 
 void version_info()
 {
@@ -161,6 +164,8 @@ int main( int argc, char * argv[] )
 
     interpolate( config_path );
     interpolate( plan_path );
+
+    plan_path = get_absolute_path( plan_path );
 
     // default logging level
     int L_LEVEL = E_INFO;

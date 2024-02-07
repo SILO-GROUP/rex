@@ -96,19 +96,44 @@ std::string get_8601()
  * @brief Interpolates the environment variables in the input text
  *
  * This function takes a string reference as input and replaces all occurrences of
- * environment variables in the format `${VAR_NAME}` with their corresponding values.
+ * environment variables in the format `${VAR_NAME}` or `$VAR_NAME` with their corresponding values.
  * If an environment variable is not set, it is replaced with an empty string.
  *
  * @param text The input text to be processed
  */
 void interpolate( std::string & text )
 {
-    static std::regex env( "\\$\\{([^}]+)\\}" );
+    static std::regex env1( "\\$\\{([^}]+)\\}" );
+    static std::regex env2( "\\$([^/]+)" ); // matches $VAR_NAME until a / is found
     std::smatch match;
-    while ( std::regex_search( text, match, env ) )
+    while ( std::regex_search( text, match, env1 ) || std::regex_search( text, match, env2 ) )
     {
         const char * s = getenv( match[1].str().c_str() );
         const std::string var( s == NULL ? "" : s );
         text.replace( match[0].first, match[0].second, var );
     }
+}
+
+/**
+ * @brief Get the absolute path from a relative path
+ *
+ * This function takes a relative path and returns the corresponding absolute path.
+ * The absolute path is obtained by calling the `realpath` function.
+ * If the `realpath` function returns a null pointer, an error message is printed to the standard error stream and an empty string is returned.
+ *
+ * @param relative_path The relative path to be converted to an absolute path
+ *
+ * @return The absolute path corresponding to the relative path
+ */
+std::string get_absolute_path(const std::string &relative_path)
+{
+    char resolved_path[1024];
+    memset(resolved_path, 0, sizeof(resolved_path));
+
+    if( realpath( relative_path.c_str(), resolved_path) == nullptr ) {
+        std::cerr << "Error resolving path: " << relative_path << std::endl;
+        return "";
+    }
+
+    return std::string(resolved_path);
 }

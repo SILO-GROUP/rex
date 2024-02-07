@@ -157,29 +157,7 @@ std::string Conf::prepend_project_root( std::string relative_path)
     return this->project_root + "/" + relative_path;
 }
 
-/**
- * @brief Get the absolute path from a relative path
- *
- * This function takes a relative path and returns the corresponding absolute path.
- * The absolute path is obtained by calling the `realpath` function.
- * If the `realpath` function returns a null pointer, an error message is printed to the standard error stream and an empty string is returned.
- *
- * @param relative_path The relative path to be converted to an absolute path
- *
- * @return The absolute path corresponding to the relative path
- */
-std::string get_absolute_path(const std::string &relative_path)
-{
-    char resolved_path[1024];
-    memset(resolved_path, 0, sizeof(resolved_path));
 
-    if( realpath( relative_path.c_str(), resolved_path) == nullptr ) {
-        std::cerr << "Error resolving path: " << relative_path << std::endl;
-        return "";
-    }
-
-    return std::string(resolved_path);
-}
 
 /**
  * @brief Check if a path exists
@@ -305,16 +283,20 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
         this->json_root = jbuff;
     }
 
-    set_object_s(               "project_root",     this->project_root,           filename );
+    set_object_s(   "project_root",     this->project_root,           filename );
+    interpolate( project_root );
     // convert to an absolute path after all the interpolation is done.
     this->project_root = get_absolute_path( this->project_root );
-    set_object_s(   "logs_path",        this->logs_path,              filename );
-    this->logs_path = get_absolute_path( this->logs_path );
 
+    set_object_s(   "logs_path",        this->logs_path,              filename );
+    interpolate( this->logs_path );
 
     // all other paths are relative to project_root
     set_object_s_derivedpath(   "units_path",       this->units_path,             filename );
+    interpolate( this->units_path );
+
     set_object_s_derivedpath(   "shells_path",      this->shell_definitions_path, filename );
+    interpolate( this->shell_definitions_path );
 
     // ensure these paths exists, with exception to the logs_path, which will be created at runtime
     this->slog.log_task( E_DEBUG, "SANITY_CHECKS", "Checking for sanity..." );
