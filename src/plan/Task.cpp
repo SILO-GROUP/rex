@@ -356,6 +356,17 @@ void Task::execute( Conf * configuration )
 
     this->slog.log_task( E_DEBUG, task_name, "Using unit definition: \"" + task_name + "\"." );
 
+    interpolate(task_name);
+    interpolate(command);
+    interpolate(shell_name);
+    interpolate(user);
+    interpolate(group);
+    interpolate(environment_file);
+    interpolate(new_working_dir);
+    interpolate(rectifier);
+    interpolate(logs_root);
+
+
     // sanitize all path inputs from unit definition to be either absolute paths or relative to
     // project_root
 
