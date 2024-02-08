@@ -266,7 +266,7 @@ int exec_pty(
                         }
                     }
                     if (watched_fds[this_fd].revents & POLLERR) {
-                        close(watched_fds[this_fd].fd);
+                        //close(watched_fds[this_fd].fd);
                         break_out = true;
                         //continue;
                     }
