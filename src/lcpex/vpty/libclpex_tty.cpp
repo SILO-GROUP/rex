@@ -235,6 +235,10 @@ int exec_pty(
                         byte_count = read(watched_fds[this_fd].fd, buf, BUFFER_SIZE);
 
                         if (byte_count == -1) {
+                            if (errno == EAGAIN) {
+                                // no data to read
+                                continue;
+                            }
                             // error reading from pipe
                             safe_perror("read", &ttyOrig );
                             exit(EXIT_FAILURE);
@@ -265,8 +269,8 @@ int exec_pty(
                     }
                     if (watched_fds[this_fd].revents & POLLERR) {
                         close(watched_fds[this_fd].fd);
-                        //break_out = true;
-                        continue;
+                        break_out = true;
+                        //continue;
                     }
 //                    if (watched_fds[this_fd].revents & POLLHUP) {
 //                        // this pipe has hung up
