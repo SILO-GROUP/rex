@@ -324,6 +324,9 @@ int execute(
             // wait for child to exit, capture status
             waitpid(pid, &status, 0);
 
+            // Drain the pipes before exiting
+            while (read_from_pipe(fd_child_stdout_pipe[READ_END], buf, BUFFER_SIZE) > 0);
+            while (read_from_pipe(fd_child_stderr_pipe[READ_END], buf, BUFFER_SIZE) > 0);
 
             if WIFEXITED(status) {
                 return WEXITSTATUS(status);
