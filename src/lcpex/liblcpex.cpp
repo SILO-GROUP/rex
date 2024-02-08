@@ -280,6 +280,12 @@ int execute(
             // loop until we've read all the data from the child process
             while ( ! break_out ) {
                 num_files_readable = poll(watched_fds, sizeof(watched_fds) / sizeof(watched_fds[0]), -1);
+                // after the poll() call, add a check to see if both pipes are closed
+                if (!(watched_fds[CHILD_PIPE_NAMES::STDOUT_READ].events & POLLIN) &&
+                    !(watched_fds[CHILD_PIPE_NAMES::STDERR_READ].events & POLLIN)) {
+                    break_out = true;
+                }
+
                 if (num_files_readable == -1) {
                     // error occurred in poll()
                     perror("poll");
@@ -328,12 +334,17 @@ int execute(
                         close(watched_fds[this_fd].fd);
                         break_out = true;
                     }
+//                    if (watched_fds[this_fd].revents & POLLHUP) {
+//                        // this pipe has hung up
+//                        close(watched_fds[this_fd].fd);
+//                        break_out = true;
+//                    }
                     if (watched_fds[this_fd].revents & POLLHUP) {
                         // this pipe has hung up
-                        close(watched_fds[this_fd].fd);
-                        break_out = true;
+                        // don't close the file descriptor yet, there might still be data to read
+                        // instead, remove the POLLIN event to avoid getting a POLLHUP event in the next poll() call
+                        watched_fds[this_fd].events &= ~POLLIN;
                     }
-
                 }
             }
             // wait for child to exit, capture status
