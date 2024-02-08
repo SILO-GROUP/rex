@@ -216,7 +216,7 @@ int exec_pty(
                     !(watched_fds[2].events & POLLIN)) {
                     break_out = true;
                 }
-                
+
                 if (num_files_readable == -1) {
                     // error occurred in poll()
                     safe_perror("poll", &ttyOrig );
@@ -268,16 +268,27 @@ int exec_pty(
                         //break_out = true;
                         continue;
                     }
+//                    if (watched_fds[this_fd].revents & POLLHUP) {
+//                        // this pipe has hung up
+//                        close(watched_fds[this_fd].fd);
+//                        break_out = true;
+//                        break;
+//                    }
                     if (watched_fds[this_fd].revents & POLLHUP) {
                         // this pipe has hung up
-                        close(watched_fds[this_fd].fd);
-                        break_out = true;
-                        break;
+                        // don't close the file descriptor yet, there might still be data to read
+                        // instead, remove the POLLIN event to avoid getting a POLLHUP event in the next poll() call
+                        watched_fds[this_fd].events &= ~POLLIN;
                     }
                 }
             }
             // wait for child to exit, capture status
             waitpid(pid, &status, 0);
+
+            while ((byte_count = read(fd_child_stderr_pipe[READ_END], buf, BUFFER_SIZE)) > 0) {
+                write_all(stderr_log_fh->_fileno, buf, byte_count);
+                write_all(STDERR_FILENO, buf, byte_count);
+            }
 
             ttyResetExit( &ttyOrig);
             if WIFEXITED(status) {
