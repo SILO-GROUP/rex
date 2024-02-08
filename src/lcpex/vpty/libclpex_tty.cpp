@@ -300,7 +300,7 @@ int exec_pty(
             waitpid(pid, &status, 0);
 
             // Drain the pipes before exiting
-            while ((byte_count = read(fd_child_stdout_pipe[READ_END], buf, BUFFER_SIZE)) > 0) {
+            while ((byte_count = read(masterFd, buf, BUFFER_SIZE)) > 0) {
                 write_all(stdout_log_fh->_fileno, buf, byte_count);
                 write_all(STDOUT_FILENO, buf, byte_count);
             }
