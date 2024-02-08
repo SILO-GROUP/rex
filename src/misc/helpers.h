@@ -67,6 +67,4 @@ const char * command2args( std::string input_string );
  */
 std::string get_absolute_path(const std::string &relative_path);
 
-ssize_t write_all(int fd, const void *buf, size_t count);
-
 #endif //REX_HELPERS_H
