@@ -235,13 +235,11 @@ int exec_pty(
                         byte_count = read(watched_fds[this_fd].fd, buf, BUFFER_SIZE);
 
                         if (byte_count == -1) {
-                            if (errno == EAGAIN) {
-                                // no data to read
-                                continue;
+                            if (errno == EAGAIN) { continue; } else {
+                                // error reading from pipe
+                                safe_perror("read", &ttyOrig );
+                                exit(EXIT_FAILURE);
                             }
-                            // error reading from pipe
-                            safe_perror("read", &ttyOrig );
-                            exit(EXIT_FAILURE);
                         } else if (byte_count == 0) {
                             // reached EOF on one of the streams but not a HUP
                             // we've read all we can this cycle, so go to the next fd in the for loop
@@ -288,6 +286,11 @@ int exec_pty(
             }
             // wait for child to exit, capture status
             waitpid(pid, &status, 0);
+
+            while ((byte_count = read(watched_fds[1].fd, buf, BUFFER_SIZE)) > 0) {
+                write_all(stdout_log_fh->_fileno, buf, byte_count);
+                write_all(STDOUT_FILENO, buf, byte_count);
+            }
 
             while ((byte_count = read(fd_child_stderr_pipe[READ_END], buf, BUFFER_SIZE)) > 0) {
                 write_all(stderr_log_fh->_fileno, buf, byte_count);
