@@ -1,5 +1,20 @@
 #include "liblcpex.h"
 
+ssize_t write_all(int fd, const void *buf, size_t count) {
+    const char *p = (const char *)buf;
+    while (count > 0) {
+        ssize_t written = write(fd, p, count);
+        if (written == -1) {
+            if (errno == EINTR || errno == EAGAIN) continue; // Retry
+            return -1; // Other errors
+        }
+        count -= written;
+        p += written;
+    }
+    return 0;
+}
+
+
 std::string prefix_generator(
         std::string command,
         bool is_shell_command,
@@ -325,8 +340,14 @@ int execute(
             waitpid(pid, &status, 0);
 
             // Drain the pipes before exiting
-            while (read_from_pipe(fd_child_stdout_pipe[READ_END], buf, BUFFER_SIZE) > 0);
-            while (read_from_pipe(fd_child_stderr_pipe[READ_END], buf, BUFFER_SIZE) > 0);
+            while ((byte_count = read(fd_child_stdout_pipe[READ_END], buf, BUFFER_SIZE)) > 0) {
+                write_all(stdout_log_fh->_fileno, buf, byte_count);
+                write_all(STDOUT_FILENO, buf, byte_count);
+            }
+            while ((byte_count = read(fd_child_stderr_pipe[READ_END], buf, BUFFER_SIZE)) > 0) {
+                write_all(stderr_log_fh->_fileno, buf, byte_count);
+                write_all(STDERR_FILENO, buf, byte_count);
+            }
 
             if WIFEXITED(status) {
                 return WEXITSTATUS(status);
