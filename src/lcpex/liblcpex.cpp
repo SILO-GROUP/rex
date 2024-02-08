@@ -311,12 +311,12 @@ int execute(
                             // write to stdout,stderr
                             if (this_fd == CHILD_PIPE_NAMES::STDOUT_READ) {
                                 // the child's stdout pipe is readable
-                                write(stdout_log_fh->_fileno, buf, byte_count);
-                                write(STDOUT_FILENO, buf, byte_count);
+                                write_all(stdout_log_fh->_fileno, buf, byte_count);
+                                write_all(STDOUT_FILENO, buf, byte_count);
                             } else if (this_fd == CHILD_PIPE_NAMES::STDERR_READ) {
                                 // the child's stderr pipe is readable
-                                write(stderr_log_fh->_fileno, buf, byte_count);
-                                write(STDERR_FILENO, buf, byte_count);
+                                write_all(stderr_log_fh->_fileno, buf, byte_count);
+                                write_all(STDERR_FILENO, buf, byte_count);
                             } else {
                                 // this should never happen
                                 perror("Logic error!");
