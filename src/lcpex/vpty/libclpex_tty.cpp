@@ -18,6 +18,19 @@ void safe_perror( const char * msg, struct termios * ttyOrig )
     exit(1);
 }
 
+ssize_t write_all(int fd, const void *buf, size_t count) {
+    const char *p = (const char *)buf;
+    while (count > 0) {
+        ssize_t written = write(fd, p, count);
+        if (written == -1) {
+            if (errno == EINTR || errno == EAGAIN) continue; // Retry
+            return -1; // Other errors
+        }
+        count -= written;
+        p += written;
+    }
+    return 0;
+}
 
 /**
  * @brief Executes the child process
@@ -212,6 +225,12 @@ int exec_pty(
             while ( ! break_out ) {
                 num_files_readable = poll(watched_fds, sizeof(watched_fds) / sizeof(watched_fds[0]), -1);
 
+                // after the poll() call, add a check to see if both pipes are closed
+                if (!(watched_fds[CHILD_PIPE_NAMES::STDOUT_READ].events & POLLIN) &&
+                    !(watched_fds[CHILD_PIPE_NAMES::STDERR_READ].events & POLLIN)) {
+                    break_out = true;
+                }
+
                 if (num_files_readable == -1) {
                     // error occurred in poll()
                     safe_perror("poll", &ttyOrig );
@@ -242,15 +261,15 @@ int exec_pty(
                             // write to stdout,stderr
                             if (this_fd == 0) {
                                 // parent stdin received, write to child pty (stdin)
-                                write(masterFd, buf, byte_count);
+                                write_all(masterFd, buf, byte_count);
                             } else if (this_fd == 1 ) {
                                 // child pty sent some stuff, write to parent stdout and log
-                                write(stdout_log_fh->_fileno, buf, byte_count);
-                                write(STDOUT_FILENO, buf, byte_count);
+                                write_all(stdout_log_fh->_fileno, buf, byte_count);
+                                write_all(STDOUT_FILENO, buf, byte_count);
                             } else if ( this_fd == 2 ){
                                 //the child's stderr pipe sent some stuff, write to parent stderr and log
-                                write(stderr_log_fh->_fileno, buf, byte_count);
-                                write(STDERR_FILENO, buf, byte_count);
+                                write_all(stderr_log_fh->_fileno, buf, byte_count);
+                                write_all(STDERR_FILENO, buf, byte_count);
                             } else {
                                 // this should never happen
                                 perror("Logic error!");
@@ -263,16 +282,33 @@ int exec_pty(
                         //break_out = true;
                         continue;
                     }
+//                    if (watched_fds[this_fd].revents & POLLHUP) {
+//                        // this pipe has hung up
+//                        close(watched_fds[this_fd].fd);
+//                        break_out = true;
+//                        break;
+//                    }
                     if (watched_fds[this_fd].revents & POLLHUP) {
                         // this pipe has hung up
-                        close(watched_fds[this_fd].fd);
-                        break_out = true;
-                        break;
+                        // don't close the file descriptor yet, there might still be data to read
+                        // instead, remove the POLLIN event to avoid getting a POLLHUP event in the next poll() call
+                        watched_fds[this_fd].events &= ~POLLIN;
                     }
                 }
             }
             // wait for child to exit, capture status
             waitpid(pid, &status, 0);
+
+            // Drain the pipes before exiting
+            while ((byte_count = read(fd_child_stdout_pipe[READ_END], buf, BUFFER_SIZE)) > 0) {
+                write_all(stdout_log_fh->_fileno, buf, byte_count);
+                write_all(STDOUT_FILENO, buf, byte_count);
+            }
+            while ((byte_count = read(fd_child_stderr_pipe[READ_END], buf, BUFFER_SIZE)) > 0) {
+                write_all(stderr_log_fh->_fileno, buf, byte_count);
+                write_all(STDERR_FILENO, buf, byte_count);
+            }
+
 
             ttyResetExit( &ttyOrig);
             if WIFEXITED(status) {
