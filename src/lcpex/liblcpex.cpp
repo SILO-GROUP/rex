@@ -281,9 +281,12 @@ int execute(
                         byte_count = read(watched_fds[this_fd].fd, buf, BUFFER_SIZE);
 
                         if (byte_count == -1) {
-                            // error reading from pipe
-                            perror("read");
-                            exit(EXIT_FAILURE);
+                            if (errno == EAGAIN) { continue; } else {
+                                // error reading from pipe
+                                perror("read");
+                                exit(EXIT_FAILURE);
+                            }
+
                         } else if (byte_count == 0) {
                             // reached EOF on one of the streams but not a HUP
                             // we've read all we can this cycle, so go to the next fd in the for loop
