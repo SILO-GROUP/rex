@@ -18,6 +18,7 @@ void safe_perror( const char * msg, struct termios * ttyOrig )
     exit(1);
 }
 
+
 /**
  * @brief Executes the child process
  *
@@ -210,13 +211,12 @@ int exec_pty(
             // loop until we've read all the data from the child process
             while ( ! break_out ) {
                 num_files_readable = poll(watched_fds, sizeof(watched_fds) / sizeof(watched_fds[0]), -1);
-
                 // after the poll() call, add a check to see if both pipes are closed
-                if (!(watched_fds[CHILD_PIPE_NAMES::STDOUT_READ].events & POLLIN) &&
-                    !(watched_fds[CHILD_PIPE_NAMES::STDERR_READ].events & POLLIN)) {
+                if (!(watched_fds[1].events & POLLIN) &&
+                    !(watched_fds[2].events & POLLIN)) {
                     break_out = true;
                 }
-
+                
                 if (num_files_readable == -1) {
                     // error occurred in poll()
                     safe_perror("poll", &ttyOrig );
@@ -268,33 +268,16 @@ int exec_pty(
                         //break_out = true;
                         continue;
                     }
-//                    if (watched_fds[this_fd].revents & POLLHUP) {
-//                        // this pipe has hung up
-//                        close(watched_fds[this_fd].fd);
-//                        break_out = true;
-//                        break;
-//                    }
                     if (watched_fds[this_fd].revents & POLLHUP) {
                         // this pipe has hung up
-                        // don't close the file descriptor yet, there might still be data to read
-                        // instead, remove the POLLIN event to avoid getting a POLLHUP event in the next poll() call
-                        watched_fds[this_fd].events &= ~POLLIN;
+                        close(watched_fds[this_fd].fd);
+                        break_out = true;
+                        break;
                     }
                 }
             }
             // wait for child to exit, capture status
             waitpid(pid, &status, 0);
-
-            // Drain the pipes before exiting
-            //while ((byte_count = read(masterFd, buf, BUFFER_SIZE)) > 0) {
-            //    write_all(stdout_log_fh->_fileno, buf, byte_count);
-            //    write_all(STDOUT_FILENO, buf, byte_count);
-            //}
-            while ((byte_count = read(fd_child_stderr_pipe[READ_END], buf, BUFFER_SIZE)) > 0) {
-                write_all(stderr_log_fh->_fileno, buf, byte_count);
-                write_all(STDERR_FILENO, buf, byte_count);
-            }
-
 
             ttyResetExit( &ttyOrig);
             if WIFEXITED(status) {
@@ -305,4 +288,3 @@ int exec_pty(
         }
     }
 }
-
