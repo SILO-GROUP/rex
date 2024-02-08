@@ -16,6 +16,6 @@ enum CHILD_PIPE_NAMES {
 
 #define BUFFER_SIZE 1024
 
-
+ssize_t write_all(int fd, const void *buf, size_t count);
 
 #endif //LCPEX_HELPERS_H
