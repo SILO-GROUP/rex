@@ -72,7 +72,7 @@ void Conf::set_object_s(std::string keyname, std::string & object_member, std::s
     if ( this->get_string(jval_s, keyname) != 0) {
         throw ConfigLoadException( "'" + keyname + "' string is not set in the config file supplied: " + filename );
     } else {
-        interpolate(jval_s);
+        //interpolate(jval_s);
         object_member = jval_s;
     }
     this->slog.log_task( E_DEBUG, "SET_PROPERTY", "'" + keyname + "': " + object_member );
@@ -101,7 +101,7 @@ void Conf::set_object_s_derivedpath(std::string keyname, std::string & object_me
     if ( this->get_string(jval_s, keyname) != 0) {
         throw ConfigLoadException( "'" + keyname + "' string is not set in the config file supplied: " + filename );
     } else {
-        interpolate(jval_s);
+        //interpolate(jval_s);
         object_member = prepend_project_root( jval_s );
     }
     this->slog.log_task( E_DEBUG, "SET_PROPERTY", "'" + keyname + "': " + object_member );
@@ -243,8 +243,6 @@ Shell Conf::get_shell_by_name( std::string name ) {
     throw ConfigLoadException("The shell specified ('" + name + "') is not defined in the shell definitions file.");
 }
 
-
-
 /**
  * @class Conf
  * @brief Loads the configuration for the application
@@ -262,9 +260,9 @@ Shell Conf::get_shell_by_name( std::string name ) {
 Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(LOG_LEVEL, "_conf_" )
 {
     this->LOG_LEVEL = LOG_LEVEL;
-    this->slog.log_task( E_DEBUG, "LOAD", "Loading configuration file: " + filename );
 
     interpolate( filename );
+    this->slog.log_task( E_DEBUG, "LOAD", "Loading configuration file: " + filename );
 
     try {
         // load the test file.
@@ -273,6 +271,7 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
         this->slog.log( E_FATAL, "Unable to load configuration file: '" + filename + "'. Error: " + e.what());
         throw ConfigLoadException("Parsing error in configuration file.");
     }
+
     Json::Value jbuff;
 
     if ( this->get_serialized( jbuff, "config" ) != 0) {
@@ -283,26 +282,27 @@ Conf::Conf(std::string filename, int LOG_LEVEL ): JSON_Loader(LOG_LEVEL ), slog(
         this->json_root = jbuff;
     }
 
-    set_object_s(   "project_root",     this->project_root,           filename );
-    interpolate( project_root );
+    set_object_s( "project_root",     this->project_root,           filename );
+    interpolate( this->project_root );
+
     // convert to an absolute path after all the interpolation is done.
     this->project_root = get_absolute_path( this->project_root );
 
-    set_object_s(   "logs_path",        this->logs_path,              filename );
+    set_object_s( "logs_path",        this->logs_path,              filename );
     interpolate( this->logs_path );
 
     // all other paths are relative to project_root
-    set_object_s_derivedpath(   "units_path",       this->units_path,             filename );
+    set_object_s_derivedpath( "units_path",       this->units_path,             filename );
     interpolate( this->units_path );
 
-    set_object_s_derivedpath(   "shells_path",      this->shell_definitions_path, filename );
+    set_object_s_derivedpath( "shells_path",      this->shell_definitions_path, filename );
     interpolate( this->shell_definitions_path );
 
     // ensure these paths exists, with exception to the logs_path, which will be created at runtime
     this->slog.log_task( E_DEBUG, "SANITY_CHECKS", "Checking for sanity..." );
-    checkPathExists(            "project_root",     this->project_root );
-    checkPathExists(            "units_path",       this->units_path );
-    checkPathExists(            "shells_path",      this->shell_definitions_path );
+    checkPathExists( "project_root",     this->project_root );
+    checkPathExists( "units_path",       this->units_path );
+    checkPathExists( "shells_path",      this->shell_definitions_path );
 
     // shells are scoped beyond plan so they need to be considered part of config
     load_shells();

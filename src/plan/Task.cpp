@@ -354,9 +354,9 @@ void Task::execute( Conf * configuration )
     std::string environment_file = this->definition.get_environment_file();
     std::string logs_root = configuration->get_logs_path();
 
+    interpolate(task_name);
     this->slog.log_task( E_DEBUG, task_name, "Using unit definition: \"" + task_name + "\"." );
 
-    interpolate(task_name);
     interpolate(command);
     interpolate(shell_name);
     interpolate(user);

@@ -247,6 +247,7 @@ int exec_pty(
                         } else {
                             // byte count was sane
                             // write to stdout,stderr
+
                             if (this_fd == 0) {
                                 // parent stdin received, write to child pty (stdin)
                                 write_all(masterFd, buf, byte_count);
