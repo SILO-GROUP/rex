@@ -101,10 +101,22 @@ std::string get_8601()
  *
  * @param text The input text to be processed
  */
+//void interpolate( std::string & text )
+//{
+//    static std::regex env1( "\\$\\{([^}]+)\\}" );
+//    static std::regex env2( "\\$([^/]+)" ); // matches $VAR_NAME until a / is found
+//    std::smatch match;
+//    while ( std::regex_search( text, match, env1 ) || std::regex_search( text, match, env2 ) )
+//    {
+//        const char * s = getenv( match[1].str().c_str() );
+//        const std::string var( s == NULL ? "" : s );
+//        text.replace( match[0].first, match[0].second, var );
+//    }
+//}
 void interpolate( std::string & text )
 {
-    static std::regex env1( "\\$\\{([^}]+)\\}" );
-    static std::regex env2( "\\$([^/]+)" ); // matches $VAR_NAME until a / is found
+    std::regex env1( "\\$\\{([^}]+)\\}" );
+    std::regex env2( "\\$([^/]+)" ); // matches $VAR_NAME until a / is found
     std::smatch match;
     while ( std::regex_search( text, match, env1 ) || std::regex_search( text, match, env2 ) )
     {

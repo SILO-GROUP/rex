@@ -108,7 +108,7 @@ int exec_pty(
     // before we fork the process, so that the child process will inherit the environment
     // from the parent process
     if ( environment_supplied ) {
-        clearenv();
+        //clearenv();
     }
 
     // turn our command string into something execvp can consume

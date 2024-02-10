@@ -321,11 +321,6 @@ int execute(
                         close(watched_fds[this_fd].fd);
                         break_out = true;
                     }
-//                    if (watched_fds[this_fd].revents & POLLHUP) {
-//                        // this pipe has hung up
-//                        close(watched_fds[this_fd].fd);
-//                        break_out = true;
-//                    }
                     if (watched_fds[this_fd].revents & POLLHUP) {
                         // this pipe has hung up
                         // don't close the file descriptor yet, there might still be data to read
