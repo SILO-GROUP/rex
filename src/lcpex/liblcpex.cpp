@@ -181,7 +181,8 @@ int execute(
     // before we fork the process, so that the child process will inherit the environment
     // from the parent process
     if ( environment_supplied ) {
-        clearenv();
+        // this breaks reuse of env variables in between executions
+        //clearenv();
     }
 
     // create the pipes for the child process to write and read from using its stdin/stdout/stderr
