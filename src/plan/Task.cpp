@@ -470,7 +470,9 @@ void Task::execute( Conf * configuration )
             shell_definition.execution_arg,
             supply_environment,
             shell_definition.source_cmd,
-            environment_file
+            environment_file,
+            task_name,
+            logs_root
     );
 
     // **********************************************
@@ -539,7 +541,9 @@ void Task::execute( Conf * configuration )
                     shell_definition.execution_arg,
                     supply_environment,
                     shell_definition.source_cmd,
-                    environment_file
+                    environment_file,
+                    task_name,
+                    logs_root
             );
 
             // **********************************************
@@ -591,7 +595,9 @@ void Task::execute( Conf * configuration )
                         shell_definition.execution_arg,
                         supply_environment,
                         shell_definition.source_cmd,
-                        environment_file
+                        environment_file,
+                        task_name,
+                        logs_root
                 );
 
                 // **********************************************

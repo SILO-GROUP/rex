@@ -51,7 +51,8 @@ class Logger {
     void log_task(int LOG_LEVEL, std::string task_name, std::string msg);
     void log_to_json_file(const std::string& log_level, const std::string& message,
                            const std::string& user, const std::string& group,
-                           const std::string& command, bool log_to_console = true);
+                           const std::string& command, const std::string& task_context = "",
+                           const std::string& log_directory = "", bool log_to_console = true);
     // Helper methods
     std::string get_current_timestamp();
     std::string get_user_name();

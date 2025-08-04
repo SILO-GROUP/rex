@@ -44,7 +44,9 @@ int execute(
         bool context_override,
         std::string context_user,
         std::string context_group,
-        bool environment_supplied
+        bool environment_supplied,
+        std::string task_context = "",
+        std::string log_directory = ""
 );
 
 
@@ -87,7 +89,9 @@ int lcpex(
         std::string shell_execution_arg,
         bool supply_environment,
         std::string shell_source_subcommand,
-        std::string environment_file_path
+        std::string environment_file_path,
+        std::string task_context = "",
+        std::string log_directory = ""
 );
 
 /**

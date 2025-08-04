@@ -12,6 +12,9 @@ static Logger tty_logger(E_INFO, "lcpex_tty");
 std::string tty_user = tty_logger.get_user_name();
 std::string tty_group = tty_logger.get_group_name();
 
+// Global variables for signal handler context
+static std::string g_tty_task_context = "";
+static std::string g_tty_log_directory = "";
 
 void tty_signal_handler(int sig) {
     std::string command = "tty_signal_handler";        // Command context
@@ -19,19 +22,23 @@ void tty_signal_handler(int sig) {
     // Log the signal handling
     if (sig == SIGCHLD) {
         // Log that SIGCHLD was received, but leave the exit status to the parent
-        tty_logger.log_to_json_file("E_INFO", "SIGCHLD received. A child process ended.", tty_user, tty_group, command);
+        tty_logger.log_to_json_file("E_INFO", "SIGCHLD received. A child process ended.", tty_user, tty_group, command, g_tty_task_context, g_tty_log_directory);
     } else if (sig == SIGINT) {
-        tty_logger.log_to_json_file("E_FATAL", "SIGINT received. Gracefully terminating...", tty_user, tty_group, command);
+        tty_logger.log_to_json_file("E_FATAL", "SIGINT received. Gracefully terminating...", tty_user, tty_group, command, g_tty_task_context, g_tty_log_directory);
     } else if (sig == SIGTERM) {
-        tty_logger.log_to_json_file("E_FATAL", "SIGTERM received. Terminating...", tty_user, tty_group, command);
+        tty_logger.log_to_json_file("E_FATAL", "SIGTERM received. Terminating...", tty_user, tty_group, command, g_tty_task_context, g_tty_log_directory);
     } else if (sig == SIGSEGV) {
-        tty_logger.log_to_json_file("E_FATAL", "SIGSEGV received. Possible segmentation fault.", tty_user, tty_group, command);
+        tty_logger.log_to_json_file("E_FATAL", "SIGSEGV received. Possible segmentation fault.", tty_user, tty_group, command, g_tty_task_context, g_tty_log_directory);
     } else {
-        tty_logger.log_to_json_file("E_FATAL", "Unhandled signal received", tty_user, tty_group, command);
+        tty_logger.log_to_json_file("E_FATAL", "Unhandled signal received", tty_user, tty_group, command, g_tty_task_context, g_tty_log_directory);
     }
 }
 // Setup signal registrations
-void setup_tty_signal_handlers() {
+void setup_tty_signal_handlers(std::string task_context = "", std::string log_directory = "") {
+    // Set global variables for signal handler context
+    g_tty_task_context = task_context;
+    g_tty_log_directory = log_directory;
+    
     struct sigaction sa;
     sa.sa_handler = tty_signal_handler; // <-- handler function
     sigemptyset(&sa.sa_mask);
@@ -41,25 +48,25 @@ void setup_tty_signal_handlers() {
     // SIGCHLD
     if (sigaction(SIGCHLD, &sa, nullptr) == -1) {
         std::string error_message = "Failed to set SIGCHLD handler: " + std::string(strerror(errno));
-        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, command); // Log to JSON file
+        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, command, task_context, log_directory); // Log to JSON file
     }
 
     // SIGINT
     if (sigaction(SIGINT, &sa, nullptr) == -1) {
         std::string error_message = "Failed to set SIGINT handler: " + std::string(strerror(errno));
-        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, command); // Log to JSON file
+        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, command, task_context, log_directory); // Log to JSON file
     }
 
     // SIGTERM
     if (sigaction(SIGTERM, &sa, nullptr) == -1) {
         std::string error_message = "Failed to set SIGTERM handler: " + std::string(strerror(errno));
-        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, command); // Log to JSON file
+        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, command, task_context, log_directory); // Log to JSON file
     }
 
     // SIGSEGV
     if (sigaction(SIGSEGV, &sa, nullptr) == -1) {
         std::string error_message = "Failed to set SIGSEGV handler: " + std::string(strerror(errno));
-        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, command); // Log to JSON file
+        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, command, task_context, log_directory); // Log to JSON file
     }
 }
 
@@ -75,21 +82,21 @@ void setup_tty_signal_handlers() {
  * Finally, the function exits the program with exit code 1.
  */
 
-void set_tty_cloexec_flag(int fd)
+void set_tty_cloexec_flag(int fd, std::string task_context = "", std::string log_directory = "")
 {
     std::string command = "set_tty_cloexec_flag";
     if (fcntl(fd, F_SETFD, FD_CLOEXEC) == -1)
     {
         std::string error_message = "fcntl(F_SETFD) failed for fd " + std::to_string(fd);
-        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, command);
+        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, command, task_context, log_directory);
         throw std::runtime_error("fcntl(F_SETFD) failed for fd " + std::to_string(fd));
     }
 }
 
-void safe_perror( const char * msg, struct termios * ttyOrig )
+void safe_perror( const char * msg, struct termios * ttyOrig, std::string task_context = "", std::string log_directory = "" )
 {
     std::string command = "safe_perror";  // Command context
-    tty_logger.log_to_json_file("E_FATAL", msg, tty_user, tty_group, command);  // Log the message before exiting
+    tty_logger.log_to_json_file("E_FATAL", msg, tty_user, tty_group, command, task_context, log_directory);  // Log the message before exiting
     std::cerr << msg << std::endl;
     ttyResetExit( ttyOrig );
     throw std::runtime_error(std::string("TTY Error: ") + msg);
@@ -118,7 +125,7 @@ void safe_perror( const char * msg, struct termios * ttyOrig )
  * Finally, the function executes the command specified in `processed_command` using `execvp()`.
  * If the execution of `execvp()` fails, the function calls `safe_perror()` to print a message and exit the program.
  */
-void run_child_process( int fd_child_stderr_pipe[2], char * processed_command[], struct termios * ttyOrig, bool context_override, std::string context_user, std::string context_group )
+void run_child_process( int fd_child_stderr_pipe[2], char * processed_command[], struct termios * ttyOrig, bool context_override, std::string context_user, std::string context_group, std::string task_context = "", std::string log_directory = "" )
 {
     std::string command = "run_child_process_tty";  // Command context
     // redirect stderr to the write end of the stderr pipe
@@ -138,27 +145,27 @@ void run_child_process( int fd_child_stderr_pipe[2], char * processed_command[],
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_NO_SUCH_USER:
                 tty_logger.log(E_FATAL, "Aborting: context user not found: " + context_user);
-                tty_logger.log_to_json_file("E_FATAL", "Context user not found: " + context_user, tty_user, tty_group, command);
+                tty_logger.log_to_json_file("E_FATAL", "Context user not found: " + context_user, tty_user, tty_group, command, task_context, log_directory);
                 _exit(1);
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_NO_SUCH_GROUP:
                 tty_logger.log(E_FATAL, "Aborting: context group not found: " + context_group);
-                tty_logger.log_to_json_file("E_FATAL", "Context group not found: " + context_group, tty_user, tty_group, command);
+                tty_logger.log_to_json_file("E_FATAL", "Context group not found: " + context_group, tty_user, tty_group, command, task_context, log_directory);
                 _exit(1);
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_SETGID_FAILED:
                 tty_logger.log(E_FATAL, "Aborting: Setting GID failed: " + context_user + "/" + context_group);
-                tty_logger.log_to_json_file("E_FATAL", "Setting GID failed for: " + context_user + "/" + context_group, tty_user, tty_group, command);
+                tty_logger.log_to_json_file("E_FATAL", "Setting GID failed for: " + context_user + "/" + context_group, tty_user, tty_group, command, task_context, log_directory);
                 _exit(1);
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_SETUID_FAILED:
                 tty_logger.log(E_FATAL, "Aborting: Setting UID failed: " + context_user + "/" + context_group);
-                tty_logger.log_to_json_file("E_FATAL", "Setting UID failed for: " + context_user + "/" + context_group, tty_user, tty_group, command);
+                tty_logger.log_to_json_file("E_FATAL", "Setting UID failed for: " + context_user + "/" + context_group, tty_user, tty_group, command, task_context, log_directory);
                 _exit(1);
                 break;
             default:
                 tty_logger.log(E_FATAL, "Aborting: Unknown error while setting identity context.");
-                tty_logger.log_to_json_file("E_FATAL", "Unknown error while setting identity context.", tty_user, tty_group, command);
+                tty_logger.log_to_json_file("E_FATAL", "Unknown error while setting identity context.", tty_user, tty_group, command, task_context, log_directory);
                 _exit(1);
                 break;
         }
@@ -167,7 +174,7 @@ void run_child_process( int fd_child_stderr_pipe[2], char * processed_command[],
     // execute the dang command, print to stdout, stderr (of parent), and dump to file for each!!!!
     // (and capture exit code in parent)
     int exit_code = execvp( processed_command[0], processed_command );
-    tty_logger.log_to_json_file("E_FATAL", "failed on execvp in child", tty_user, tty_group, command);
+    tty_logger.log_to_json_file("E_FATAL", "failed on execvp in child", tty_user, tty_group, command, task_context, log_directory);
     tty_logger.log(E_FATAL, "failed on execvp in child");
     _Exit(exit_code);
 
@@ -184,13 +191,15 @@ int exec_pty(
         bool context_override,
         std::string context_user,
         std::string context_group,
-        bool environment_supplied
+        bool environment_supplied,
+        std::string task_context,
+        std::string log_directory
 ) {
     try {
         std::string exec_command = "exec_pty";  // Command context
-        tty_logger.log_to_json_file("E_INFO", "TTY LAUNCHER: " + command, tty_user, tty_group, exec_command);
+        tty_logger.log_to_json_file("E_INFO", "TTY LAUNCHER: " + command, tty_user, tty_group, exec_command, task_context, log_directory);
         // Setup signal handlers
-        setup_tty_signal_handlers();
+        setup_tty_signal_handlers(task_context, log_directory);
     // initialize the terminal settings obj
     struct termios ttyOrig;
 
@@ -205,12 +214,12 @@ int exec_pty(
     char ** processed_command = expand_env( command );
 
     if ( stdout_log_fh == NULL ) {
-        tty_logger.log_to_json_file("E_FATAL", "Error opening STDOUT log file. Aborting.", tty_user, tty_group, exec_command);
+        tty_logger.log_to_json_file("E_FATAL", "Error opening STDOUT log file. Aborting.", tty_user, tty_group, exec_command, task_context, log_directory);
         throw std::runtime_error("Error opening STDOUT log file");
     }
 
     if ( stderr_log_fh == NULL ) {
-        tty_logger.log_to_json_file("E_FATAL", "Error opening STDERR log file. Aborting.", tty_user, tty_group, exec_command);
+        tty_logger.log_to_json_file("E_FATAL", "Error opening STDERR log file. Aborting.", tty_user, tty_group, exec_command, task_context, log_directory);
         throw std::runtime_error("Error opening STDERR log file");
     }
 
@@ -220,12 +229,12 @@ int exec_pty(
 
     if ( pipe( fd_child_stderr_pipe ) == -1 ) {
         std::string error_message = "Failed to create stderr pipe: " + std::string(strerror(errno));
-        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, exec_command);
+        tty_logger.log_to_json_file("E_FATAL", error_message, tty_user, tty_group, exec_command, task_context, log_directory);
         throw std::runtime_error("Failed to create stderr pipe");
     }
         // using O_CLOEXEC to ensure that the child process closes the file descriptors
-        set_tty_cloexec_flag( fd_child_stderr_pipe[READ_END] );
-        set_tty_cloexec_flag( fd_child_stderr_pipe[WRITE_END] );
+        set_tty_cloexec_flag( fd_child_stderr_pipe[READ_END], task_context, log_directory );
+        set_tty_cloexec_flag( fd_child_stderr_pipe[WRITE_END], task_context, log_directory );
     // status result basket for the parent process to capture the child's exit status
     int status = 616;
 
@@ -236,14 +245,14 @@ int exec_pty(
 
     /* Retrieve the attributes of terminal on which we are started */
     if (tcgetattr(STDIN_FILENO, &ttyOrig) == -1){
-        tty_logger.log_to_json_file("E_FATAL", "tcgetattr failed", tty_user, tty_group, exec_command);
+        tty_logger.log_to_json_file("E_FATAL", "tcgetattr failed", tty_user, tty_group, exec_command, task_context, log_directory);
         close(fd_child_stderr_pipe[READ_END]);      // Pipe Leaks on Error Paths
         close(fd_child_stderr_pipe[WRITE_END]);     // Pipe Leaks on Error Paths
         throw std::runtime_error("tcgetattr failed");
 }
     if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ws) < 0)
 {
-        tty_logger.log_to_json_file("E_FATAL", "ioctl-TIOCGWINSZ failed", tty_user, tty_group, exec_command);
+        tty_logger.log_to_json_file("E_FATAL", "ioctl-TIOCGWINSZ failed", tty_user, tty_group, exec_command, task_context, log_directory);
         close(fd_child_stderr_pipe[READ_END]);      // Pipe Leaks on Error Paths
         close(fd_child_stderr_pipe[WRITE_END]);     // Pipe Leaks on Error Paths
         throw std::runtime_error("ioctl-TIOCGWINSZ failed");
@@ -254,7 +263,7 @@ int exec_pty(
         {
             // fork failed
             tty_logger.log(E_FATAL, "ptyfork failure: " + std::string(strerror(errno)));
-            tty_logger.log_to_json_file("E_FATAL", "ptyfork failure: " + std::string(strerror(errno)), tty_user, tty_group, exec_command);
+            tty_logger.log_to_json_file("E_FATAL", "ptyfork failure: " + std::string(strerror(errno)), tty_user, tty_group, exec_command, task_context, log_directory);
             close(fd_child_stderr_pipe[READ_END]);      // Pipe Leaks on Error Paths
             close(fd_child_stderr_pipe[WRITE_END]);     // Pipe Leaks on Error Paths
             throw std::runtime_error("ptyfork() failed: " + std::string(strerror(errno)));
@@ -262,7 +271,7 @@ int exec_pty(
         case 0:
         {
             // child process
-            run_child_process( fd_child_stderr_pipe, processed_command, &ttyOrig, context_override, context_user, context_group );
+            run_child_process( fd_child_stderr_pipe, processed_command, &ttyOrig, context_override, context_user, context_group, task_context, log_directory );
         }
         default:
         {
@@ -320,7 +329,7 @@ int exec_pty(
                 if (num_files_readable == -1) {
                     // error occurred in poll()
                     tty_logger.log(E_FATAL, "poll() failed: " + std::string(strerror(errno)));
-                    tty_logger.log_to_json_file("E_FATAL", "poll() failed", tty_user, tty_group, exec_command);
+                    tty_logger.log_to_json_file("E_FATAL", "poll() failed", tty_user, tty_group, exec_command, task_context, log_directory);
                     ttyResetExit( &ttyOrig);
                     throw std::runtime_error("poll() failed");
                 }
@@ -340,7 +349,7 @@ int exec_pty(
                             if (errno == EAGAIN) { continue; } else {
                                 // error reading from pipe
                                 tty_logger.log(E_FATAL, "Error while reading: " + std::string(strerror(errno)));
-                                tty_logger.log_to_json_file("E_FATAL", "Error while reading from pipe", tty_user, tty_group, exec_command);
+                                tty_logger.log_to_json_file("E_FATAL", "Error while reading from pipe", tty_user, tty_group, exec_command, task_context, log_directory);
                                 ttyResetExit( &ttyOrig);
                                 stderr_read_guard.reset(-1);
                                 master_fd_guard.reset(-1);
@@ -415,7 +424,7 @@ int exec_pty(
                 if (WIFEXITED(status)) {
                     int exit_code = WEXITSTATUS(status);
                     tty_logger.log(E_INFO, "Child exited with status " + std::to_string(exit_code));
-                    tty_logger.log_to_json_file("E_INFO", "Child exited with status " + std::to_string(exit_code), tty_user, tty_group, exec_command);
+                    tty_logger.log_to_json_file("E_INFO", "Child exited with status " + std::to_string(exit_code), tty_user, tty_group, exec_command, task_context, log_directory);
                     ttyResetExit( &ttyOrig);
                     return exit_code;
                 }
@@ -423,7 +432,7 @@ int exec_pty(
                 else if (WIFSIGNALED(status)) {
                     int signal_number = WTERMSIG(status);
                     tty_logger.log(E_FATAL, "Process terminated by signal: " + std::to_string(signal_number));
-                    tty_logger.log_to_json_file("E_FATAL", "Process terminated by signal: " + std::to_string(signal_number), tty_user, tty_group, exec_command);
+                    tty_logger.log_to_json_file("E_FATAL", "Process terminated by signal: " + std::to_string(signal_number), tty_user, tty_group, exec_command, task_context, log_directory);
                     // Reset signal handler to default before exiting
                     signal(signal_number, SIG_DFL);
                     ttyResetExit( &ttyOrig);
@@ -432,7 +441,7 @@ int exec_pty(
                 // Handle unexpected exit conditions
                 else {
                     tty_logger.log(E_WARN, "Unknown child exit condition.");
-                    tty_logger.log_to_json_file("E_WARN", "Unknown child exit condition", tty_user, tty_group, exec_command);
+                    tty_logger.log_to_json_file("E_WARN", "Unknown child exit condition", tty_user, tty_group, exec_command, task_context, log_directory);
                 }
             }
 

@@ -43,7 +43,9 @@ int exec_pty(
         bool context_override,
         std::string context_user,
         std::string context_group,
-        bool environment_supplied
+        bool environment_supplied,
+        std::string task_context = "",
+        std::string log_directory = ""
 );
 
 

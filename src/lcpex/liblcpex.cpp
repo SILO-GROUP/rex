@@ -13,6 +13,10 @@ static Logger logger(E_INFO, "lcpex");
 std::string user = logger.get_user_name();
 std::string group = logger.get_group_name();
 
+// Global variables for signal handler context
+static std::string g_task_context = "";
+static std::string g_log_directory = "";
+
 void signal_handler(int sig) {
     std::string command = "signal_handler";        // Command context
 
@@ -20,20 +24,24 @@ void signal_handler(int sig) {
     // Log the signal handling
     if (sig == SIGCHLD) {
         // Log that SIGCHLD was received, but leave the exit status to the parent
-        logger.log_to_json_file("E_INFO", "SIGCHLD received. A child process ended.", user, group, command);
+        logger.log_to_json_file("E_INFO", "SIGCHLD received. A child process ended.", user, group, command, g_task_context, g_log_directory);
     } else if (sig == SIGINT) {
-        logger.log_to_json_file("E_FATAL", "SIGINT received. Gracefully terminating...", user, group, command);
+        logger.log_to_json_file("E_FATAL", "SIGINT received. Gracefully terminating...", user, group, command, g_task_context, g_log_directory);
     } else if (sig == SIGTERM) {
-        logger.log_to_json_file("E_FATAL", "SIGTERM received. Terminating...", user, group, command);
+        logger.log_to_json_file("E_FATAL", "SIGTERM received. Terminating...", user, group, command, g_task_context, g_log_directory);
     } else if (sig == SIGSEGV) {
-        logger.log_to_json_file("E_FATAL", "SIGSEGV received. Possible segmentation fault.", user, group, command);
+        logger.log_to_json_file("E_FATAL", "SIGSEGV received. Possible segmentation fault.", user, group, command, g_task_context, g_log_directory);
     } else {
-        logger.log_to_json_file("E_FATAL", "Unhandled signal received", user, group, command);
+        logger.log_to_json_file("E_FATAL", "Unhandled signal received", user, group, command, g_task_context, g_log_directory);
     }
 }
 
 // Setup signal registrations
-void setup_signal_handlers() {
+void setup_signal_handlers(std::string task_context = "", std::string log_directory = "") {
+    // Set global variables for signal handler context
+    g_task_context = task_context;
+    g_log_directory = log_directory;
+    
     struct sigaction sa;
     sa.sa_handler = signal_handler; // <-- handler function
     sigemptyset(&sa.sa_mask);
@@ -43,25 +51,25 @@ void setup_signal_handlers() {
     // SIGCHLD
     if (sigaction(SIGCHLD, &sa, nullptr) == -1) {
         std::string error_message = "Failed to set SIGCHLD handler: " + std::string(strerror(errno));
-        logger.log_to_json_file("E_FATAL", error_message, user, group, command); // Log to JSON file
+        logger.log_to_json_file("E_FATAL", error_message, user, group, command, task_context, log_directory); // Log to JSON file
     }
 
     // SIGINT
     if (sigaction(SIGINT, &sa, nullptr) == -1) {
         std::string error_message = "Failed to set SIGINT handler: " + std::string(strerror(errno));
-        logger.log_to_json_file("E_FATAL", error_message, user, group, command); // Log to JSON file
+        logger.log_to_json_file("E_FATAL", error_message, user, group, command, task_context, log_directory); // Log to JSON file
     }
 
     // SIGTERM
     if (sigaction(SIGTERM, &sa, nullptr) == -1) {
         std::string error_message = "Failed to set SIGTERM handler: " + std::string(strerror(errno));
-        logger.log_to_json_file("E_FATAL", error_message, user, group, command); // Log to JSON file
+        logger.log_to_json_file("E_FATAL", error_message, user, group, command, task_context, log_directory); // Log to JSON file
     }
 
     // SIGSEGV
     if (sigaction(SIGSEGV, &sa, nullptr) == -1) {
         std::string error_message = "Failed to set SIGSEGV handler: " + std::string(strerror(errno));
-        logger.log_to_json_file("E_FATAL", error_message, user, group, command); // Log to JSON file
+        logger.log_to_json_file("E_FATAL", error_message, user, group, command, task_context, log_directory); // Log to JSON file
     }
 }
 
@@ -72,7 +80,9 @@ std::string prefix_generator(
         std::string shell_execution_arg,
         bool supply_environment,
         std::string shell_source_subcommand,
-        std::string environment_file_path
+        std::string environment_file_path,
+        std::string task_context,
+        std::string log_directory
 ) {
     std::string prefix = "";
     if ( is_shell_command ) {
@@ -103,7 +113,7 @@ std::string prefix_generator(
     }
 
     // Log the message to JSON file
-    logger.log_to_json_file("E_INFO", "LAUNCHER: " + prefix, user, group, command);
+    logger.log_to_json_file("E_INFO", "LAUNCHER: " + prefix, user, group, command, task_context, log_directory);
     //logger.log(E_INFO, "LAUNCHER: " + prefix);
     return prefix;
 
@@ -123,7 +133,9 @@ int lcpex(
         std::string shell_execution_arg,
         bool supply_environment,
         std::string shell_source_subcommand,
-        std::string environment_file_path
+        std::string environment_file_path,
+        std::string task_context,
+        std::string log_directory
 ) {
 
     // generate the prefix
@@ -134,19 +146,21 @@ int lcpex(
             shell_execution_arg,
             supply_environment,
             shell_source_subcommand,
-            environment_file_path
+            environment_file_path,
+            task_context,
+            log_directory
     );
     command = prefix;
-    setup_signal_handlers();
+    setup_signal_handlers(task_context, log_directory);
 
     // if we are forcing a pty, then we will use the vpty library
     if( force_pty )
     {
-        return exec_pty( command, stdout_log_fh, stderr_log_fh, context_override, context_user, context_group, supply_environment );
+        return exec_pty( command, stdout_log_fh, stderr_log_fh, context_override, context_user, context_group, supply_environment, task_context, log_directory );
     }
 
     // otherwise, we will use the execute function
-    return execute( command, stdout_log_fh, stderr_log_fh, context_override, context_user, context_group, supply_environment );
+    return execute( command, stdout_log_fh, stderr_log_fh, context_override, context_user, context_group, supply_environment, task_context, log_directory );
 }
 
 /**
@@ -158,14 +172,14 @@ int lcpex(
  *
  * @param fd The file descriptor for which to set the close-on-exec flag
  */
-void set_cloexec_flag(int fd)
+void set_cloexec_flag(int fd, std::string task_context = "", std::string log_directory = "")
 {
     std::string command = "set_cloexec_flag";
     if (fcntl(fd, F_SETFD, FD_CLOEXEC) == -1)
     {
         std::string error_message = "fcntl(F_SETFD) failed for fd " + std::to_string(fd);
 
-        logger.log_to_json_file("E_FATAL", error_message, user, group, command);
+        logger.log_to_json_file("E_FATAL", error_message, user, group, command, task_context, log_directory);
 
         throw std::runtime_error("fcntl(F_SETFD) failed for fd " + std::to_string(fd));
     }
@@ -195,7 +209,7 @@ void set_cloexec_flag(int fd)
  * Finally, the child process calls execvp() with the processed_command to run the shell command.
  * If the execvp() function fails, an error message is displayed.
  */
-void run_child_process(bool context_override, const char* context_user, const char* context_group, char* processed_command[], int fd_child_stdout_pipe[], int fd_child_stderr_pipe[]) {
+void run_child_process(bool context_override, const char* context_user, const char* context_group, char* processed_command[], int fd_child_stdout_pipe[], int fd_child_stderr_pipe[], std::string task_context = "", std::string log_directory = "") {
     while ((dup2(fd_child_stdout_pipe[WRITE_END], STDOUT_FILENO) == -1) && (errno == EINTR)) {}
     while ((dup2(fd_child_stderr_pipe[WRITE_END], STDERR_FILENO) == -1) && (errno == EINTR)) {}
     // Close unused pipe ends to avoid leaks
@@ -213,33 +227,33 @@ void run_child_process(bool context_override, const char* context_user, const ch
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_NO_SUCH_USER:
                 logger.log(E_FATAL, "Aborting: context user not found: " + std::string(context_user));
-                logger.log_to_json_file("E_FATAL", "Aborting: context user not found: " + std::string(context_user), user, group, command);
+                logger.log_to_json_file("E_FATAL", "Aborting: context user not found: " + std::string(context_user), user, group, command, task_context, log_directory);
                 _exit(1);
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_NO_SUCH_GROUP:
                 logger.log(E_FATAL, "Aborting: context group not found: " + std::string(context_group));
-                logger.log_to_json_file("E_FATAL", "Aborting: context group not found: " + std::string(context_group), user, group, command);
+                logger.log_to_json_file("E_FATAL", "Aborting: context group not found: " + std::string(context_group), user, group, command, task_context, log_directory);
                 _exit(1);
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_SETGID_FAILED:
                 logger.log(E_FATAL, "Aborting: Setting GID failed: " + std::string(context_user) + "/" + std::string(context_group));
-                logger.log_to_json_file("E_FATAL", "Aborting: Setting GID failed: " + std::string(context_user) + "/" + std::string(context_group), user, group, command);
+                logger.log_to_json_file("E_FATAL", "Aborting: Setting GID failed: " + std::string(context_user) + "/" + std::string(context_group), user, group, command, task_context, log_directory);
                 _exit(1);
                 break;
             case IDENTITY_CONTEXT_ERRORS::ERROR_SETUID_FAILED:
                 logger.log(E_FATAL, "Aborting: Setting UID failed: " + std::string(context_user) + "/" + std::string(context_group));
-                logger.log_to_json_file("E_FATAL", "Aborting: Setting UID failed: " + std::string(context_user) + "/" + std::string(context_group), user, group, command);
+                logger.log_to_json_file("E_FATAL", "Aborting: Setting UID failed: " + std::string(context_user) + "/" + std::string(context_group), user, group, command, task_context, log_directory);
                 _exit(1);
                 break;
             default:
                 logger.log(E_FATAL, "Aborting: Unknown error while setting identity context.");
-                logger.log_to_json_file("E_FATAL", "Aborting: Unknown error while setting identity context.", user, group, command);
+                logger.log_to_json_file("E_FATAL", "Aborting: Unknown error while setting identity context.", user, group, command, task_context, log_directory);
                 _exit(1);
                 break;
         }
     }
     int exit_code = execvp(processed_command[0], processed_command);
-    logger.log_to_json_file("E_FATAL", "failed on execvp in child", user, group, command);
+    logger.log_to_json_file("E_FATAL", "failed on execvp in child", user, group, command, task_context, log_directory);
     logger.log(E_FATAL, "failed on execvp in child");
     _Exit(exit_code);
 }
@@ -251,7 +265,9 @@ int execute(
         bool context_override,
         std::string context_user,
         std::string context_group,
-        bool environment_supplied
+        bool environment_supplied,
+        std::string task_context,
+        std::string log_directory
 ){
 
     try {
@@ -286,10 +302,10 @@ int execute(
     }
 
     // using O_CLOEXEC to ensure that the child process closes the file descriptors
-    set_cloexec_flag( fd_child_stdout_pipe[READ_END] );
-    set_cloexec_flag( fd_child_stderr_pipe[READ_END] );
-    set_cloexec_flag( fd_child_stdout_pipe[WRITE_END] );
-    set_cloexec_flag( fd_child_stderr_pipe[WRITE_END] );
+    set_cloexec_flag( fd_child_stdout_pipe[READ_END], task_context, log_directory );
+    set_cloexec_flag( fd_child_stderr_pipe[READ_END], task_context, log_directory );
+    set_cloexec_flag( fd_child_stdout_pipe[WRITE_END], task_context, log_directory );
+    set_cloexec_flag( fd_child_stderr_pipe[WRITE_END], task_context, log_directory );
 
     // status result basket for the parent process to capture the child's exit status
     int status;
@@ -300,7 +316,7 @@ int execute(
         {
             // fork failed
             logger.log(E_FATAL, "fork failure: " + std::string(strerror(errno)));
-            logger.log_to_json_file("E_FATAL", "fork failure: " + std::string(strerror(errno)), user, group, command);
+            logger.log_to_json_file("E_FATAL", "fork failure: " + std::string(strerror(errno)), user, group, command, task_context, log_directory);
             close(fd_child_stdout_pipe[0]);      // Pipe Leaks on Error Paths
             close(fd_child_stdout_pipe[1]);      // Pipe Leaks on Error Paths
             close(fd_child_stderr_pipe[0]);      // Pipe Leaks on Error Paths
@@ -317,7 +333,9 @@ int execute(
                     context_group.c_str(),
                     processed_command,
                     fd_child_stdout_pipe,
-                    fd_child_stderr_pipe
+                    fd_child_stderr_pipe,
+                    task_context,
+                    log_directory
             );
         }
 
@@ -376,7 +394,7 @@ int execute(
                 if (num_files_readable == -1) {
                     // error occurred in poll()
                     logger.log(E_FATAL, "poll() failed: " + std::string(strerror(errno)));
-                    logger.log_to_json_file("E_FATAL", "poll() failed", user, group, command);
+                    logger.log_to_json_file("E_FATAL", "poll() failed", user, group, command, task_context, log_directory);
                     throw std::runtime_error("poll() failed");
                 }
                 if (num_files_readable == 0) {
@@ -393,7 +411,7 @@ int execute(
                             if (errno == EAGAIN) { continue; } else {
                                 // error reading from pipe
                                 logger.log(E_FATAL, "Error while reading: " + std::string(strerror(errno)));
-                                logger.log_to_json_file("E_FATAL", "Error while reading from pipe", user, group, command);
+                                logger.log_to_json_file("E_FATAL", "Error while reading from pipe", user, group, command, task_context, log_directory);
                                 stdout_read_guard.reset(-1);
                                 stderr_read_guard.reset(-1);
                                 exit(EXIT_FAILURE);
@@ -457,13 +475,13 @@ int execute(
                 if (WIFEXITED(status)) {
                     int exit_code = WEXITSTATUS(status);
                     logger.log(E_INFO, "Child exited with status " + std::to_string(exit_code));
-                    logger.log_to_json_file("E_INFO", "Child exited with status " + std::to_string(exit_code), user, group, command);
+                    logger.log_to_json_file("E_INFO", "Child exited with status " + std::to_string(exit_code), user, group, command, task_context, log_directory);
                 }
                 // Check if the child process was terminated by a signal
                 else if (WIFSIGNALED(status)) {
                     int signal_number = WTERMSIG(status);
                     logger.log(E_FATAL, "Process terminated by signal: " + std::to_string(signal_number));
-                    logger.log_to_json_file("E_FATAL", "Process terminated by signal: " + std::to_string(signal_number), user, group, command);
+                    logger.log_to_json_file("E_FATAL", "Process terminated by signal: " + std::to_string(signal_number), user, group, command, task_context, log_directory);
                     // Reset signal handler to default before exiting
                     signal(signal_number, SIG_DFL);
                     // Return 128 + signal number as the exit code for signal termination
@@ -472,7 +490,7 @@ int execute(
                 // Handle unexpected exit conditions
                 else {
                     logger.log(E_WARN, "Unknown child exit condition.");
-                    logger.log_to_json_file("E_WARN", "Unknown child exit condition", user, group, command);
+                    logger.log_to_json_file("E_WARN", "Unknown child exit condition", user, group, command, task_context, log_directory);
                 }
             }
         }

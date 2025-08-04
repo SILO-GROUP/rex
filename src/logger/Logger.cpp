@@ -129,7 +129,8 @@ std::string Logger::get_current_timestamp()
 //Log to JSON file
 void Logger::log_to_json_file(const std::string& log_level, const std::string& message,
                                const std::string& user, const std::string& group,
-                               const std::string& command, bool log_to_console)
+                               const std::string& command, const std::string& task_context,
+                               const std::string& log_directory, bool log_to_console)
 {
     // Log to console if requested
     const char* log_level_str = "UNKNOWN";
@@ -148,9 +149,22 @@ void Logger::log_to_json_file(const std::string& log_level, const std::string& m
     char json_log[2048];
     create_json_log_entry(json_log, sizeof(json_log), log_level_str, message.c_str(), user.c_str(), group.c_str(), command.c_str());
 
-    // 3. Generate filename
-    std::string timestamp = get_current_timestamp();
-    std::string filename = "log_" + timestamp + ".json";
+    // 3. Generate filename with format: YYYY-MM-DD_context.log.json
+    std::string filename;
+    if (!task_context.empty() && !log_directory.empty()) {
+        // Use task-specific directory and format
+        time_t now = time(NULL);
+        struct tm* timeinfo = localtime(&now);
+        char date_buffer[16];
+        strftime(date_buffer, sizeof(date_buffer), "%Y-%m-%d", timeinfo);
+        std::string date_str = std::string(date_buffer);
+        
+        filename = log_directory + "/" + task_context + "/" + date_str + "_" + task_context + ".log.json";
+    } else {
+        // Fallback to original format for backward compatibility
+        std::string timestamp = get_current_timestamp();
+        filename = "log_" + timestamp + ".json";
+    }
 
     // 4. Use FdGuard for file handling (to manage file opening and closing)
     FdGuard check_file(open(filename.c_str(), O_RDONLY));
