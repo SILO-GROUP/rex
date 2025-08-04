@@ -24,8 +24,14 @@
 
 #include <string>
 #include <iostream>
-#include <iomanip>
-#include <sstream>
+#include <fstream>
+#include <fcntl.h>  // For O_RDONLY, O_WRONLY, open()
+#include <ctime>
+#include <pwd.h>
+#include <grp.h>
+#include <unistd.h>
+#include <memory>
+#include <cstdarg>  // for va_list in FileGuard::printf
 #include "../misc/helpers.h"
 
 enum L_LVL {
@@ -37,15 +43,28 @@ enum L_LVL {
 
 class Logger {
     public:
-        Logger( int LOG_LEVEL, std::string mask );
-        void log( int LOG_LEVEL, std::string msg );
-        void log_task( int LOG_LEVEL, std::string task_name, std::string msg );
+    // Constructor and Destructor
+    Logger(int LOG_LEVEL, std::string mask);
+    ~Logger();  // Added Destructor
+    // Logging methods
+    void log(int LOG_LEVEL, std::string msg);
+    void log_task(int LOG_LEVEL, std::string task_name, std::string msg);
+    void log_to_json_file(const std::string& log_level, const std::string& message,
+                           const std::string& user, const std::string& group,
+                           const std::string& command, bool log_to_console = true);
+    // Helper methods
+    std::string get_current_timestamp();
+    std::string get_user_name();
+    std::string get_group_name();
 
     private:
         int LOG_LEVEL;
         std::string mask;
+    // Internal helper methods
+    void create_json_log_entry(char* buffer, size_t buffer_size,
+                                const char* log_level, const char* message,
+                                const char* user, const char* group,
+                                const char* command);
 };
-
-
 
 #endif //REX_LOGGER_H
