@@ -62,3 +62,38 @@ int Shell::load_root( Json::Value loader_root )
     }
     return 0;
 }
+
+
+void get_shells_from_dir( std::vector<std::string> * files, std::string path )
+{
+    DIR* dirFile = opendir( path.c_str() );
+    if ( dirFile )
+    {
+        struct dirent* hFile;
+        errno = 0;
+        while (( hFile = readdir( dirFile )) != NULL )
+        {
+            if ( !strcmp( hFile->d_name, "."  ))
+            {
+                continue;
+            }
+            if ( !strcmp( hFile->d_name, ".." ))
+            {
+                continue;
+            }
+
+            // hidden files
+            if ( hFile->d_name[0] == '.' )
+            {
+                continue;
+            }
+
+            if ( strstr( hFile->d_name, ".shell" ))
+            {
+                std::string full_path = path + "/" + hFile->d_name;
+                files->push_back( full_path );
+            }
+        }
+        closedir( dirFile );
+    }
+}

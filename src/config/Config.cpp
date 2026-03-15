@@ -197,26 +197,44 @@ void Conf::checkPathExists( std::string keyname, const std::string &path ) {
  */
 void Conf::load_shells() {
     this->slog.log_task( E_DEBUG, "SHELLS", "Loading shells..." );
-    try {
-        // load the test file.
-        this->load_json_file( this->shell_definitions_path );
-    } catch (std::exception& e) {
-        this->slog.log_task( E_FATAL, "SHELLS", "Unable to load shell definition file: '" + this->shell_definitions_path + "'. Error: " + e.what());
-        throw ConfigLoadException("Parsing error in shell definitions file.");
-    }
-    Json::Value jbuff;
 
-    if ( this-> get_serialized( jbuff, "shells" ) != 0 ) {
-        this->slog.log_task( E_FATAL, "SHELLS", "Parsing error: '" + this->shell_definitions_path + "'. Error: 'shells' key not found." );
-        throw ConfigLoadException("Parsing error in shell definitions file.");
-    }
+    std::vector<std::string> shell_files;
 
-    Shell tmp_S = Shell( this->LOG_LEVEL );
-    for ( int index = 0; index < jbuff.size(); index++ )
+    if ( is_dir( this->shell_definitions_path ) )
     {
-        tmp_S.load_root( jbuff[index] );
-        this->shells.push_back( tmp_S );
-        this->slog.log_task( E_DEBUG, "SHELLS", "Loaded shell: '" + tmp_S.name + "' (" + tmp_S.path + ")" );
+        get_shells_from_dir( &shell_files, this->shell_definitions_path );
+    }
+
+    if ( is_file( this->shell_definitions_path ) )
+    {
+        shell_files.push_back( this->shell_definitions_path );
+    }
+
+    this->slog.log_task( E_INFO, "SHELLS", "Shell files found: " + std::to_string( shell_files.size() ) );
+
+    for ( int i = 0; i < shell_files.size(); i++ )
+    {
+        try {
+            this->load_json_file( shell_files[i] );
+        } catch (std::exception& e) {
+            this->slog.log_task( E_FATAL, "SHELLS", "Unable to load shell definition file: '" + shell_files[i] + "'. Error: " + e.what());
+            throw ConfigLoadException("Parsing error in shell definitions file.");
+        }
+
+        Json::Value jbuff;
+
+        if ( this->get_serialized( jbuff, "shells" ) != 0 ) {
+            this->slog.log_task( E_FATAL, "SHELLS", "Parsing error: '" + shell_files[i] + "'. Error: 'shells' key not found." );
+            throw ConfigLoadException("Parsing error in shell definitions file.");
+        }
+
+        Shell tmp_S = Shell( this->LOG_LEVEL );
+        for ( int index = 0; index < jbuff.size(); index++ )
+        {
+            tmp_S.load_root( jbuff[index] );
+            this->shells.push_back( tmp_S );
+            this->slog.log_task( E_DEBUG, "SHELLS", "Loaded shell: '" + tmp_S.name + "' (" + tmp_S.path + ")" );
+        }
     }
 }
 

@@ -2,7 +2,11 @@
 #define REX_SHELLS_H
 
 #include "../json_support/JSON.h"
+#include "../misc/helpers.h"
 #include <string>
+#include <string.h>
+#include <vector>
+#include <dirent.h>
 
 class Shell: public JSON_Loader {
     public:
@@ -22,5 +26,7 @@ class Shell: public JSON_Loader {
 
 
 };
+
+void get_shells_from_dir( std::vector<std::string> * files, std::string path );
 
 #endif //REX_SHELLS_H
